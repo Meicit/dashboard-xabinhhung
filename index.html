@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Điều Hành An Lạc</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // --- DÁN CONFIG CỦA BẠN VÀO ĐÂY ---
+        const firebaseConfig = {
+            // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBJEDzEreRgv6v_Bw_sasd79RqK5pqD8Zc",
+  authDomain: "dashboard-xabinhhung.firebaseapp.com",
+  projectId: "dashboard-xabinhhung",
+  storageBucket: "dashboard-xabinhhung.firebasestorage.app",
+  messagingSenderId: "531263506013",
+  appId: "1:531263506013:web:154f2b7cff680456d1efb4",
+  measurementId: "G-CHXYTLMEQF"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        onSnapshot(doc(db, "statistics", "today"), (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                
+                // Cập nhật dữ liệu lên giao diện
+                updateStat('stat-dautu', data.dau_tu_cong, 'progress-dautu');
+                updateStat('stat-donthu', data.giai_quyet_don);
+                updateStat('stat-hoso', data.hoso_hanhchinh);
+                updateStat('stat-phananh', data.xu_ly_phan_anh);
+                document.getElementById('stat-anninh').innerText = data.an_ninh_trat_tu;
+            }
+        });
+
+        function updateStat(id, value, progressId = null) {
+            const el = document.getElementById(id);
+            if (el) el.innerText = value + "%";
+            if (progressId) {
+                document.getElementById(progressId).style.width = value + "%";
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-900">
+    <header class="bg-red-700 text-white shadow-lg p-6 mb-8 text-center">
+        <h1 class="text-2xl font-bold uppercase tracking-widest">Hệ thống chỉ số điều hành - Phường An Lạc</h1>
+    </header>
+
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-slate-500 text-xs font-bold uppercase mb-2">Giải ngân đầu tư công</p>
+                <div class="flex justify-between items-end mb-4">
+                    <h2 id="stat-dautu" class="text-4xl font-black text-blue-600">0%</h2>
+                </div>
+                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                    <div id="progress-dautu" class="bg-blue-500 h-full transition-all duration-1000" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-slate-500 text-xs font-bold uppercase mb-2">Giải quyết đơn thư</p>
+                <h2 id="stat-donthu" class="text-4xl font-black text-emerald-600">0%</h2>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-slate-500 text-xs font-bold uppercase mb-2">Hồ sơ hành chính đúng hạn</p>
+                <h2 id="stat-hoso" class="text-4xl font-black text-orange-500">0%</h2>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-slate-500 text-xs font-bold uppercase mb-2">Xử lý phản ánh dân cư</p>
+                <h2 id="stat-phananh" class="text-4xl font-black text-purple-600">0%</h2>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-slate-500 text-xs font-bold uppercase mb-2">An ninh trật tự</p>
+                <h2 id="stat-anninh" class="text-3xl font-black text-red-600 italic">Đang tải...</h2>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
