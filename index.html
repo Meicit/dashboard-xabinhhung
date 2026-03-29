@@ -7,47 +7,52 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Đổi nền sang màu trắng và chữ tối màu để dễ đọc */
         body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1e293b; margin: 0; }
         
         .carousel-track { display: flex; transition: transform 0.7s ease-in-out; width: 100%; }
         
-        /* Ép 5 cột hàng ngang */
         .carousel-page { 
             min-width: 100%; 
             display: flex !important; 
             flex-direction: row !important; 
-            padding: 2rem 0; 
+            padding: 1.5rem 0.5rem; 
+            gap: 10px; /* Khoảng cách giữa các thẻ */
+            justify-content: center;
         }
         
+        /* ĐỔI NỀN THẺ CHỈ TIÊU: Màu xanh nhẹ nhàng, bo góc và đổ bóng */
         .indicator-item { 
-            flex: 0 0 20%; 
-            text-align: center; 
-            border-right: 1px solid #e2e8f0; 
-            padding: 0 10px; 
+            flex: 0 0 19%; /* Khoảng 5 cột trên hàng */
+            background-color: #334e7d; /* Màu xanh navy nhẹ, không quá đậm */
+            color: white;
+            padding: 20px 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 160px;
         }
-        .indicator-item:last-child { border-right: none; }
         
-        /* Định dạng bảng trong Modal */
         .modal-table td, .modal-table th { border: 1px solid #e2e8f0; padding: 12px; text-align: left; color: #1e293b; }
-        
-        /* Hiệu ứng bóng đổ cho khối chỉ tiêu trên nền trắng */
-        .glass-panel { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
     </style>
 </head>
 <body class="p-6">
     <header class="mb-8 flex justify-between items-end border-b-2 border-blue-900 pb-4">
         <div>
-            <h1 class="text-3xl font-black text-blue-900 uppercase">Hệ Thống Chỉ Số Điều Hành 2026</h1>
+            <h1 class="text-3xl font-black text-blue-900 uppercase italic">Hệ Thống Chỉ Số Điều Hành 2026</h1>
             <p class="text-slate-500 font-bold uppercase tracking-widest text-xs">Ủy ban nhân dân xã Bình Hưng</p>
         </div>
         <div id="clock" class="text-3xl font-mono font-bold text-blue-700">00:00:00</div>
     </header>
 
-    <section class="mb-8 glass-panel overflow-hidden">
-        <div class="p-4 bg-slate-100 flex justify-between items-center border-b border-slate-200">
-            <h3 class="font-bold text-blue-800 uppercase text-xs">📊 Chỉ tiêu Kinh tế - Xã hội chủ yếu</h3>
-            <span id="page-num" class="font-mono text-[10px] text-slate-500">TRANG 1/6</span>
+    <section class="mb-8 bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+        <div class="p-3 bg-white flex justify-between items-center border-b border-slate-200 px-6">
+            <h3 class="font-bold text-blue-900 uppercase text-xs flex items-center">
+                <span class="mr-2">📊</span> Chỉ tiêu Kinh tế - Xã hội chủ yếu
+            </h3>
+            <span id="page-num" class="font-mono text-[11px] font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full">TRANG 1/6</span>
         </div>
         <div class="overflow-hidden">
             <div id="carouselTrack" class="carousel-track">
@@ -56,8 +61,8 @@
     </section>
 
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div onclick="openDonThuModal()" class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-red-500 cursor-pointer hover:bg-slate-50 transition-all">
-            <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">📂 Đơn thư</h4>
+        <div onclick="openDonThuModal()" class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-red-500 cursor-pointer hover:bg-slate-50 transition-all group">
+            <h4 class="text-xs font-bold text-slate-400 uppercase mb-4 group-hover:text-red-500 transition-colors">📂 Đơn thư</h4>
             <div class="text-sm font-bold">
                 <div class="flex justify-between mb-2"><span>Tổng số:</span><span id="dt_tong" class="text-blue-900 text-3xl">0</span></div>
                 <div class="text-[11px] space-y-1">
@@ -70,32 +75,29 @@
         <div class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-orange-500 text-center">
             <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">📞 Phản ánh 1022</h4>
             <div id="pa_1022_tong" class="text-5xl font-black text-orange-600">0</div>
-            <p class="text-[10px] text-slate-400 mt-2 uppercase font-bold">Tổng phản ánh</p>
         </div>
 
         <div class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-blue-500 text-center">
             <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">📋 Hồ sơ hành chính</h4>
             <div id="hs_tong" class="text-5xl font-black text-blue-900">0</div>
-            <p class="text-[10px] text-slate-400 mt-2 uppercase font-bold">Hồ sơ tiếp nhận</p>
         </div>
 
         <div class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-emerald-500 text-center">
             <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">⚖️ Văn bản chỉ đạo</h4>
             <div id="vb_tong" class="text-5xl font-black text-emerald-700">0</div>
-            <p class="text-[10px] text-slate-400 mt-2 uppercase font-bold">Tổng văn bản</p>
         </div>
     </div>
 
     <div id="donThuModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white rounded-xl w-full max-w-5xl overflow-hidden shadow-2xl border border-slate-300">
-            <div class="p-4 bg-red-600 text-white flex justify-between items-center">
-                <h2 class="font-bold uppercase text-sm">Bảng chi tiết tình hình xử lý đơn thư</h2>
-                <button onclick="closeDonThuModal()" class="text-3xl leading-none">&times;</button>
+            <div class="p-4 bg-red-600 text-white flex justify-between items-center px-6">
+                <h2 class="font-bold uppercase text-sm tracking-wide">Bảng chi tiết tình hình xử lý đơn thư</h2>
+                <button onclick="closeDonThuModal()" class="text-3xl leading-none font-light">&times;</button>
             </div>
             <div class="p-6 overflow-x-auto">
                 <table class="w-full modal-table text-sm border-collapse">
-                    <tr class="bg-slate-50 font-bold"><td colspan="4" class="text-lg">Tổng số đơn thư: <span id="modal_dt_tong">0</span></td></tr>
-                    <tr class="bg-slate-100 font-bold text-center uppercase text-[11px]">
+                    <tr class="bg-slate-50 font-bold"><td colspan="4" class="text-lg py-4 px-6 text-blue-900 border-b-2 border-blue-100">Tổng số đơn thư: <span id="modal_dt_tong">0</span></td></tr>
+                    <tr class="bg-slate-100 font-bold text-center uppercase text-[11px] text-slate-600">
                         <td>Loại đơn</td>
                         <td>Phản ánh, kiến nghị</td>
                         <td>Khiếu nại</td>
@@ -106,16 +108,16 @@
                         <td id="dt_sl_pa">0</td><td id="dt_sl_kn">0</td><td id="dt_sl_tc">0</td>
                     </tr>
                     <tr>
-                        <td class="font-bold bg-slate-50 text-emerald-700">Đã giải quyết (Hoàn thành)</td>
-                        <td>Trong hạn: <span id="dt_dgq_th_pa" class="font-bold">0</span><br>Quá hạn: <span id="dt_dgq_qh_pa" class="text-red-500">0</span></td>
-                        <td>Trong hạn: <span id="dt_dgq_th_kn" class="font-bold">0</span><br>Quá hạn: <span id="dt_dgq_qh_kn" class="text-red-500">0</span></td>
-                        <td>Trong hạn: <span id="dt_dgq_th_tc" class="font-bold">0</span><br>Quá hạn: <span id="dt_dgq_qh_tc" class="text-red-500">0</span></td>
+                        <td class="font-bold bg-slate-50 text-emerald-700">Đã giải quyết</td>
+                        <td>Trong hạn: <span id="dt_dgq_th_pa">0</span><br>Quá hạn: <span id="dt_dgq_qh_pa" class="text-red-500">0</span></td>
+                        <td>Trong hạn: <span id="dt_dgq_th_kn">0</span><br>Quá hạn: <span id="dt_dgq_qh_kn" class="text-red-500">0</span></td>
+                        <td>Trong hạn: <span id="dt_dgq_th_tc">0</span><br>Quá hạn: <span id="dt_dgq_qh_tc" class="text-red-500">0</span></td>
                     </tr>
                     <tr>
-                        <td class="font-bold bg-slate-50 text-orange-700">Chưa giải quyết (Đang xử lý)</td>
-                        <td>Trong hạn: <span id="dt_cgq_th_pa" class="font-bold">0</span><br>Quá hạn: <span id="dt_cgq_qh_pa" class="text-red-600 font-black">0</span></td>
-                        <td>Trong hạn: <span id="dt_cgq_th_kn" class="font-bold">0</span><br>Quá hạn: <span id="dt_cgq_qh_kn" class="text-red-600 font-black">0</span></td>
-                        <td>Trong hạn: <span id="dt_cgq_th_tc" class="font-bold">0</span><br>Quá hạn: <span id="dt_cgq_qh_tc" class="text-red-600 font-black">0</span></td>
+                        <td class="font-bold bg-slate-50 text-orange-700">Chưa giải quyết</td>
+                        <td>Trong hạn: <span id="dt_cgq_th_pa">0</span><br>Quá hạn: <span id="dt_cgq_qh_pa" class="text-red-600 font-black">0</span></td>
+                        <td>Trong hạn: <span id="dt_cgq_th_kn">0</span><br>Quá hạn: <span id="dt_cgq_qh_kn" class="text-red-600 font-black">0</span></td>
+                        <td>Trong hạn: <span id="dt_cgq_th_tc">0</span><br>Quá hạn: <span id="dt_cgq_qh_tc" class="text-red-600 font-black">0</span></td>
                     </tr>
                 </table>
             </div>
@@ -137,7 +139,6 @@
 
         const db = getDatabase(initializeApp(firebaseConfig));
         
-        // 30 chỉ tiêu lấy từ tài liệu Word của bạn 
         const indicators = [
             { id: "ct_1", ten: "Tốc độ tăng tổng giá trị SP", kh: "10.5%" },
             { id: "ct_2", ten: "Tổng thu ngân sách nhà nước", kh: "100%" },
@@ -175,20 +176,19 @@
             const data = snap.val();
             if(!data) return;
 
-            // 1. Cập nhật Đơn thư (Dashboard)
+            // Đơn thư Dashboard
             const summary = data.don_thu || {};
             document.getElementById('dt_tong').innerText = summary.tong || 0;
             document.getElementById('dt_da_giai_quyet').innerText = summary.da_giai_quyet || 0;
             document.getElementById('dt_dang_giai_quyet').innerText = summary.dang_giai_quyet || 0;
 
-            // 2. Lấy dữ liệu chi tiết "Trong hạn/Quá hạn"
+            // Đơn thư Detail (Modal)
             const detail = data.don_thu_detail || {};
             document.getElementById('modal_dt_tong').innerText = summary.tong || 0;
             document.getElementById('dt_sl_pa').innerText = summary.pa_kn || 0;
             document.getElementById('dt_sl_kn').innerText = summary.khieu_nai || 0;
             document.getElementById('dt_sl_tc').innerText = summary.to_cao || 0;
 
-            // Đổ dữ liệu chi tiết vào bảng
             document.getElementById('dt_dgq_th_pa').innerText = detail.pa_dgq_th || 0;
             document.getElementById('dt_dgq_qh_pa').innerText = detail.pa_dgq_qh || 0;
             document.getElementById('dt_dgq_th_kn').innerText = detail.kn_dgq_th || 0;
@@ -203,12 +203,12 @@
             document.getElementById('dt_cgq_th_tc').innerText = detail.tc_cgq_th || 0;
             document.getElementById('dt_cgq_qh_tc').innerText = detail.tc_cgq_qh || 0;
 
-            // 3. Cập nhật các khối khác
+            // Khối phụ
             document.getElementById('pa_1022_tong').innerText = data.pa_1022?.tong || 0;
             document.getElementById('hs_tong').innerText = data.ho_so?.tong || 0;
             document.getElementById('vb_tong').innerText = data.van_ban?.tong || 0;
 
-            // 4. Render 30 chỉ tiêu KT-XH (5 cột ngang)
+            // Chỉ tiêu 5 cột ngang
             if(data.chi_tieu) {
                 indicators.forEach(it => it.th = data.chi_tieu[it.id] || 0);
                 renderUI();
@@ -224,16 +224,15 @@
                 page.className = 'carousel-page';
                 page.innerHTML = indicators.slice(i*5, (i+1)*5).map(it => `
                     <div class="indicator-item">
-                        <div class="text-[10px] uppercase font-bold text-slate-400 mb-2 h-8 flex items-center justify-center leading-tight text-center">${it.ten}</div>
-                        <div class="text-5xl font-black text-blue-800">${it.th}%</div>
-                        <div class="text-[9px] mt-2 text-slate-500 font-bold uppercase">Kế hoạch: ${it.kh}</div>
+                        <div class="text-[10px] uppercase font-bold text-blue-200 mb-2 leading-tight h-10 flex items-center justify-center">${it.ten}</div>
+                        <div class="text-5xl font-black text-white">${it.th}%</div>
+                        <div class="text-[9px] mt-2 text-blue-300 font-bold uppercase italic">Kế hoạch: ${it.kh}</div>
                     </div>
                 `).join('');
                 track.appendChild(page);
             }
         }
 
-        // Tự động chuyển trang sau mỗi 10 giây
         setInterval(() => {
             curPage = (curPage + 1) % 6;
             document.getElementById('carouselTrack').style.transform = `translateX(-${curPage*100}%)`;
