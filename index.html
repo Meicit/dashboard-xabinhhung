@@ -18,18 +18,18 @@
             justify-content: center;
         }
         
-        /* ĐỔI NỀN Ô LỚN CHỈ TIÊU: Màu xanh lá nhẹ nhàng */
+        /* ĐỔI NỀN Ô LỚN CHỈ TIÊU: Màu xanh lá đậm hơn (Jade/Green 100-200) */
         .economic-section { 
-            background-color: #f0fdf4; /* Emerald 50 - Xanh lá cực nhẹ */
-            border: 1px solid #dcfce7; 
+            background-color: #dcfce7; /* Xanh lá rõ rệt hơn (Green 100) */
+            border: 1px solid #bbf7d0; 
             border-radius: 1.5rem; 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
         }
 
-        /* THẺ CHỈ TIÊU CON: Màu xanh navy nhẹ để nổi bật trên nền xanh lá */
+        /* THẺ CHỈ TIÊU CON: Xanh Navy để cực kỳ nổi bật trên nền xanh lá */
         .indicator-item { 
             flex: 0 0 18.5%; 
-            background-color: #334e7d; 
+            background-color: #1e293b; /* Xanh Navy đậm chuyên nghiệp */
             color: white;
             padding: 20px 10px;
             border-radius: 12px;
@@ -38,7 +38,7 @@
             flex-direction: column;
             justify-content: space-between;
             min-height: 160px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
         }
         
         .modal-table td, .modal-table th { border: 1px solid #e2e8f0; padding: 12px; text-align: left; color: #1e293b; }
@@ -54,11 +54,11 @@
     </header>
 
     <section class="mb-8 economic-section overflow-hidden">
-        <div class="p-4 bg-white/50 flex justify-between items-center border-b border-green-100 px-6">
-            <h3 class="font-bold text-green-800 uppercase text-xs flex items-center">
+        <div class="p-4 bg-white/40 flex justify-between items-center border-b border-green-200 px-6 backdrop-blur-sm">
+            <h3 class="font-bold text-green-900 uppercase text-xs flex items-center">
                 <span class="mr-2">📈</span> Chỉ tiêu Phát triển Kinh tế - Xã hội chủ yếu
             </h3>
-            <span id="page-num" class="font-mono text-[11px] font-bold text-green-600 bg-green-100 px-3 py-1 rounded-full">TRANG 1/6</span>
+            <span id="page-num" class="font-mono text-[11px] font-bold text-green-700 bg-green-200/50 px-3 py-1 rounded-full border border-green-300">TRANG 1/6</span>
         </div>
         <div class="overflow-hidden">
             <div id="carouselTrack" class="carousel-track">
@@ -111,13 +111,13 @@
                         <td id="dt_sl_pa">0</td><td id="dt_sl_kn">0</td><td id="dt_sl_tc">0</td>
                     </tr>
                     <tr>
-                        <td class="font-bold bg-slate-50 text-emerald-700">Đã giải quyết</td>
+                        <td class="font-bold bg-slate-50 text-emerald-700 text-xs uppercase">Đã giải quyết</td>
                         <td>Trong hạn: <span id="dt_dgq_th_pa">0</span><br>Quá hạn: <span id="dt_dgq_qh_pa" class="text-red-500">0</span></td>
                         <td>Trong hạn: <span id="dt_dgq_th_kn">0</span><br>Quá hạn: <span id="dt_dgq_qh_kn" class="text-red-500">0</span></td>
                         <td>Trong hạn: <span id="dt_dgq_th_tc">0</span><br>Quá hạn: <span id="dt_dgq_qh_tc" class="text-red-500">0</span></td>
                     </tr>
                     <tr>
-                        <td class="font-bold bg-slate-50 text-orange-700">Chưa giải quyết</td>
+                        <td class="font-bold bg-slate-50 text-orange-700 text-xs uppercase">Chưa giải quyết</td>
                         <td>Trong hạn: <span id="dt_cgq_th_pa">0</span><br>Quá hạn: <span id="dt_cgq_qh_pa" class="text-red-600">0</span></td>
                         <td>Trong hạn: <span id="dt_cgq_th_kn">0</span><br>Quá hạn: <span id="dt_cgq_qh_kn" class="text-red-600">0</span></td>
                         <td>Trong hạn: <span id="dt_cgq_th_tc">0</span><br>Quá hạn: <span id="dt_cgq_qh_tc" class="text-red-600">0</span></td>
@@ -142,6 +142,7 @@
 
         const db = getDatabase(initializeApp(firebaseConfig));
         
+        // 30 chỉ tiêu chính thức
         const indicators = [
             { id: "ct_1", ten: "Tốc độ tăng tổng giá trị SP", kh: "10.5%" },
             { id: "ct_2", ten: "Tổng thu ngân sách nhà nước", kh: "100%" },
@@ -155,7 +156,7 @@
             { id: "ct_10", ten: "Tỉ lệ hoàn thành cấp THCS", kh: "99%" },
             { id: "ct_11", ten: "Giảm hộ nghèo đa chiều", kh: "-" },
             { id: "ct_12", ten: "Tiêu chí đạt chuẩn NTM", kh: "≥3" },
-            { id: "ct_13", tiêu: "Tỷ lệ ấp văn hóa", kh: "95%" },
+            { id: "ct_13", ten: "Tỷ lệ ấp văn hóa", kh: "95%" },
             { id: "ct_14", ten: "Tỷ lệ gia đình văn hóa", kh: "93%" },
             { id: "ct_15", ten: "Trẻ em tiêm chủng đầy đủ", kh: "≥95%" },
             { id: "ct_16", ten: "Lao động được giới thiệu việc làm", kh: "1000" },
@@ -223,9 +224,9 @@
                 page.className = 'carousel-page';
                 page.innerHTML = indicators.slice(i*5, (i+1)*5).map(it => `
                     <div class="indicator-item">
-                        <div class="text-[10px] uppercase font-bold text-blue-100 mb-2 leading-tight h-10 flex items-center justify-center">${it.ten}</div>
+                        <div class="text-[10px] uppercase font-bold text-slate-300 mb-2 leading-tight h-10 flex items-center justify-center">${it.ten}</div>
                         <div class="text-5xl font-black text-white">${it.th}%</div>
-                        <div class="text-[9px] mt-2 text-blue-200 font-bold uppercase italic">Kế hoạch: ${it.kh}</div>
+                        <div class="text-[9px] mt-2 text-emerald-400 font-bold uppercase italic">Kế hoạch: ${it.kh}</div>
                     </div>
                 `).join('');
                 track.appendChild(page);
