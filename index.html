@@ -10,12 +10,19 @@
         body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
         .card { background: white; border-radius: 0.75rem; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         
-        /* CSS cho Đèn kéo quân */
-        .carousel-container { width: 100%; overflow: hidden; position: relative; }
+        /* Hiệu ứng đèn kéo quân nằm ngang */
+        .carousel-container { width: 100%; overflow: hidden; position: relative; background-color: #1e3a8a; }
         .carousel-track { display: flex; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-        .carousel-page { min-width: 100%; display: grid; grid-template-cols: repeat(4, 1fr); gap: 1rem; padding: 1.5rem 1rem; }
-        .indicator-item { text-align: center; border-right: 1px solid rgba(255, 255, 255, 0.1); }
-        .indicator-item:last-child { border-right: none; }
+        .carousel-page { 
+            min-width: 100%; 
+            display: grid; 
+            grid-template-cols: repeat(4, 1fr); /* Luôn chia 4 cột nằm ngang */
+            gap: 1rem; 
+            padding: 2rem 1rem; 
+        }
+        .indicator-item { text-align: center; }
+        /* Đường kẻ phân cách giữa các chỉ số */
+        .indicator-item:not(:last-child) { border-right: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
 <body class="p-6">
@@ -72,61 +79,47 @@
                 <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
                     <div id="hs-progress" class="bg-blue-500 h-full" style="width: 0%"></div>
                 </div>
-                <div class="flex justify-between text-[10px] mt-1 font-bold">
-                    <span class="text-blue-600">ĐÚNG HẠN: <span id="hs-dung-han-pc">0%</span></span>
-                    <span class="text-red-600">TRỄ: <span id="hs-tre-han">0</span></span>
+                <div class="flex justify-between text-[10px] mt-1 font-bold text-blue-600">ĐÚNG HẠN: <span id="hs-dung-han-pc">0%</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card bg-blue-900 lg:col-span-3 overflow-hidden p-0 flex flex-col border-none shadow-xl">
+        <div class="p-4 flex justify-between items-center border-b border-blue-800">
+            <h3 class="font-bold text-yellow-400 flex items-center gap-2 uppercase text-sm tracking-wider">
+                <span class="text-xl">📊</span> Chỉ tiêu Kinh tế - Xã hội chủ yếu 2026
+            </h3>
+            <div id="page-indicator" class="text-[10px] text-blue-300 font-mono">TRANG 1/8</div>
+        </div>
+
+        <div class="carousel-container">
+            <div id="carouselTrack" class="carousel-track">
                 </div>
-            </div>
+        </div>
+
+        <div class="p-3 bg-blue-950 flex justify-between items-center">
+            <div class="flex gap-1" id="dot-navigation"></div>
+            <button onclick="openModal()" class="bg-yellow-500 hover:bg-yellow-400 text-blue-900 px-4 py-1.5 rounded-full text-[10px] font-black transition-all shadow-lg">
+                XEM CHI TIẾT 30 CHỈ TIÊU →
+            </button>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="card lg:col-span-1">
-            <h2 class="font-bold text-slate-700 mb-4">⚖️ VĂN BẢN CHỈ ĐẠO</h2>
-            <div class="space-y-4 text-sm">
-                <div class="flex justify-between"><span>UBND Thành phố</span><b class="text-blue-700" id="vb-tp">0</b></div>
-                <div class="flex justify-between"><span>Đảng ủy Xã</span><b class="text-blue-700" id="vb-du">0</b></div>
-                <div class="flex justify-between"><span>UBND Xã</span><b class="text-blue-700" id="vb-xa">0</b></div>
-            </div>
-        </div>
-
-        <div class="card bg-blue-900 lg:col-span-2 overflow-hidden p-0 flex flex-col border-none shadow-lg">
-            <div class="p-4 flex justify-between items-center border-b border-blue-800">
-                <h3 class="font-bold text-yellow-400 flex items-center gap-2 uppercase text-sm tracking-wider">
-                    <span class="text-xl">📊</span> Chỉ tiêu Kinh tế - Xã hội 2026 [cite: 10, 11]
-                </h3>
-                <div id="page-indicator" class="text-[10px] text-blue-300 font-mono">TRANG 1/8</div>
-            </div>
-
-            <div class="carousel-container">
-                <div id="carouselTrack" class="carousel-track">
-                    </div>
-            </div>
-
-            <div class="p-3 bg-blue-950 flex justify-between items-center">
-                <div class="flex gap-1" id="dot-navigation"></div>
-                <button onclick="openModal()" class="bg-yellow-500 hover:bg-yellow-400 text-blue-900 px-4 py-1.5 rounded-full text-xs font-black transition-all">
-                    XEM CHI TIẾT 30 CHỈ TIÊU → [cite: 4]
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-chi-tiet" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
+    <div id="modal-chi-tiet" class="fixed inset-0 bg-black/70 hidden z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
-            <div class="p-4 border-b bg-blue-900 text-white flex justify-between items-center">
-                <h3 class="font-bold uppercase text-sm">Chi tiết 30 chỉ tiêu phát triển Kinh tế - Xã hội 2026 [cite: 11]</h3>
-                <button onclick="closeModal()" class="text-white hover:text-yellow-400 text-2xl">&times;</button>
+            <div class="p-4 border-b bg-blue-900 text-white flex justify-between items-center text-sm font-bold uppercase">
+                Chi tiết 30 chỉ tiêu phát triển Kinh tế - Xã hội 2026 [cite: 1, 11]
+                <button onclick="closeModal()" class="text-2xl hover:text-yellow-400">&times;</button>
             </div>
             <div class="p-6 overflow-y-auto">
                 <table class="w-full text-left border-collapse text-sm">
                     <thead>
                         <tr class="bg-slate-100 uppercase text-[10px] text-slate-600">
                             <th class="border p-2">TT</th>
-                            <th class="border p-2 w-1/2">Chỉ tiêu chủ yếu [cite: 11]</th>
-                            <th class="border p-2 text-center">Đơn vị [cite: 11]</th>
-                            <th class="border p-2 text-right">Kế hoạch [cite: 11]</th>
-                            <th class="border p-2 text-right">Thực hiện (%)</th>
+                            <th class="border p-2 w-1/2">Chỉ tiêu chủ yếu </th>
+                            <th class="border p-2 text-center">Đơn vị </th>
+                            <th class="border p-2 text-right">Kế hoạch </th>
+                            <th class="border p-2 text-right">Thực hiện (%) [cite: 10]</th>
                         </tr>
                     </thead>
                     <tbody id="table-body-chi-tiet"></tbody>
@@ -139,100 +132,91 @@
     </div>
 
     <script>
-        // Danh sách đầy đủ 30 chỉ tiêu theo tài liệu UBND xã Bình Hưng [cite: 11]
-        const danhSachChiTieu = [
-            { tt: "1", ten: "Tốc độ tăng tổng giá trị sản phẩm trên địa bàn", dv: "%", kh: "10.5", th: "0" },
-            { tt: "2", ten: "Tổng thu ngân sách nhà nước (1.191 tỷ đồng)", dv: "%", kh: "100", th: "0" },
+        // Dữ liệu đầy đủ 30 chỉ tiêu từ tài liệu 
+        const indicators = [
+            { tt: "1", ten: "Tốc độ tăng tổng giá trị sản phẩm", dv: "%", kh: "10.5", th: "0" },
+            { tt: "2", ten: "Tổng thu ngân sách nhà nước", dv: "%", kh: "100", th: "0" },
             { tt: "3", ten: "Tỷ lệ giải ngân vốn đầu tư công", dv: "%", kh: "≥95", th: "0" },
-            { tt: "4", ten: "Tỷ lệ dân số tham gia bảo hiểm y tế", dv: "%", kh: "≥95", th: "0" },
-            { tt: "5", ten: "Tỷ lệ lao động tham gia bảo hiểm xã hội", dv: "%", kh: "59.5", th: "0" },
-            { tt: "6", ten: "Tỷ lệ trường Mầm non đạt chuẩn Quốc gia", dv: "%", kh: "27", th: "0" },
-            { tt: "7", ten: "Tỷ lệ trường Tiểu học đạt chuẩn Quốc gia", dv: "%", kh: "32", th: "0" },
-            { tt: "8", ten: "Tỷ lệ trường Trung học cơ sở đạt chuẩn Quốc gia", dv: "%", kh: "43", th: "0" },
-            { tt: "9", ten: "Bảo đảm tối thiểu số phòng học/10.000 dân", dv: "Phòng", kh: "460", th: "0" },
-            { tt: "10", ten: "Tỉ lệ hoàn thành cấp Trung học cơ sở", dv: "%", kh: "99", th: "0" },
-            { tt: "11", ten: "Giảm tỷ lệ hộ nghèo đa chiều", dv: "%", kh: "-", th: "0" },
-            { tt: "12", ten: "Số tiêu chí đạt chuẩn nông thôn mới (2026-2030)", dv: "Tiêu chí", kh: "≥3", th: "0" },
+            { tt: "4", ten: "Tỷ lệ tham gia bảo hiểm y tế", dv: "%", kh: "≥95", th: "0" },
+            { tt: "5", ten: "Lao động tham gia BHXH", dv: "%", kh: "59.5", th: "0" },
+            { tt: "6", ten: "Mầm non đạt chuẩn", dv: "%", kh: "27", th: "0" },
+            { tt: "7", ten: "Tiểu học đạt chuẩn", dv: "%", kh: "32", th: "0" },
+            { tt: "8", ten: "THCS đạt chuẩn", dv: "%", kh: "43", th: "0" },
+            { tt: "9", ten: "Số phòng học/vạn dân", dv: "Phòng", kh: "460", th: "0" },
+            { tt: "10", ten: "Hoàn thành cấp THCS", dv: "%", kh: "99", th: "0" },
+            { tt: "11", ten: "Giảm hộ nghèo đa chiều", dv: "%", kh: "-", th: "0" },
+            { tt: "12", ten: "Tiêu chí nông thôn mới", dv: "TC", kh: "≥3", th: "0" },
             { tt: "13", ten: "Tỷ lệ ấp văn hóa", dv: "%", kh: "95", th: "0" },
             { tt: "14", ten: "Tỷ lệ gia đình văn hóa", dv: "%", kh: "93", th: "0" },
-            { tt: "15", ten: "Tỷ lệ trẻ dưới 01 tuổi tiêm chủng đầy đủ", dv: "%", kh: "≥95", th: "0" },
-            { tt: "16", ten: "Số lao động được giới thiệu việc làm", dv: "Người", kh: "1000", th: "0" },
-            { tt: "17", ten: "Xây dựng mô hình du lịch địa phương", dv: "Mô hình", kh: "01", th: "0" },
-            { tt: "18", ten: "Tỷ lệ dân số được sử dụng nước sạch", dv: "%", kh: "100", th: "0" },
-            { tt: "19", ten: "Tỷ lệ thu gom chất thải rắn sinh hoạt", dv: "%", kh: "100", th: "0" },
-            { tt: "20", ten: "Tỷ lệ chất thải y tế được xử lý đạt chuẩn", dv: "%", kh: "100", th: "0" },
-            { tt: "21", ten: "Tỷ lệ xử lý nước thải công nghiệp", dv: "%", kh: "100", th: "0" },
-            { tt: "22", ten: "Tỷ lệ giải quyết hồ sơ hành chính đúng hạn", dv: "%", kh: "99.51", th: "0" },
-            { tt: "23", ten: "Sử dụng chữ ký số cá nhân cho cán bộ", dv: "%", kh: "100", th: "0" },
-            { tt: "24", ten: "Chỉ tiêu gọi công dân nhập ngũ", dv: "Người", kh: "31", th: "0" },
-            { tt: "25", ten: "Kéo giảm tội phạm về trật tự xã hội", dv: "%", kh: "-10", th: "0" },
-            { tt: "26", ten: "Tỷ lệ khám phá án hình sự", dv: "%", kh: ">80", th: "0" },
-            { tt: "27", ten: "Kéo giảm tai nạn giao thông (3 tiêu chí)", dv: "%", kh: "-5", th: "0" },
-            { tt: "28", ten: "Không để xảy ra cháy nổ nghiêm trọng", dv: "Vụ", kh: "0", th: "0" },
-            { tt: "29", ten: "Địa phương không phức tạp về ma túy", dv: "Đạt", kh: "Đạt", th: "0" },
-            { tt: "30", ten: "Tỷ lệ xử lý phản ánh, kiến nghị đúng hạn", dv: "%", kh: "≥50", th: "0" }
+            { tt: "15", ten: "Tiêm chủng trẻ dưới 1 tuổi", dv: "%", kh: "≥95", th: "0" },
+            { tt: "16", ten: "Giới thiệu việc làm", dv: "Người", kh: "1000", th: "0" },
+            { tt: "17", ten: "Mô hình du lịch địa phương", dv: "MH", kh: "01", th: "0" },
+            { tt: "18", ten: "Dân số dùng nước sạch", dv: "%", kh: "100", th: "0" },
+            { tt: "19", ten: "Thu gom rác sinh hoạt", dv: "%", kh: "100", th: "0" },
+            { tt: "20", ten: "Xử lý rác y tế", dv: "%", kh: "100", th: "0" },
+            { tt: "21", ten: "Xử lý nước thải công nghiệp", dv: "%", kh: "100", th: "0" },
+            { tt: "22", ten: "Hồ sơ hành chính đúng hạn", dv: "%", kh: "99.51", th: "0" },
+            { tt: "23", ten: "Sử dụng chữ ký số cá nhân", dv: "%", kh: "100", th: "0" },
+            { tt: "24", ten: "Chỉ tiêu nhập ngũ", dv: "Người", kh: "31", th: "0" },
+            { tt: "25", ten: "Kéo giảm tội phạm hình sự", dv: "%", kh: "-10", th: "0" },
+            { tt: "26", ten: "Khám phá án hình sự", dv: "%", kh: ">80", th: "0" },
+            { tt: "27", ten: "Kéo giảm tai nạn giao thông", dv: "%", kh: "-5", th: "0" },
+            { tt: "28", ten: "Không để cháy nổ nghiêm trọng", dv: "Vụ", kh: "0", th: "0" },
+            { tt: "29", ten: "Địa phương không ma túy", dv: "Đạt", kh: "Đạt", th: "0" },
+            { tt: "30", ten: "Xử lý phản ánh 1022 đúng hạn", dv: "%", kh: "≥50", th: "0" }
         ];
 
-        // Cấu hình Đèn kéo quân
         const itemsPerPage = 4;
-        let currentPage = 0;
-        const totalPages = Math.ceil(danhSachChiTieu.length / itemsPerPage);
+        let cur = 0;
+        const total = Math.ceil(indicators.length / itemsPerPage);
 
-        function initCarousel() {
+        function init() {
             const track = document.getElementById('carouselTrack');
-            const dotNav = document.getElementById('dot-navigation');
+            const dots = document.getElementById('dot-navigation');
             
-            for (let i = 0; i < totalPages; i++) {
-                const page = document.createElement('div');
-                page.className = 'carousel-page';
-                const start = i * itemsPerPage;
-                const pageItems = danhSachChiTieu.slice(start, start + itemsPerPage);
-                
-                page.innerHTML = pageItems.map(item => `
+            for (let i = 0; i < total; i++) {
+                const p = document.createElement('div');
+                p.className = 'carousel-page';
+                const items = indicators.slice(i * itemsPerPage, (i + 1) * itemsPerPage);
+                p.innerHTML = items.map(it => `
                     <div class="indicator-item">
-                        <p class="text-[9px] text-blue-300 uppercase mb-1">${item.ten}</p>
-                        <p class="text-3xl font-black text-white tabular-nums">${item.th}%</p>
-                    </div>
-                `).join('');
-                track.appendChild(page);
+                        <p class="text-[9px] text-blue-300 uppercase mb-1">${it.ten}</p>
+                        <p class="text-3xl font-black text-white tabular-nums">${it.th}%</p>
+                    </div>`).join('');
+                track.appendChild(p);
 
-                const dot = document.createElement('div');
-                dot.className = `h-1 w-4 rounded-full transition-all ${i === 0 ? 'bg-yellow-400' : 'bg-blue-800'}`;
-                dot.id = `dot-${i}`;
-                dotNav.appendChild(dot);
+                const d = document.createElement('div');
+                d.className = `h-1 w-4 rounded-full transition-all ${i===0?'bg-yellow-400':'bg-blue-800'}`;
+                d.id = `dot-${i}`;
+                dots.appendChild(d);
             }
-            setInterval(() => { currentPage = (currentPage + 1) % totalPages; updateCarousel(); }, 5000);
+            setInterval(() => { cur = (cur + 1) % total; move(); }, 5000);
         }
 
-        function updateCarousel() {
-            document.getElementById('carouselTrack').style.transform = `translateX(-${currentPage * 100}%)`;
-            document.getElementById('page-indicator').innerText = `TRANG ${currentPage + 1}/${totalPages}`;
-            document.querySelectorAll('#dot-navigation div').forEach((dot, idx) => {
-                dot.className = `h-1 w-4 rounded-full transition-all ${idx === currentPage ? 'bg-yellow-400' : 'bg-blue-800'}`;
+        function move() {
+            document.getElementById('carouselTrack').style.transform = `translateX(-${cur*100}%)`;
+            document.getElementById('page-indicator').innerText = `TRANG ${cur+1}/${total}`;
+            document.querySelectorAll('#dot-navigation div').forEach((d, idx) => {
+                d.className = `h-1 w-4 rounded-full transition-all ${idx===cur?'bg-yellow-400':'bg-blue-800'}`;
             });
         }
 
-        // Điều khiển Modal
         function openModal() {
-            const tbody = document.getElementById('table-body-chi-tiet');
-            tbody.innerHTML = danhSachChiTieu.map(item => `
+            document.getElementById('table-body-chi-tiet').innerHTML = indicators.map(it => `
                 <tr class="hover:bg-blue-50">
-                    <td class="border p-2 text-center">${item.tt}</td>
-                    <td class="border p-2 font-medium">${item.ten}</td>
-                    <td class="border p-2 text-center">${item.dv}</td>
-                    <td class="border p-2 text-right text-blue-700 font-bold">${item.kh}</td>
-                    <td class="border p-2 text-right font-black ${item.th < 50 ? 'text-red-600' : 'text-green-600'}">${item.th}%</td>
+                    <td class="border p-2 text-center">${it.tt}</td>
+                    <td class="border p-2 font-medium">${it.ten}</td>
+                    <td class="border p-2 text-center">${it.dv}</td>
+                    <td class="border p-2 text-right text-blue-700 font-bold">${it.kh}</td>
+                    <td class="border p-2 text-right font-black ${it.th<50?'text-red-600':'text-green-600'}">${it.th}%</td>
                 </tr>`).join('');
             document.getElementById('modal-chi-tiet').classList.remove('hidden');
         }
 
         function closeModal() { document.getElementById('modal-chi-tiet').classList.add('hidden'); }
-
-        // Đồng hồ và Khởi tạo
-        function updateClock() { document.getElementById('clock').innerText = new Date().toLocaleTimeString('vi-VN'); }
-        setInterval(updateClock, 1000);
-        updateClock();
-        initCarousel();
+        function clock() { document.getElementById('clock').innerText = new Date().toLocaleTimeString('vi-VN'); }
+        
+        setInterval(clock, 1000); clock(); init();
     </script>
 </body>
 </html>
