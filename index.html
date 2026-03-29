@@ -130,14 +130,45 @@
     <script>
         // Danh sách 30 chỉ tiêu dựa trên tài liệu của bạn
 const danhSachChiTieu = [
+   // I. CHỈ TIÊU KINH TẾ
     { tt: "1", ten: "Tốc độ tăng tổng giá trị sản phẩm trên địa bàn", dv: "%", kh: "10.5", th: "0" },
-    { tt: "2", ten: "Tổng thu ngân sách nhà nước", dv: "%", kh: "100 (1.191 tỷ)", th: "0" },
+    { tt: "2", ten: "Tổng thu ngân sách nhà nước so với dự toán được giao", dv: "%", kh: "100 (1.191 tỷ)", th: "0" },
     { tt: "3", ten: "Tỷ lệ giải ngân vốn đầu tư công", dv: "%", kh: "≥95", th: "0" },
+    
+    // II. CHỈ TIÊU VĂN HÓA - XÃ HỘI
     { tt: "4", ten: "Tỷ lệ dân số tham gia bảo hiểm y tế", dv: "%", kh: "≥95", th: "0" },
+    { tt: "5", ten: "Tỷ lệ lực lượng lao động trong độ tuổi tham gia BHXH", dv: "%", kh: "59.5", th: "0" },
+    { tt: "6", ten: "Tỷ lệ trường Mầm non đạt chuẩn Quốc gia", dv: "%", kh: "27", th: "0" },
+    { tt: "7", ten: "Tỷ lệ trường Tiểu học đạt chuẩn Quốc gia", dv: "%", kh: "32", th: "0" },
+    { tt: "8", ten: "Tỷ lệ trường Trung học cơ sở đạt chuẩn Quốc gia", dv: "%", kh: "43", th: "0" },
+    { tt: "9", ten: "Bảo đảm tối thiểu số phòng học/10.000 dân (3-18 tuổi)", dv: "Phòng", kh: "460", th: "0" },
+    { tt: "10", ten: "Tỉ lệ hoàn thành cấp Trung học cơ sở", dv: "%", kh: "99", th: "0" },
+    { tt: "11", ten: "Giảm tỷ lệ hộ nghèo theo chuẩn nghèo đa chiều", dv: "%", kh: "-", th: "0" },
+    { tt: "12", ten: "Số tiêu chí đạt chuẩn nông thôn mới giai đoạn 2026-2030", dv: "Tiêu chí", kh: "≥3", th: "0" },
+    { tt: "13", ten: "Tỷ lệ ấp văn hóa", dv: "%", kh: "95", th: "0" },
+    { tt: "14", ten: "Tỷ lệ gia đình văn hóa", dv: "%", kh: "93", th: "0" },
+    { tt: "15", ten: "Tỷ lệ trẻ dưới 01 tuổi được tiêm chủng đầy đủ", dv: "%", kh: "≥95", th: "0" },
+    { tt: "16", ten: "Số lao động trên địa bàn được giới thiệu việc làm", dv: "Người", kh: "1000", th: "0" },
+    { tt: "17", ten: "Xây dựng mô hình hoặc chương trình du lịch địa phương", dv: "Mô hình", kh: "01", th: "0" },
+
+    // III. CHỈ TIÊU MÔI TRƯỜNG, ĐÔ THỊ
     { tt: "18", ten: "Tỷ lệ dân số được sử dụng nước sạch", dv: "%", kh: "100", th: "0" },
+    { tt: "19", ten: "Tỷ lệ thu gom chất thải rắn sinh hoạt đạt", dv: "%", kh: "100", th: "0" },
+    { tt: "20", ten: "Tỷ lệ chất thải y tế được xử lý đạt quy chuẩn", dv: "%", kh: "100", th: "0" },
+    { tt: "21", ten: "Tỷ lệ xử lý nước thải công nghiệp", dv: "%", kh: "100", th: "0" },
+
+    // IV. CHỈ TIÊU CẢI CÁCH HÀNH CHÍNH
     { tt: "22", ten: "Tỷ lệ giải quyết hồ sơ hành chính đúng hạn", dv: "%", kh: "99.51", th: "0" },
+    { tt: "23", ten: "Sử dụng chữ ký số cá nhân cho cán bộ, công chức", dv: "%", kh: "100", th: "0" },
+
+    // V. CHỈ TIÊU QUỐC PHÒNG, AN NINH
+    { tt: "24", ten: "Hoàn thành chỉ tiêu tuyển chọn gọi công dân nhập ngũ", dv: "Người", kh: "31", th: "0" },
+    { tt: "25", ten: "Kéo giảm tổng số vụ tội phạm về trật tự xã hội", dv: "%", kh: "Giảm 10", th: "0" },
+    { tt: "26", ten: "Tỷ lệ khám phá án tội phạm về trật tự xã hội", dv: "%", kh: ">80", th: "0" },
+    { tt: "27", ten: "Kéo giảm tai nạn giao thông trên cả ba tiêu chí", dv: "%", kh: "Giảm 5", th: "0" },
+    { tt: "28", ten: "Không để xảy ra cháy nổ gây thiệt hại nghiêm trọng", dv: "Vụ", kh: "0", th: "0" },
+    { tt: "29", ten: "Địa phương không phức tạp về ma túy", dv: "Trạng thái", kh: "Đạt", th: "0" },
     { tt: "30", ten: "Tỷ lệ xử lý phản ánh, kiến nghị đúng hạn", dv: "%", kh: "≥50", th: "0" }
-    // Bạn có thể thêm đủ 30 chỉ tiêu vào mảng này theo file Word
 ];
 
 // Hàm mở Modal và nạp dữ liệu
