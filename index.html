@@ -13,21 +13,19 @@
         .carousel-page { 
             min-width: 100%; 
             display: flex !important; 
-            flex-wrap: nowrap; /* Giữ nguyên 5 cột hàng ngang */
+            flex-wrap: nowrap; 
             flex-direction: row !important; 
             padding: 1.5rem 1rem; 
             gap: 10px;
             justify-content: space-between;
         }
         
-        /* Khối chỉ tiêu lớn màu xanh lá */
         .economic-section { 
             background-color: #dcfce7; 
             border: 1px solid #bbf7d0; 
             border-radius: 1.5rem; 
         }
 
-        /* Thẻ chỉ tiêu con (Tự động co giãn để đủ 5 ô) */
         .indicator-item { 
             flex: 1; 
             background-color: #1e293b; 
@@ -38,16 +36,15 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 150px;
+            min-height: 160px; /* Tăng nhẹ chiều cao để chứa chữ to hơn */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-            min-width: 0; /* Tránh vỡ layout trên màn hình nhỏ */
+            min-width: 0;
         }
 
         .modal-table td, .modal-table th { border: 1px solid #e2e8f0; padding: 10px; text-align: left; color: #1e293b; }
 
         @media (max-width: 768px) {
-            .indicator-item { min-height: 120px; }
-            .indicator-item .text-3xl { font-size: 1.5rem; }
+            .indicator-item { min-height: 130px; }
             .carousel-page { gap: 5px; padding: 1rem 0.5rem; }
         }
     </style>
@@ -82,7 +79,7 @@
                 </div>
                 <div class="grid grid-cols-2 gap-2 text-[11px] font-bold uppercase">
                     <div class="bg-emerald-50 p-2 rounded border border-emerald-100 text-emerald-700">
-                        Đã xử lý: <span id="dt_da_giai_quyet" class="block text-lg">0</span>
+                        Đã xong: <span id="dt_da_giai_quyet" class="block text-lg">0</span>
                     </div>
                     <div class="bg-orange-50 p-2 rounded border border-orange-100 text-orange-700">
                         Đang xử lý: <span id="dt_dang_giai_quyet" class="block text-lg">0</span>
@@ -108,7 +105,7 @@
     </div>
 
     <div id="donThuModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-2 md:p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-xl w-full max-w-5xl overflow-hidden shadow-2xl border border-slate-300">
+        <div class="bg-white rounded-xl w-full max-w-5xl overflow-hidden shadow-2xl">
             <div class="p-4 bg-red-600 text-white flex justify-between items-center px-6">
                 <h2 class="font-bold uppercase text-sm tracking-wide">Bảng chi tiết tình hình xử lý đơn thư</h2>
                 <button onclick="closeDonThuModal()" class="text-3xl leading-none">&times;</button>
@@ -116,27 +113,24 @@
             <div class="p-4 md:p-6 overflow-x-auto">
                 <table class="w-full modal-table text-[11px] md:text-sm border-collapse">
                     <tr class="bg-slate-50 font-bold"><td colspan="4" class="text-lg py-4 text-blue-900">Tổng số đơn thư: <span id="modal_dt_tong">0</span></td></tr>
-                    <tr class="bg-slate-100 font-bold text-center uppercase text-[10px] text-slate-600">
-                        <td class="w-1/4">Phân loại Trạng thái</td>
-                        <td>Phản ánh, <br>Kiến nghị</td>
-                        <td>Khiếu nại</td>
-                        <td>Tố cáo</td>
+                    <tr class="bg-slate-100 font-bold text-center uppercase text-[10px]">
+                        <td>Loại đơn</td><td>Phản ánh, kiến nghị</td><td>Khiếu nại</td><td>Tố cáo</td>
                     </tr>
-                    <tr class="text-center font-black text-blue-800 text-lg md:text-xl">
+                    <tr class="text-center font-black text-blue-800 text-xl">
                         <td class="bg-slate-50 text-[10px] font-bold text-slate-500 uppercase">Số lượng</td>
                         <td id="dt_sl_pa">0</td><td id="dt_sl_kn">0</td><td id="dt_sl_tc">0</td>
                     </tr>
                     <tr>
                         <td class="font-bold bg-slate-50 text-emerald-700 uppercase text-[10px]">Đã giải quyết</td>
-                        <td>Trong hạn: <span id="dt_dgq_th_pa" class="font-bold text-emerald-600">0</span><br>Quá hạn: <span id="dt_dgq_qh_pa" class="text-red-500">0</span></td>
-                        <td>Trong hạn: <span id="dt_dgq_th_kn" class="font-bold text-emerald-600">0</span><br>Quá hạn: <span id="dt_dgq_qh_kn" class="text-red-500">0</span></td>
-                        <td>Trong hạn: <span id="dt_dgq_th_tc" class="font-bold text-emerald-600">0</span><br>Quá hạn: <span id="dt_dgq_qh_tc" class="text-red-500">0</span></td>
+                        <td>Trong hạn: <span id="dt_dgq_th_pa">0</span><br>Quá hạn: <span id="dt_dgq_qh_pa" class="text-red-500">0</span></td>
+                        <td>Trong hạn: <span id="dt_dgq_th_kn">0</span><br>Quá hạn: <span id="dt_dgq_qh_kn" class="text-red-500">0</span></td>
+                        <td>Trong hạn: <span id="dt_dgq_th_tc">0</span><br>Quá hạn: <span id="dt_dgq_qh_tc" class="text-red-500">0</span></td>
                     </tr>
                     <tr>
                         <td class="font-bold bg-slate-50 text-orange-700 uppercase text-[10px]">Chưa giải quyết</td>
-                        <td>Trong hạn: <span id="dt_cgq_th_pa" class="font-bold text-blue-600">0</span><br>Quá hạn: <span id="dt_cgq_qh_pa" class="text-red-600 font-black">0</span></td>
-                        <td>Trong hạn: <span id="dt_cgq_th_kn" class="font-bold text-blue-600">0</span><br>Quá hạn: <span id="dt_cgq_qh_kn" class="text-red-600 font-black">0</span></td>
-                        <td>Trong hạn: <span id="dt_cgq_th_tc" class="font-bold text-blue-600">0</span><br>Quá hạn: <span id="dt_cgq_qh_tc" class="text-red-600 font-black">0</span></td>
+                        <td>Trong hạn: <span id="dt_cgq_th_pa">0</span><br>Quá hạn: <span id="dt_cgq_qh_pa" class="text-red-600 font-black">0</span></td>
+                        <td>Trong hạn: <span id="dt_cgq_th_kn">0</span><br>Quá hạn: <span id="dt_cgq_qh_kn" class="text-red-600 font-black">0</span></td>
+                        <td>Trong hạn: <span id="dt_cgq_th_tc">0</span><br>Quá hạn: <span id="dt_cgq_qh_tc" class="text-red-600 font-black">0</span></td>
                     </tr>
                 </table>
             </div>
@@ -194,13 +188,11 @@
             const data = snap.val();
             if(!data) return;
 
-            // Đơn thư Dashboard
             const summary = data.don_thu || {};
             document.getElementById('dt_tong').innerText = summary.tong || 0;
             document.getElementById('dt_da_giai_quyet').innerText = summary.da_giai_quyet || 0;
             document.getElementById('dt_dang_giai_quyet').innerText = summary.dang_giai_quyet || 0;
 
-            // Đơn thư Chi tiết (Modal) lấy từ Firebase
             const detail = data.don_thu_detail || {};
             document.getElementById('modal_dt_tong').innerText = summary.tong || 0;
             document.getElementById('dt_sl_pa').innerText = summary.pa_kn || 0;
@@ -221,7 +213,6 @@
             document.getElementById('dt_cgq_th_tc').innerText = detail.tc_cgq_th || 0;
             document.getElementById('dt_cgq_qh_tc').innerText = detail.tc_cgq_qh || 0;
 
-            // Các thẻ khác
             document.getElementById('pa_1022_tong').innerText = data.pa_1022?.tong || 0;
             document.getElementById('hs_tong').innerText = data.ho_so?.tong || 0;
             document.getElementById('vb_tong').innerText = data.van_ban?.tong || 0;
@@ -243,7 +234,9 @@
                     <div class="indicator-item">
                         <div class="text-[9px] uppercase font-bold text-slate-400 mb-1 leading-tight h-8 flex items-center justify-center">${it.ten}</div>
                         <div class="text-3xl md:text-5xl font-black text-white">${it.th}%</div>
-                        <div class="text-[8px] mt-1 text-emerald-400 font-bold uppercase italic">KH: ${it.kh}</div>
+                        <div class="text-[11px] md:text-[12px] mt-2 text-emerald-400 font-black uppercase italic tracking-tighter">
+                            Chỉ tiêu: ${it.kh}
+                        </div>
                     </div>
                 `).join('');
                 track.appendChild(page);
