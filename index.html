@@ -95,34 +95,38 @@
             </div>
         </div>
 
-        <div class="card lg:col-span-2 bg-slate-900 text-white">
-            <h2 class="font-bold text-yellow-400 mb-4">📈 CHỈ TIÊU KINH TẾ - XÃ HỘI CHỦ YẾU</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                <div>
-                    <p class="text-[10px] text-slate-400 uppercase">Thu ngân sách</p>
-                    <p class="text-xl font-bold" id="ctxh-ngan-sach">0%</p>
-                </div>
-                <div>
-                    <p class="text-[10px] text-slate-400 uppercase">Giải ngân đầu tư</p>
-                    <p class="text-xl font-bold" id="ctxh-dau-tu">0%</p>
-                </div>
-                <div>
-                    <p class="text-[10px] text-slate-400 uppercase">Bảo hiểm y tế</p>
-                    <p class="text-xl font-bold" id="ctxh-bhyt">0%</p>
-                </div>
-                <div>
-                    <p class="text-[10px] text-slate-400 uppercase">Nước sạch</p>
-                    <p class="text-xl font-bold" id="ctxh-nuoc">0%</p>
-                </div>
-            </div>
-            <div class="mt-6 text-right">
-                <button class="text-xs bg-yellow-500 text-black px-3 py-1 rounded font-bold hover:bg-yellow-400 transition">
-                    XEM CHI TIẾT 30 CHỈ TIÊU →
-                </button>
-            </div>
-        </div>
+       <div class="card bg-blue-900 lg:col-span-2">
+  <h3 class="font-bold text-yellow-400 mb-4 flex items-center gap-2 uppercase tracking-wide">
+    <span class="text-xl">📊</span> 
+    Chỉ tiêu Kinh tế - Xã hội chủ yếu
+  </h3>
+  
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+    <div>
+      <p class="text-[10px] text-slate-300 uppercase">Thu ngân sách</p>
+      <p id="ctxh-ngan-sach" class="text-3xl font-black text-white tabular-nums">0%</p>
     </div>
-
+    <div>
+      <p class="text-[10px] text-slate-300 uppercase">Giải ngân đầu tư</p>
+      <p id="ctxh-dau-tu" class="text-3xl font-black text-white tabular-nums">0%</p>
+    </div>
+    <div>
+      <p class="text-[10px] text-slate-300 uppercase">Bảo hiểm y tế</p>
+      <p id="ctxh-bhyt" class="text-3xl font-black text-white tabular-nums">0%</p>
+    </div>
+    <div>
+      <p class="text-[10px] text-slate-300 uppercase">Nước sạch</p>
+      <p id="ctxh-nuoc" class="text-3xl font-black text-white tabular-nums">0%</p>
+    </div>
+  </div>
+  
+  <div class="mt-6 text-right">
+    <button class="bg-yellow-500 text-black px-4 py-1.5 rounded-full text-xs font-bold hover:bg-yellow-400 transition flex items-center gap-2 inline-flex">
+      XEM CHI TIẾT 30 CHỈ TIÊU
+      <span class="text-lg">→</span>
+    </button>
+  </div>
+</div>
     <script>
         function updateClock() {
             const now = new Date();
