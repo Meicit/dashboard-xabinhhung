@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Nhập liệu Bình Hưng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 p-6 flex items-center justify-center min-h-screen">
+
+    <div id="login-box" class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md text-center">
+        <h2 class="text-2xl font-black text-blue-900 mb-6 uppercase">Xác thực quyền quản trị</h2>
+        <input type="password" id="pass" class="w-full p-4 border-2 rounded-xl mb-4 text-center text-xl" placeholder="Nhập mật khẩu...">
+        <button onclick="checkPass()" class="w-full bg-blue-900 text-white py-4 rounded-xl font-bold uppercase hover:bg-blue-800 transition-all">Truy cập hệ thống</button>
+    </div>
+
+    <div id="admin-form" class="hidden w-full max-w-5xl bg-slate-50 p-8 rounded-3xl shadow-2xl overflow-y-auto max-h-[90vh]">
+        <div class="flex justify-between items-center mb-8 border-b pb-6">
+            <h1 class="text-2xl font-black text-blue-900 uppercase">Cập nhật số liệu xã Bình Hưng</h1>
+            <button onclick="save()" class="bg-emerald-600 text-white px-10 py-4 rounded-2xl font-black uppercase shadow-xl hover:scale-105 active:scale-95 transition-all">Lưu & Đẩy số liệu</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-8 border-red-500">
+                    <h3 class="font-black text-red-600 mb-4 uppercase">📂 Khối đơn thư</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <label class="text-[10px] font-bold">PA kiến nghị<input type="number" id="pa_kn" class="w-full p-2 border rounded mt-1"></label>
+                        <label class="text-[10px] font-bold">Khiếu nại<input type="number" id="khieu_nai" class="w-full p-2 border rounded mt-1"></label>
+                        <label class="text-[10px] font-bold">Tố cáo<input type="number" id="to_cao" class="w-full p-2 border rounded mt-1"></label>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-8 border-orange-500">
+                    <h3 class="font-black text-orange-600 mb-4 uppercase">📞 Phản ánh 1022 / Hồ sơ</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="text-[10px] font-bold">Tổng 1022<input type="number" id="pa_tong" class="w-full p-2 border rounded mt-1"></label>
+                        <label class="text-[10px] font-bold">1022 Trễ hạn<input type="number" id="pa_tre" class="w-full p-2 border rounded mt-1"></label>
+                        <label class="text-[10px] font-bold">Tổng hồ sơ HC<input type="number" id="hs_tong" class="w-full p-2 border rounded mt-1"></label>
+                        <label class="text-[10px] font-bold">% Đúng hạn<input type="number" step="0.01" id="hs_pc" class="w-full p-2 border rounded mt-1"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-8 border-emerald-500">
+                <h3 class="font-black text-emerald-600 mb-4 uppercase">📊 30 Chỉ tiêu KT-XH (%)</h3>
+                <div class="grid grid-cols-2 gap-4" id="ct-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC7J3V97_gKwyAzpckTJm5j8hoMWU5aoFI",
+            authDomain: "dashboarb-xabinhhung.firebaseapp.com",
+            databaseURL: "https://dashboarb-xabinhhung-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "dashboarb-xabinhhung",
+            storageBucket: "dashboarb-xabinhhung.firebasestorage.app",
+            messagingSenderId: "152638135861",
+            appId: "1:152638135861:web:128ac8d51c8357b6521b7c"
+        };
+
+        const db = getDatabase(initializeApp(firebaseConfig));
+
+        window.checkPass = () => {
+            if(document.getElementById('pass').value === 'binhhung2026') {
+                document.getElementById('login-box').classList.add('hidden');
+                document.getElementById('admin-form').classList.remove('hidden');
+                renderCT();
+            } else alert('Sai mật khẩu!');
+        };
+
+        function renderCT() {
+            const grid = document.getElementById('ct-grid');
+            for(let i=1; i<=30; i++) {
+                grid.innerHTML += `<div class="flex flex-col"><label class="text-[9px] font-bold">Chỉ tiêu ${i}</label><input type="number" id="ct_${i}" class="p-1 border rounded text-xs" placeholder="0.0"></div>`;
+            }
+        }
+
+        window.save = async () => {
+            const data = {
+                don_thu: { pa_kn: +document.getElementById('pa_kn').value, khieu_nai: +document.getElementById('khieu_nai').value, to_cao: +document.getElementById('to_cao').value },
+                pa_1022: { tong: +document.getElementById('pa_tong').value, tre_han: +document.getElementById('pa_tre').value },
+                ho_so: { tong: +document.getElementById('hs_tong').value, dung_han_pc: +document.getElementById('hs_pc').value },
+                van_ban: { tong: 0 },
+                chi_tieu: {}
+            };
+            for(let i=1; i<=30; i++) data.chi_tieu[`ct_${i}`] = +document.getElementById(`ct_${i}`).value || 0;
+            
+            await set(ref(db, 'dashboard_binhhung'), data);
+            alert('Đã cập nhật!');
+        };
+    </script>
+</body>
+</html>
