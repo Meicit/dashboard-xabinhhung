@@ -3,101 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Điều Hành An Lạc</title>
+    <title>Dashboard Điều Hành - UBND Xã Bình Hưng</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // --- DÁN CONFIG CỦA BẠN VÀO ĐÂY ---
-        const firebaseConfig = {
-            // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBJEDzEreRgv6v_Bw_sasd79RqK5pqD8Zc",
-  authDomain: "dashboard-xabinhhung.firebaseapp.com",
-  projectId: "dashboard-xabinhhung",
-  storageBucket: "dashboard-xabinhhung.firebasestorage.app",
-  messagingSenderId: "531263506013",
-  appId: "1:531263506013:web:154f2b7cff680456d1efb4",
-  measurementId: "G-CHXYTLMEQF"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        onSnapshot(doc(db, "statistics", "today"), (docSnap) => {
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                
-                // Cập nhật dữ liệu lên giao diện
-                updateStat('stat-dautu', data.dau_tu_cong, 'progress-dautu');
-                updateStat('stat-donthu', data.giai_quyet_don);
-                updateStat('stat-hoso', data.hoso_hanhchinh);
-                updateStat('stat-phananh', data.xu_ly_phan_anh);
-                document.getElementById('stat-anninh').innerText = data.an_ninh_trat_tu;
-            }
-        });
-
-        function updateStat(id, value, progressId = null) {
-            const el = document.getElementById(id);
-            if (el) el.innerText = value + "%";
-            if (progressId) {
-                document.getElementById(progressId).style.width = value + "%";
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .card { background: white; border-radius: 0.75rem; padding: 1.25rem; shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; }
+    </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-900">
-    <header class="bg-red-700 text-white shadow-lg p-6 mb-8 text-center">
-        <h1 class="text-2xl font-bold uppercase tracking-widest">Hệ thống chỉ số điều hành - Phường An Lạc</h1>
+<body class="p-6">
+    <header class="mb-8 flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-blue-900 uppercase">Hệ Thống Chỉ Số Điều Hành 2026</h1>
+            <p class="text-slate-500">Ủy ban nhân dân xã Bình Hưng</p>
+        </div>
+        <div class="text-right">
+            <div id="clock" class="text-xl font-bold text-slate-700">00:00:00</div>
+            <div class="text-xs text-slate-400">Dữ liệu thời gian thực</div>
+        </div>
     </header>
 
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <p class="text-slate-500 text-xs font-bold uppercase mb-2">Giải ngân đầu tư công</p>
-                <div class="flex justify-between items-end mb-4">
-                    <h2 id="stat-dautu" class="text-4xl font-black text-blue-600">0%</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        
+        <div class="card border-t-4 border-red-500">
+            <h2 class="font-bold text-slate-700 mb-4 flex justify-between">
+                <span>📂 ĐƠN THƯ</span>
+                <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">3 Loại</span>
+            </h2>
+            <div class="space-y-3 text-sm">
+                <div class="flex justify-between"><span>Phản ánh, kiến nghị</span><b id="dt-pa-kn">0</b></div>
+                <div class="flex justify-between"><span>Khiếu nại</span><b id="dt-khieu-nai">0</b></div>
+                <div class="flex justify-between"><span>Tố cáo</span><b id="dt-to-cao">0</b></div>
+                <div class="pt-2 border-t flex justify-around text-center text-[10px] font-bold uppercase">
+                    <div class="text-green-600">Còn hạn<br><span id="dt-con-han" class="text-lg">0</span></div>
+                    <div class="text-red-600">Trễ hạn<br><span id="dt-tre-han" class="text-lg">0</span></div>
+                    <div class="text-blue-600">Xong<br><span id="dt-xong" class="text-lg">0</span></div>
                 </div>
-                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-                    <div id="progress-dautu" class="bg-blue-500 h-full transition-all duration-1000" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="card border-t-4 border-orange-500">
+            <h2 class="font-bold text-slate-700 mb-4">📞 PHẢN ÁNH 1022</h2>
+            <div class="grid grid-cols-2 gap-2 text-xs mb-4">
+                <div class="p-2 bg-slate-50 rounded">Đất đai: <b id="1022-dat-dai">0</b></div>
+                <div class="p-2 bg-slate-50 rounded">An ninh: <b id="1022-an-ninh">0</b></div>
+                <div class="p-2 bg-slate-50 rounded">Môi trường: <b id="1022-moi-truong">0</b></div>
+                <div class="p-2 bg-slate-50 rounded">Khác: <b id="1022-khac">0</b></div>
+            </div>
+            <div class="flex justify-between text-[10px] font-bold uppercase">
+                <span class="text-green-600">Đang xử lý: <span id="1022-dang-xl">0</span></span>
+                <span class="text-red-600">Trễ hạn: <span id="1022-tre-han">0</span></span>
+            </div>
+        </div>
+
+        <div class="card border-t-4 border-blue-500">
+            <h2 class="font-bold text-slate-700 mb-4">📋 HỒ SƠ HÀNH CHÍNH</h2>
+            <div class="text-center py-2">
+                <span class="text-3xl font-black text-blue-900" id="hs-tong">0</span>
+                <p class="text-[10px] text-slate-400 uppercase">Tổng hồ sơ tiếp nhận</p>
+            </div>
+            <div class="mt-4">
+                <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                    <div id="hs-progress" class="bg-blue-500 h-full" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-between text-[10px] mt-1 font-bold">
+                    <span class="text-blue-600">ĐÚNG HẠN: <span id="hs-dung-han-pc">0%</span></span>
+                    <span class="text-red-600">TRỄ: <span id="hs-tre-han">0</span></span>
                 </div>
             </div>
-
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <p class="text-slate-500 text-xs font-bold uppercase mb-2">Giải quyết đơn thư</p>
-                <h2 id="stat-donthu" class="text-4xl font-black text-emerald-600">0%</h2>
-            </div>
-
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <p class="text-slate-500 text-xs font-bold uppercase mb-2">Hồ sơ hành chính đúng hạn</p>
-                <h2 id="stat-hoso" class="text-4xl font-black text-orange-500">0%</h2>
-            </div>
-
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <p class="text-slate-500 text-xs font-bold uppercase mb-2">Xử lý phản ánh dân cư</p>
-                <h2 id="stat-phananh" class="text-4xl font-black text-purple-600">0%</h2>
-            </div>
-
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <p class="text-slate-500 text-xs font-bold uppercase mb-2">An ninh trật tự</p>
-                <h2 id="stat-anninh" class="text-3xl font-black text-red-600 italic">Đang tải...</h2>
-            </div>
-
         </div>
     </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <div class="card lg:col-span-1">
+            <h2 class="font-bold text-slate-700 mb-4">⚖️ VĂN BẢN CHỈ ĐẠO</h2>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between text-sm">
+                    <span>UBND Thành phố</span>
+                    <span class="font-bold text-blue-700" id="vb-tp">0</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                    <span>Đảng ủy Xã</span>
+                    <span class="font-bold text-blue-700" id="vb-du">0</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                    <span>UBND Xã</span>
+                    <span class="font-bold text-blue-700" id="vb-xa">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card lg:col-span-2 bg-slate-900 text-white">
+            <h2 class="font-bold text-yellow-400 mb-4">📈 CHỈ TIÊU KINH TẾ - XÃ HỘI CHỦ YẾU</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div>
+                    <p class="text-[10px] text-slate-400 uppercase">Thu ngân sách</p>
+                    <p class="text-xl font-bold" id="ctxh-ngan-sach">0%</p>
+                </div>
+                <div>
+                    <p class="text-[10px] text-slate-400 uppercase">Giải ngân đầu tư</p>
+                    <p class="text-xl font-bold" id="ctxh-dau-tu">0%</p>
+                </div>
+                <div>
+                    <p class="text-[10px] text-slate-400 uppercase">Bảo hiểm y tế</p>
+                    <p class="text-xl font-bold" id="ctxh-bhyt">0%</p>
+                </div>
+                <div>
+                    <p class="text-[10px] text-slate-400 uppercase">Nước sạch</p>
+                    <p class="text-xl font-bold" id="ctxh-nuoc">0%</p>
+                </div>
+            </div>
+            <div class="mt-6 text-right">
+                <button class="text-xs bg-yellow-500 text-black px-3 py-1 rounded font-bold hover:bg-yellow-400 transition">
+                    XEM CHI TIẾT 30 CHỈ TIÊU →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('vi-VN');
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
