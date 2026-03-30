@@ -9,7 +9,6 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1e293b; margin: 0; }
         .carousel-track { display: flex; transition: transform 0.7s ease-in-out; width: 100%; }
-        
         .carousel-page { 
             min-width: 100%; 
             display: flex !important; 
@@ -19,13 +18,11 @@
             gap: 10px;
             justify-content: space-between;
         }
-        
         .economic-section { 
             background-color: #dcfce7; 
             border: 1px solid #bbf7d0; 
             border-radius: 1.5rem; 
         }
-
         .indicator-item { 
             flex: 1; 
             background-color: #1e293b; 
@@ -36,15 +33,13 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 160px; /* Tăng nhẹ chiều cao để chứa chữ to hơn */
+            min-height: 165px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
             min-width: 0;
         }
-
         .modal-table td, .modal-table th { border: 1px solid #e2e8f0; padding: 10px; text-align: left; color: #1e293b; }
-
         @media (max-width: 768px) {
-            .indicator-item { min-height: 130px; }
+            .indicator-item { min-height: 140px; }
             .carousel-page { gap: 5px; padding: 1rem 0.5rem; }
         }
     </style>
@@ -64,8 +59,7 @@
             <span id="page-num" class="font-mono text-[10px] font-bold text-green-700 bg-green-200/50 px-3 py-1 rounded-full border border-green-300">TRANG 1/6</span>
         </div>
         <div class="overflow-hidden">
-            <div id="carouselTrack" class="carousel-track">
-                </div>
+            <div id="carouselTrack" class="carousel-track"></div>
         </div>
     </section>
 
@@ -78,26 +72,30 @@
                     <span id="dt_tong" class="text-3xl font-black text-blue-900 leading-none">0</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2 text-[11px] font-bold uppercase">
-                    <div class="bg-emerald-50 p-2 rounded border border-emerald-100 text-emerald-700">
-                        Đã xong: <span id="dt_da_giai_quyet" class="block text-lg">0</span>
-                    </div>
-                    <div class="bg-orange-50 p-2 rounded border border-orange-100 text-orange-700">
-                        Đang xử lý: <span id="dt_dang_giai_quyet" class="block text-lg">0</span>
-                    </div>
+                    <div class="bg-emerald-50 p-2 rounded border border-emerald-100 text-emerald-700">Đã xong: <span id="dt_da_giai_quyet" class="block text-lg">0</span></div>
+                    <div class="bg-orange-50 p-2 rounded border border-orange-100 text-orange-700">Đang xử lý: <span id="dt_dang_giai_quyet" class="block text-lg">0</span></div>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-orange-500 text-center flex flex-col justify-center">
+        <div onclick="open1022Modal()" class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-orange-500 cursor-pointer hover:bg-slate-50 transition-all">
             <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">📞 Phản ánh 1022</h4>
-            <div id="pa_1022_tong" class="text-5xl font-black text-orange-600">0</div>
+            <div class="space-y-2">
+                <div class="flex justify-between border-b pb-1">
+                    <span class="text-sm text-slate-600 font-bold">Tổng số phản ánh:</span>
+                    <span id="pa_1022_tong" class="text-xl font-black text-orange-600">0</span>
+                </div>
+                <div class="text-[11px] font-bold">
+                    <div class="flex justify-between text-emerald-600 mb-1"><span>+ Đã giải quyết:</span><span id="pa_1022_xong">0</span></div>
+                    <div class="flex justify-between text-red-600"><span>+ Chưa giải quyết:</span><span id="pa_1022_cho">0</span></div>
+                </div>
+            </div>
         </div>
 
         <div class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-blue-500 text-center flex flex-col justify-center">
             <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">📋 Hồ sơ hành chính</h4>
             <div id="hs_tong" class="text-5xl font-black text-blue-900">0</div>
         </div>
-
         <div class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-emerald-500 text-center flex flex-col justify-center">
             <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">⚖️ Văn bản chỉ đạo</h4>
             <div id="vb_tong" class="text-5xl font-black text-emerald-700">0</div>
@@ -111,28 +109,39 @@
                 <button onclick="closeDonThuModal()" class="text-3xl leading-none">&times;</button>
             </div>
             <div class="p-4 md:p-6 overflow-x-auto">
-                <table class="w-full modal-table text-[11px] md:text-sm border-collapse">
-                    <tr class="bg-slate-50 font-bold"><td colspan="4" class="text-lg py-4 text-blue-900">Tổng số đơn thư: <span id="modal_dt_tong">0</span></td></tr>
-                    <tr class="bg-slate-100 font-bold text-center uppercase text-[10px]">
-                        <td>Loại đơn</td><td>Phản ánh, kiến nghị</td><td>Khiếu nại</td><td>Tố cáo</td>
-                    </tr>
-                    <tr class="text-center font-black text-blue-800 text-xl">
-                        <td class="bg-slate-50 text-[10px] font-bold text-slate-500 uppercase">Số lượng</td>
-                        <td id="dt_sl_pa">0</td><td id="dt_sl_kn">0</td><td id="dt_sl_tc">0</td>
-                    </tr>
-                    <tr>
-                        <td class="font-bold bg-slate-50 text-emerald-700 uppercase text-[10px]">Đã giải quyết</td>
-                        <td>Trong hạn: <span id="dt_dgq_th_pa">0</span><br>Quá hạn: <span id="dt_dgq_qh_pa" class="text-red-500">0</span></td>
-                        <td>Trong hạn: <span id="dt_dgq_th_kn">0</span><br>Quá hạn: <span id="dt_dgq_qh_kn" class="text-red-500">0</span></td>
-                        <td>Trong hạn: <span id="dt_dgq_th_tc">0</span><br>Quá hạn: <span id="dt_dgq_qh_tc" class="text-red-500">0</span></td>
-                    </tr>
-                    <tr>
-                        <td class="font-bold bg-slate-50 text-orange-700 uppercase text-[10px]">Chưa giải quyết</td>
-                        <td>Trong hạn: <span id="dt_cgq_th_pa">0</span><br>Quá hạn: <span id="dt_cgq_qh_pa" class="text-red-600 font-black">0</span></td>
-                        <td>Trong hạn: <span id="dt_cgq_th_kn">0</span><br>Quá hạn: <span id="dt_cgq_qh_kn" class="text-red-600 font-black">0</span></td>
-                        <td>Trong hạn: <span id="dt_cgq_th_tc">0</span><br>Quá hạn: <span id="dt_cgq_qh_tc" class="text-red-600 font-black">0</span></td>
-                    </tr>
+                <table class="w-full modal-table text-[11px] md:text-sm border-collapse text-center">
+                    <tr class="bg-slate-50 font-bold text-left"><td colspan="4" class="text-lg py-4 text-blue-900 px-4">Tổng số đơn thư: <span id="modal_dt_tong">0</span></td></tr>
+                    <tr class="bg-slate-100 font-bold uppercase text-[10px]"><td>Loại đơn</td><td>Phản ánh, kiến nghị</td><td>Khiếu nại</td><td>Tố cáo</td></tr>
+                    <tr class="font-black text-blue-800 text-xl"><td class="bg-slate-50 text-[10px] font-bold text-slate-500 uppercase">Số lượng</td><td id="dt_sl_pa">0</td><td id="dt_sl_kn">0</td><td id="dt_sl_tc">0</td></tr>
+                    <tr><td class="font-bold bg-slate-50 text-emerald-700 uppercase text-[10px]">Đã giải quyết</td><td>Trong hạn: <span id="dt_dgq_th_pa">0</span><br>Quá hạn: <span id="dt_dgq_qh_pa" class="text-red-500">0</span></td><td>Trong hạn: <span id="dt_dgq_th_kn">0</span><br>Quá hạn: <span id="dt_dgq_qh_kn" class="text-red-500">0</span></td><td>Trong hạn: <span id="dt_dgq_th_tc">0</span><br>Quá hạn: <span id="dt_dgq_qh_tc" class="text-red-500">0</span></td></tr>
+                    <tr><td class="font-bold bg-slate-50 text-orange-700 uppercase text-[10px]">Chưa giải quyết</td><td>Trong hạn: <span id="dt_cgq_th_pa">0</span><br>Quá hạn: <span id="dt_cgq_qh_pa" class="text-red-600 font-black">0</span></td><td>Trong hạn: <span id="dt_cgq_th_kn">0</span><br>Quá hạn: <span id="dt_cgq_qh_kn" class="text-red-600 font-black">0</span></td><td>Trong hạn: <span id="dt_cgq_th_tc">0</span><br>Quá hạn: <span id="dt_cgq_qh_tc" class="text-red-600 font-black">0</span></td></tr>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal1022" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-2 md:p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-xl w-full max-w-4xl overflow-hidden shadow-2xl">
+            <div class="p-4 bg-orange-600 text-white flex justify-between items-center px-6">
+                <h2 class="font-bold uppercase text-sm tracking-wide">Chi tiết phản ánh 1022</h2>
+                <button onclick="close1022Modal()" class="text-3xl leading-none">&times;</button>
+            </div>
+            <div class="p-6 bg-slate-50">
+                <div class="grid grid-cols-3 gap-4 mb-6 text-center">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border"><div class="text-[10px] text-slate-400 font-bold uppercase">Tổng phản ánh</div><div id="m1022_tong" class="text-3xl font-black text-slate-800">0</div></div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border"><div class="text-[10px] text-slate-400 font-bold uppercase">Đã xử lý</div><div id="m1022_xong" class="text-3xl font-black text-emerald-600">0</div></div>
+                    <div class="bg-emerald-50 p-4 rounded-lg shadow-sm border border-emerald-100"><div class="text-[10px] text-emerald-600 font-bold uppercase">Tỷ lệ</div><div id="m1022_ty_le" class="text-3xl font-black text-emerald-700">0%</div></div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border">
+                    <h3 class="text-sm font-bold text-slate-800 mb-6 uppercase border-b pb-2 italic">Phân loại phản ánh</h3>
+                    <div class="space-y-5">
+                        <div><div class="flex justify-between text-xs font-bold mb-2"><span>Tiếng ồn</span><span id="pa_tieng_on">0</span></div><div class="bg-slate-100 h-2 rounded-full overflow-hidden"><div id="bar_tieng_on" class="bg-blue-500 h-full transition-all duration-500" style="width: 0%"></div></div></div>
+                        <div><div class="flex justify-between text-xs font-bold mb-2"><span>Kinh tế, hạ tầng và đô thị</span><span id="pa_kinh_te">0</span></div><div class="bg-slate-100 h-2 rounded-full overflow-hidden"><div id="bar_kinh_te" class="bg-emerald-500 h-full transition-all duration-500" style="width: 0%"></div></div></div>
+                        <div><div class="flex justify-between text-xs font-bold mb-2"><span>Trật tự đô thị</span><span id="pa_trat_tu">0</span></div><div class="bg-slate-100 h-2 rounded-full overflow-hidden"><div id="bar_trat_tu" class="bg-orange-500 h-full transition-all duration-500" style="width: 0%"></div></div></div>
+                        <div><div class="flex justify-between text-xs font-bold mb-2"><span>Văn hóa xã hội</span><span id="pa_van_hoa">0</span></div><div class="bg-slate-100 h-2 rounded-full overflow-hidden"><div id="bar_van_hoa" class="bg-purple-500 h-full transition-all duration-500" style="width: 0%"></div></div></div>
+                    </div>
+                    <div id="pa_danh_gia" class="mt-8 pt-4 border-t text-[11px] italic text-slate-500">Đánh giá: Đang cập nhật...</div>
+                </div>
             </div>
         </div>
     </div>
@@ -152,68 +161,59 @@
         const db = getDatabase(initializeApp(firebaseConfig));
         
         const indicators = [
-            { id: "ct_1", ten: "Tốc độ tăng tổng giá trị SP", kh: "10.5%" },
-            { id: "ct_2", ten: "Tổng thu ngân sách nhà nước", kh: "100%" },
-            { id: "ct_3", ten: "Tỷ lệ giải ngân vốn ĐTC", kh: "≥95%" },
-            { id: "ct_4", ten: "Tỷ lệ dân số tham gia BHYT", kh: "≥95%" },
-            { id: "ct_5", ten: "Lao động tham gia BHXH", kh: "59.5%" },
-            { id: "ct_6", ten: "Trường Mầm non đạt chuẩn QG", kh: "27%" },
-            { id: "ct_7", ten: "Trường Tiểu học đạt chuẩn QG", kh: "32%" },
-            { id: "ct_8", ten: "Trường THCS đạt chuẩn QG", kh: "43%" },
-            { id: "ct_9", ten: "Số phòng học/10.000 dân", kh: "460" },
-            { id: "ct_10", ten: "Tỉ lệ hoàn thành cấp THCS", kh: "99%" },
-            { id: "ct_11", ten: "Giảm hộ nghèo đa chiều", kh: "-" },
-            { id: "ct_12", ten: "Tiêu chí đạt chuẩn NTM", kh: "≥3" },
-            { id: "ct_13", ten: "Tỷ lệ ấp văn hóa", kh: "95%" },
-            { id: "ct_14", ten: "Tỷ lệ gia đình văn hóa", kh: "93%" },
-            { id: "ct_15", ten: "Trẻ em tiêm chủng đầy đủ", kh: "≥95%" },
-            { id: "ct_16", ten: "Lao động được giới thiệu việc làm", kh: "1000" },
-            { id: "ct_17", ten: "Mô hình du lịch địa phương", kh: "01" },
-            { id: "ct_18", ten: "Tỷ lệ dân số dùng nước sạch", kh: "100%" },
-            { id: "ct_19", ten: "Thu gom chất thải rắn sinh hoạt", kh: "100%" },
-            { id: "ct_20", ten: "Chất thải y tế xử lý đạt chuẩn", kh: "100%" },
-            { id: "ct_21", ten: "Xử lý nước thải công nghiệp", kh: "100%" },
-            { id: "ct_22", ten: "Giải quyết hồ sơ đúng hạn", kh: "99.51%" },
-            { id: "ct_23", ten: "Sử dụng chữ ký số công vụ", kh: "100%" },
-            { id: "ct_24", ten: "Tuyển chọn gọi công dân nhập ngũ", kh: "31" },
-            { id: "ct_25", ten: "Giảm tội phạm trật tự xã hội", kh: "-10%" },
-            { id: "ct_26", ten: "Tỷ lệ khám phá án hình sự", kh: ">80%" },
-            { id: "ct_27", ten: "Kéo giảm tai nạn giao thông", kh: "-5%" },
-            { id: "ct_28", ten: "Không xảy ra cháy nổ nghiêm trọng", kh: "0" },
-            { id: "ct_29", ten: "Địa phương không phức tạp ma túy", kh: "Đạt" },
-            { id: "ct_30", ten: "Xử lý phản ánh đúng hạn", kh: "≥50%" }
+            { id: "ct_1", ten: "Tốc độ tăng tổng giá trị SP", kh: "10.5%" }, { id: "ct_2", ten: "Tổng thu ngân sách nhà nước", kh: "100%" }, { id: "ct_3", ten: "Tỷ lệ giải ngân vốn ĐTC", kh: "≥95%" }, { id: "ct_4", ten: "Tỷ lệ dân số tham gia BHYT", kh: "≥95%" }, { id: "ct_5", ten: "Lao động tham gia BHXH", kh: "59.5%" },
+            { id: "ct_6", ten: "Trường Mầm non đạt chuẩn QG", kh: "27%" }, { id: "ct_7", ten: "Trường Tiểu học đạt chuẩn QG", kh: "32%" }, { id: "ct_8", ten: "Trường THCS đạt chuẩn QG", kh: "43%" }, { id: "ct_9", ten: "Số phòng học/10.000 dân", kh: "460" }, { id: "ct_10", ten: "Tỉ lệ hoàn thành cấp THCS", kh: "99%" },
+            { id: "ct_11", ten: "Giảm hộ nghèo đa chiều", kh: "-" }, { id: "ct_12", ten: "Tiêu chí đạt chuẩn NTM", kh: "≥3" }, { id: "ct_13", ten: "Tỷ lệ ấp văn hóa", kh: "95%" }, { id: "ct_14", ten: "Tỷ lệ gia đình văn hóa", kh: "93%" }, { id: "ct_15", ten: "Trẻ em tiêm chủng đầy đủ", kh: "≥95%" },
+            { id: "ct_16", ten: "Lao động được giới thiệu việc làm", kh: "1000" }, { id: "ct_17", ten: "Mô hình du lịch địa phương", kh: "01" }, { id: "ct_18", ten: "Tỷ lệ dân số dùng nước sạch", kh: "100%" }, { id: "ct_19", ten: "Thu gom chất thải rắn sinh hoạt", kh: "100%" }, { id: "ct_20", ten: "Chất thải y tế xử lý đạt chuẩn", kh: "100%" },
+            { id: "ct_21", ten: "Xử lý nước thải công nghiệp", kh: "100%" }, { id: "ct_22", ten: "Giải quyết hồ sơ đúng hạn", kh: "99.51%" }, { id: "ct_23", ten: "Sử dụng chữ ký số công vụ", kh: "100%" }, { id: "ct_24", ten: "Tuyển chọn gọi công dân nhập ngũ", kh: "31" }, { id: "ct_25", ten: "Giảm tội phạm trật tự xã hội", kh: "-10%" },
+            { id: "ct_26", ten: "Tỷ lệ khám phá án hình sự", kh: ">80%" }, { id: "ct_27", ten: "Kéo giảm tai nạn giao thông", kh: "-5%" }, { id: "ct_28", ten: "Không xảy ra cháy nổ nghiêm trọng", kh: "0" }, { id: "ct_29", ten: "Địa phương không phức tạp ma túy", kh: "Đạt" }, { id: "ct_30", ten: "Xử lý phản ánh đúng hạn", kh: "≥50%" }
         ];
 
         onValue(ref(db, 'dashboard_binhhung'), (snap) => {
             const data = snap.val();
             if(!data) return;
 
+            // Xử lý ĐƠN THƯ (Giữ nguyên)
             const summary = data.don_thu || {};
             document.getElementById('dt_tong').innerText = summary.tong || 0;
             document.getElementById('dt_da_giai_quyet').innerText = summary.da_giai_quyet || 0;
             document.getElementById('dt_dang_giai_quyet').innerText = summary.dang_giai_quyet || 0;
-
             const detail = data.don_thu_detail || {};
             document.getElementById('modal_dt_tong').innerText = summary.tong || 0;
             document.getElementById('dt_sl_pa').innerText = summary.pa_kn || 0;
             document.getElementById('dt_sl_kn').innerText = summary.khieu_nai || 0;
             document.getElementById('dt_sl_tc').innerText = summary.to_cao || 0;
-
             document.getElementById('dt_dgq_th_pa').innerText = detail.pa_dgq_th || 0;
             document.getElementById('dt_dgq_qh_pa').innerText = detail.pa_dgq_qh || 0;
             document.getElementById('dt_dgq_th_kn').innerText = detail.kn_dgq_th || 0;
             document.getElementById('dt_dgq_qh_kn').innerText = detail.kn_dgq_qh || 0;
             document.getElementById('dt_dgq_th_tc').innerText = detail.tc_dgq_th || 0;
             document.getElementById('dt_dgq_qh_tc').innerText = detail.tc_dgq_qh || 0;
-
             document.getElementById('dt_cgq_th_pa').innerText = detail.pa_cgq_th || 0;
             document.getElementById('dt_cgq_qh_pa').innerText = detail.pa_cgq_qh || 0;
             document.getElementById('dt_cgq_th_kn').innerText = detail.kn_cgq_th || 0;
             document.getElementById('dt_cgq_qh_kn').innerText = detail.kn_cgq_qh || 0;
             document.getElementById('dt_cgq_th_tc').innerText = detail.tc_cgq_th || 0;
-            document.getElementById('dt_cgq_qh_tc').innerText = detail.tc_cgq_qh || 0;
+            document.getElementById('dt_cgq_qh_tc').innerText = detail.tc_dgq_qh || 0;
 
-            document.getElementById('pa_1022_tong').innerText = data.pa_1022?.tong || 0;
+            // Xử lý 1022 MỚI
+            const pa1022 = data.pa_1022 || {};
+            document.getElementById('pa_1022_tong').innerText = pa1022.tong || 0;
+            document.getElementById('pa_1022_xong').innerText = pa1022.da_giai_quyet || 0;
+            document.getElementById('pa_1022_cho').innerText = pa1022.chua_giai_quyet || 0;
+            const detail1022 = data.pa_1022_detail || {};
+            const tongPA = pa1022.tong || 1;
+            document.getElementById('m1022_tong').innerText = pa1022.tong || 0;
+            document.getElementById('m1022_xong').innerText = pa1022.da_giai_quyet || 0;
+            document.getElementById('m1022_ty_le').innerText = ((pa1022.da_giai_quyet || 0) / tongPA * 100).toFixed(1) + "%";
+            const mapping = [{id:'tieng_on',v:detail1022.tieng_on},{id:'kinh_te',v:detail1022.kinh_te_ha_tang},{id:'trat_tu',v:detail1022.trat_tu_do_thi},{id:'van_hoa',v:detail1022.van_hoa_xa_hoi}];
+            mapping.forEach(m => {
+                document.getElementById(`pa_${m.id}`).innerText = m.v || 0;
+                document.getElementById(`bar_${m.id}`).style.width = ((m.v||0)/tongPA*100) + "%";
+            });
+            if(pa1022.danh_gia) document.getElementById('pa_danh_gia').innerText = "Đánh giá: " + pa1022.danh_gia;
+
+            // Các thẻ khác
             document.getElementById('hs_tong').innerText = data.ho_so?.tong || 0;
             document.getElementById('vb_tong').innerText = data.van_ban?.tong || 0;
 
@@ -251,6 +251,8 @@
 
         window.openDonThuModal = () => document.getElementById('donThuModal').classList.remove('hidden');
         window.closeDonThuModal = () => document.getElementById('donThuModal').classList.add('hidden');
+        window.open1022Modal = () => document.getElementById('modal1022').classList.remove('hidden');
+        window.close1022Modal = () => document.getElementById('modal1022').classList.add('hidden');
         setInterval(() => document.getElementById('clock').innerText = new Date().toLocaleTimeString('vi-VN'), 1000);
     </script>
 </body>
