@@ -72,16 +72,51 @@
             </section>
 
             <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="p-4 bg-blue-900 text-white font-bold uppercase text-sm">2. 30 Chỉ tiêu Kinh tế - Xã hội (Nhập % thực hiện)</div>
-                <div class="p-6 grid grid-cols-2 md:grid-cols-5 gap-4" id="chi-tieu-container">
+                <div class="p-4 bg-orange-500 text-white font-bold uppercase text-sm">2. Quản lý Phản ánh 1022</div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-bold text-orange-700 uppercase text-xs border-b pb-2 italic underline">Số liệu tổng quát</h3>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tổng phản ánh</label>
+                                    <input type="number" id="pa_1022_tong" class="w-full p-2 border rounded font-black text-slate-800"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Đã giải quyết</label>
+                                    <input type="number" id="pa_1022_xong" class="w-full p-2 border rounded font-black text-emerald-600"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Chưa giải quyết</label>
+                                    <input type="number" id="pa_1022_cho" class="w-full p-2 border rounded font-black text-red-600"></div>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Đánh giá chung (Ghi chú)</label>
+                                <input type="text" id="pa_1022_danh_gia" placeholder="Ví dụ: Tỷ lệ xử lý đúng hạn đạt mức cao..." class="w-full p-2 border rounded italic text-sm">
+                            </div>
+                        </div>
+                        <div class="space-y-4 bg-orange-50/50 p-4 rounded-xl border border-orange-100">
+                            <h3 class="font-bold text-orange-700 uppercase text-xs border-b pb-2 italic underline">Phân loại chi tiết (Số vụ)</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tiếng ồn</label>
+                                    <input type="number" id="pa_det_tieng_on" class="w-full p-2 border rounded"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Kinh tế - Hạ tầng</label>
+                                    <input type="number" id="pa_det_kinh_te" class="w-full p-2 border rounded"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Trật tự đô thị</label>
+                                    <input type="number" id="pa_det_trat_tu" class="w-full p-2 border rounded"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Văn hóa xã hội</label>
+                                    <input type="number" id="pa_det_van_hoa" class="w-full p-2 border rounded"></div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-4 bg-blue-900 text-white font-bold uppercase text-sm">3. 30 Chỉ tiêu Kinh tế - Xã hội (Nhập % thực hiện)</div>
+                <div class="p-6 grid grid-cols-2 md:grid-cols-5 gap-4" id="chi-tieu-container"></div>
             </section>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+        import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC7J3V97_gKwyAzpckTJm5j8hoMWU5aoFI",
@@ -116,12 +151,30 @@
                 'kn_dgq_th', 'kn_dgq_qh', 'kn_cgq_th', 'kn_cgq_qh',
                 'tc_dgq_th', 'tc_dgq_qh', 'tc_cgq_th', 'tc_cgq_qh'
             ];
-            fields.forEach(f => document.getElementById(`dt_${f}`).value = dt[f] || 0);
+            fields.forEach(f => {
+                const el = document.getElementById(`dt_${f}`);
+                if(el) el.value = dt[f] || 0;
+            });
+
+            // Map dữ liệu 1022
+            if(d.pa_1022) {
+                document.getElementById('pa_1022_tong').value = d.pa_1022.tong || 0;
+                document.getElementById('pa_1022_xong').value = d.pa_1022.da_giai_quyet || 0;
+                document.getElementById('pa_1022_cho').value = d.pa_1022.chua_giai_quyet || 0;
+                document.getElementById('pa_1022_danh_gia').value = d.pa_1022.danh_gia || "";
+            }
+            if(d.pa_1022_detail) {
+                document.getElementById('pa_det_tieng_on').value = d.pa_1022_detail.tieng_on || 0;
+                document.getElementById('pa_det_kinh_te').value = d.pa_1022_detail.kinh_te_ha_tang || 0;
+                document.getElementById('pa_det_trat_tu').value = d.pa_1022_detail.trat_tu_do_thi || 0;
+                document.getElementById('pa_det_van_hoa').value = d.pa_1022_detail.van_hoa_xa_hoi || 0;
+            }
 
             // Map 30 chỉ tiêu
             if(d.chi_tieu) {
                 for(let i=1; i<=30; i++) {
-                    document.getElementById(`ct_${i}`).value = d.chi_tieu[`ct_${i}`] || 0;
+                    const el = document.getElementById(`ct_${i}`);
+                    if(el) el.value = d.chi_tieu[`ct_${i}`] || 0;
                 }
             }
         });
@@ -130,6 +183,7 @@
         window.saveAllData = function() {
             const getV = (id) => parseInt(document.getElementById(id).value) || 0;
 
+            // 1. Dữ liệu đơn thư
             const don_thu_detail = {
                 pa_dgq_th: getV('dt_pa_dgq_th'), pa_dgq_qh: getV('dt_pa_dgq_qh'),
                 pa_cgq_th: getV('dt_pa_cgq_th'), pa_cgq_qh: getV('dt_pa_cgq_qh'),
@@ -139,7 +193,6 @@
                 tc_cgq_th: getV('dt_tc_cgq_th'), tc_cgq_qh: getV('dt_tc_cgq_qh')
             };
 
-            // Tính toán tổng số để hiển thị ở trang chủ (Dashboard)
             const tong_pa = don_thu_detail.pa_dgq_th + don_thu_detail.pa_dgq_qh + don_thu_detail.pa_cgq_th + don_thu_detail.pa_cgq_qh;
             const tong_kn = don_thu_detail.kn_dgq_th + don_thu_detail.kn_dgq_qh + don_thu_detail.kn_cgq_th + don_thu_detail.kn_cgq_qh;
             const tong_tc = don_thu_detail.tc_dgq_th + don_thu_detail.tc_dgq_qh + don_thu_detail.tc_cgq_th + don_thu_detail.tc_cgq_qh;
@@ -153,20 +206,38 @@
                 to_cao: tong_tc
             };
 
+            // 2. Dữ liệu 1022
+            const pa_1022 = {
+                tong: getV('pa_1022_tong'),
+                da_giai_quyet: getV('pa_1022_xong'),
+                chua_giai_quyet: getV('pa_1022_cho'),
+                danh_gia: document.getElementById('pa_1022_danh_gia').value || ""
+            };
+            const pa_1022_detail = {
+                tieng_on: getV('pa_det_tieng_on'),
+                kinh_te_ha_tang: getV('pa_det_kinh_te'),
+                trat_tu_do_thi: getV('pa_det_trat_tu'),
+                van_hoa_xa_hoi: getV('pa_det_van_hoa')
+            };
+
+            // 3. 30 chỉ tiêu
             const chi_tieu = {};
             for(let i=1; i<=30; i++) {
                 chi_tieu[`ct_${i}`] = getV(`ct_${i}`);
             }
 
+            // Gửi dữ liệu đồng bộ lên Firebase
             set(ref(db, 'dashboard_binhhung'), {
                 don_thu: summary_don_thu,
                 don_thu_detail: don_thu_detail,
+                pa_1022: pa_1022,
+                pa_1022_detail: pa_1022_detail,
                 chi_tieu: chi_tieu,
-                // Giữ lại các trường khác nếu có
-                pa_1022: { tong: 45, tre_han: 2 },
-                ho_so: { tong: 1250, dung_han_pc: 99.8 },
+                ho_so: { tong: 1250, dung_han_pc: 99.8 }, // Bảo lưu tạm thời số cũ
                 van_ban: { tong: 89 }
-            }).then(() => alert("Đã cập nhật dữ liệu thành công!"));
+            }).then(() => {
+                alert("✅ Toàn bộ dữ liệu đã được lưu thành công!");
+            }).catch((e) => alert("❌ Lỗi lưu dữ liệu: " + e.message));
         };
     </script>
 </body>
