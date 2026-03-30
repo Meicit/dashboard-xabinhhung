@@ -9,6 +9,7 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .input-focus:focus { outline: none; border-color: #2563eb; ring: 2px; ring-color: #bfdbfe; }
     </style>
 </head>
 <body class="p-4 md:p-8 text-slate-800">
@@ -18,82 +19,39 @@
                 <h1 class="text-2xl font-black text-blue-900 uppercase italic">Hệ Thống Quản Trị Dữ Liệu</h1>
                 <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">UBND Xã Bình Hưng - Cập nhật 2026</p>
             </div>
-            <button onclick="saveAllData()" class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-xl font-black shadow-lg shadow-blue-200 transition-all active:scale-95 uppercase text-sm">
-                Lưu tất cả thay đổi 💾
-            </button>
+            <div class="flex gap-3">
+                <button onclick="saveData()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold shadow-lg transition-all active:scale-95 uppercase text-sm tracking-wider">
+                    🚀 Cập nhật dữ liệu
+                </button>
+            </div>
         </header>
 
         <div class="grid grid-cols-1 gap-8">
-            
             <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="p-4 bg-blue-600 text-white font-bold uppercase text-xs tracking-wider flex items-center gap-2">
-                    <span>📋</span> 0. Quản lý Hồ sơ hành chính (TTHC)
+                <div class="p-4 bg-red-600 text-white font-bold uppercase text-xs tracking-wider flex justify-between">
+                    <span>1. Quản lý Đơn thư & Tiếp dân</span>
+                    <span class="opacity-75 text-[10px]">Tự động tổng hợp số liệu</span>
                 </div>
-                <div class="p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tổng hồ sơ (Lũy kế)</label>
-                            <input type="number" id="hshc_tong" class="w-full p-2 border rounded font-black text-slate-800" placeholder="Ví dụ: 4607">
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Hồ sơ trực tuyến</label>
-                            <input type="number" id="hshc_online" class="w-full p-2 border rounded font-black text-blue-600" placeholder="Ví dụ: 4307">
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Hồ sơ trễ hạn</label>
-                            <input type="number" id="hshc_quahan" class="w-full p-2 border rounded font-black text-red-600" placeholder="Ví dụ: 16">
-                        </div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1 italic text-red-600">Số lượt tiếp công dân</label>
+                        <input type="number" id="det_dt_tiep_dan" class="w-full p-2 border rounded font-black text-slate-700" placeholder="0">
                     </div>
-                    <p class="mt-4 text-[10px] italic text-slate-400">* Hệ thống sẽ tự động tính tỷ lệ % đúng hạn dựa trên số trễ hạn bạn nhập.</p>
-                </div>
-            </section>
-
-            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="p-4 bg-red-600 text-white font-bold uppercase text-xs tracking-wider">1. Quản lý Đơn thư (Chi tiết theo loại)</div>
-                <div class="p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                            <h3 class="font-black text-blue-800 border-b mb-4 pb-2 text-center uppercase text-[10px]">Phản ánh, Kiến nghị</h3>
-                            <div class="space-y-3">
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Đã GQ - Trong hạn</label>
-                                    <input type="number" id="dt_pa_dgq_th" class="w-full p-2 border rounded font-bold text-blue-700"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Đã GQ - Quá hạn</label>
-                                    <input type="number" id="dt_pa_dgq_qh" class="w-full p-2 border rounded font-bold text-red-600"></div>
-                                <div class="pt-2 border-t border-dashed"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Chưa GQ - Trong hạn</label>
-                                    <input type="number" id="dt_pa_cgq_th" class="w-full p-2 border rounded font-bold text-orange-600"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Chưa GQ - Quá hạn</label>
-                                    <input type="number" id="dt_pa_cgq_qh" class="w-full p-2 border rounded font-bold text-red-800"></div>
-                            </div>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                            <h3 class="font-black text-blue-800 border-b mb-4 pb-2 text-center uppercase text-[10px]">Khiếu nại</h3>
-                            <div class="space-y-3">
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Đã GQ - Trong hạn</label>
-                                    <input type="number" id="dt_kn_dgq_th" class="w-full p-2 border rounded font-bold text-blue-700"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Đã GQ - Quá hạn</label>
-                                    <input type="number" id="dt_kn_dgq_qh" class="w-full p-2 border rounded font-bold text-red-600"></div>
-                                <div class="pt-2 border-t border-dashed"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Chưa GQ - Trong hạn</label>
-                                    <input type="number" id="dt_kn_cgq_th" class="w-full p-2 border rounded font-bold text-orange-600"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Chưa GQ - Quá hạn</label>
-                                    <input type="number" id="dt_kn_cgq_qh" class="w-full p-2 border rounded font-bold text-red-800"></div>
-                            </div>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                            <h3 class="font-black text-blue-800 border-b mb-4 pb-2 text-center uppercase text-[10px]">Tố cáo</h3>
-                            <div class="space-y-3">
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Đã GQ - Trong hạn</label>
-                                    <input type="number" id="dt_tc_dgq_th" class="w-full p-2 border rounded font-bold text-blue-700"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Đã GQ - Quá hạn</label>
-                                    <input type="number" id="dt_tc_dgq_qh" class="w-full p-2 border rounded font-bold text-red-600"></div>
-                                <div class="pt-2 border-t border-dashed"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Chưa GQ - Trong hạn</label>
-                                    <input type="number" id="dt_tc_cgq_th" class="w-full p-2 border rounded font-bold text-orange-600"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Chưa GQ - Quá hạn</label>
-                                    <input type="number" id="dt_tc_cgq_qh" class="w-full p-2 border rounded font-bold text-red-800"></div>
-                            </div>
-                        </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1 italic text-red-600">Tổng đơn nhận trong kỳ</label>
+                        <input type="number" id="det_dt_tong_nhan" class="w-full p-2 border rounded font-black text-slate-700" placeholder="0">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1 italic text-red-600">Đơn thuộc thẩm quyền</label>
+                        <input type="number" id="det_dt_tham_quyen" class="w-full p-2 border rounded font-black text-slate-700" placeholder="0">
+                    </div>
+                    <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+                        <label class="block text-[10px] font-bold text-emerald-600 uppercase mb-1">Đơn đã giải quyết xong</label>
+                        <input type="number" id="det_dt_xong" class="w-full p-2 border border-emerald-200 rounded font-black text-emerald-700 bg-white" placeholder="0">
+                    </div>
+                    <div class="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                        <label class="block text-[10px] font-bold text-orange-600 uppercase mb-1">Đơn đang giải quyết</label>
+                        <input type="number" id="det_dt_dang_xl" class="w-full p-2 border border-orange-200 rounded font-black text-orange-700 bg-white" placeholder="0">
                     </div>
                 </div>
             </section>
@@ -101,46 +59,53 @@
             <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                 <div class="p-4 bg-orange-500 text-white font-bold uppercase text-xs tracking-wider">2. Quản lý Phản ánh 1022</div>
                 <div class="p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="space-y-4">
-                            <h3 class="font-black text-orange-700 uppercase text-[10px] border-b pb-2 italic">Chỉ số tổng hợp</h3>
-                            <div class="grid grid-cols-3 gap-4">
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tổng phản ánh</label>
-                                    <input type="number" id="pa_1022_tong" class="w-full p-2 border rounded font-black text-slate-800 bg-orange-50/30"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Đã giải quyết</label>
-                                    <input type="number" id="pa_1022_xong" class="w-full p-2 border rounded font-black text-emerald-600 bg-emerald-50/30"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Chưa giải quyết</label>
-                                    <input type="number" id="pa_1022_cho" class="w-full p-2 border rounded font-black text-red-600 bg-red-50/30"></div>
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Ghi chú / Đánh giá chung</label>
-                                <textarea id="pa_1022_danh_gia" rows="2" class="w-full p-2 border rounded italic text-sm" placeholder="Nhập nhận xét tình hình xử lý..."></textarea>
-                            </div>
+                    <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
+                        <div><label class="text-[9px] font-bold text-slate-400 uppercase">Tiếng ồn</label><input type="number" id="pa_det_tieng_on" class="w-full p-2 border rounded font-bold" placeholder="0"></div>
+                        <div><label class="text-[9px] font-bold text-slate-400 uppercase">Kinh tế/HT</label><input type="number" id="pa_det_kinh_te" class="w-full p-2 border rounded font-bold" placeholder="0"></div>
+                        <div><label class="text-[9px] font-bold text-slate-400 uppercase">Trật tự ĐT</label><input type="number" id="pa_det_trat_tu" class="w-full p-2 border rounded font-bold" placeholder="0"></div>
+                        <div><label class="text-[9px] font-bold text-slate-400 uppercase">Văn hóa/XH</label><input type="number" id="pa_det_van_hoa" class="w-full p-2 border rounded font-bold" placeholder="0"></div>
+                        <div><label class="text-[9px] font-bold text-slate-400 uppercase">Hành chính</label><input type="number" id="pa_det_hcc" class="w-full p-2 border rounded font-bold" placeholder="0"></div>
+                        <div><label class="text-[9px] font-bold text-slate-400 uppercase">Khác</label><input type="number" id="pa_det_khac" class="w-full p-2 border rounded font-bold" placeholder="0"></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-t pt-4">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tổng cộng (1022)</label>
+                            <input type="number" id="pa_1022_tong" class="w-full p-2 border rounded font-black text-orange-600 bg-orange-50" readonly placeholder="Tự tính">
                         </div>
-                        <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                            <h3 class="font-black text-slate-700 uppercase text-[10px] border-b pb-2 italic">Phân loại chi tiết (Số vụ)</h3>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div><label class="block text-[10px] font-bold text-slate-400 uppercase">1. Tiếng ồn</label>
-                                    <input type="number" id="pa_det_tieng_on" class="w-full p-2 border rounded bg-white"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-400 uppercase">2. Hạ tầng/Kinh tế</label>
-                                    <input type="number" id="pa_det_kinh_te" class="w-full p-2 border rounded bg-white"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-400 uppercase">3. Trật tự đô thị</label>
-                                    <input type="number" id="pa_det_trat_tu" class="w-full p-2 border rounded bg-white"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-400 uppercase">4. Văn hóa - XH</label>
-                                    <input type="number" id="pa_det_van_hoa" class="w-full p-2 border rounded bg-white"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-400 uppercase">5. Hành chính công</label>
-                                    <input type="number" id="pa_det_hcc" class="w-full p-2 border rounded bg-white"></div>
-                                <div><label class="block text-[10px] font-bold text-slate-400 uppercase">6. Lĩnh vực khác</label>
-                                    <input type="number" id="pa_det_khac" class="w-full p-2 border rounded bg-white"></div>
-                            </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1 text-emerald-600">Đã giải quyết</label>
+                            <input type="number" id="pa_1022_xong" class="w-full p-2 border rounded font-black text-emerald-600" placeholder="0">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Đánh giá chung</label>
+                            <input type="text" id="pa_1022_danh_gia" class="w-full p-2 border rounded font-bold text-slate-600" placeholder="Tốt/Khá/Trung bình">
                         </div>
                     </div>
                 </div>
             </section>
 
             <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="p-4 bg-blue-900 text-white font-bold uppercase text-xs tracking-wider">3. 30 Chỉ tiêu Kinh tế - Xã hội (% thực hiện)</div>
-                <div class="p-6 grid grid-cols-2 md:grid-cols-5 gap-4" id="chi-tieu-container"></div>
+                <div class="p-4 bg-blue-600 text-white font-bold uppercase text-xs tracking-wider">3. Quản lý Hồ sơ Hành chính (Tháng/Lũy kế)</div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                        <label class="block text-[10px] font-bold text-blue-600 uppercase mb-1 italic">Tổng hồ sơ tiếp nhận</label>
+                        <input type="number" id="hs_tong_input" class="w-full p-2 border border-blue-200 rounded font-black text-blue-900" placeholder="VD: 1696">
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+                        <label class="block text-[10px] font-bold text-red-600 uppercase mb-1 italic">Số hồ sơ TRỄ HẠN</label>
+                        <input type="number" id="hs_tre_input" class="w-full p-2 border border-red-200 rounded font-black text-red-700" placeholder="VD: 16">
+                    </div>
+                    <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
+                        <label class="block text-[10px] font-bold text-emerald-600 uppercase mb-1 italic">Số hồ sơ TRỰC TUYẾN</label>
+                        <input type="number" id="hs_online_input" class="w-full p-2 border border-emerald-200 rounded font-black text-emerald-700" placeholder="VD: 1651">
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-4 bg-emerald-600 text-white font-bold uppercase text-xs tracking-wider">4. Cập nhật 30 Chỉ tiêu Kinh tế (%)</div>
+                <div id="ct_container" class="p-6 grid grid-cols-2 md:grid-cols-5 gap-4">
+                    </div>
             </section>
         </div>
     </div>
@@ -151,142 +116,125 @@
 
         const firebaseConfig = {
             apiKey: "AIzaSyC7J3V97_gKwyAzpckTJm5j8hoMWU5aoFI",
-            authDomain: "dashboarb-xabinhhung.firebaseapp.com",
             databaseURL: "https://dashboarb-xabinhhung-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "dashboarb-xabinhhung",
-            appId: "1:152638135861:web:128ac8d51c8357b6521b7c"
         };
 
         const db = getDatabase(initializeApp(firebaseConfig));
 
         // Tự động tạo 30 ô nhập chỉ tiêu
-        const container = document.getElementById('chi-tieu-container');
+        const container = document.getElementById('ct_container');
         for(let i=1; i<=30; i++) {
-            container.innerHTML += `
-                <div class="p-2 bg-slate-50 rounded-lg border border-slate-200">
-                    <label class="block text-[9px] font-black text-slate-400 uppercase mb-1">Chỉ tiêu ${i}</label>
-                    <input type="number" step="0.01" id="ct_${i}" class="w-full p-2 border rounded font-black text-blue-900 bg-white" placeholder="0">
-                </div>`;
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <label class="block text-[9px] font-bold text-slate-400 uppercase mb-1 tracking-tighter">Chỉ tiêu ${i}</label>
+                <input type="number" id="ct_${i}" class="w-full p-2 border border-slate-200 rounded font-bold text-emerald-700 bg-slate-50 focus:bg-white" placeholder="0">
+            `;
+            container.appendChild(div);
         }
 
-        // Tải dữ liệu từ Firebase
+        // Tự tính tổng 1022 khi nhập các lĩnh vực
+        const paInputs = ['pa_det_tieng_on','pa_det_kinh_te','pa_det_trat_tu','pa_det_van_hoa','pa_det_hcc','pa_det_khac'];
+        paInputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', () => {
+                let total = 0;
+                paInputs.forEach(inputId => total += (parseInt(document.getElementById(inputId).value) || 0));
+                document.getElementById('pa_1022_tong').value = total;
+            });
+        });
+
+        // Tải dữ liệu cũ lên để sửa
         onValue(ref(db, 'dashboard_binhhung'), (snap) => {
             const d = snap.val();
             if(!d) return;
             
-            // 0. Hồ sơ hành chính
-            if(d.hshc) {
-                document.getElementById('hshc_tong').value = d.hshc.tong || 0;
-                document.getElementById('hshc_online').value = d.hshc.online || 0;
-                document.getElementById('hshc_quahan').value = d.hshc.quahan || 0;
+            // Đổ lại đơn thư
+            if(d.don_thu_detail) {
+                document.getElementById('det_dt_tiep_dan').value = d.don_thu_detail.tiep_dan || 0;
+                document.getElementById('det_dt_tong_nhan').value = d.don_thu_detail.tong_nhan || 0;
+                document.getElementById('det_dt_tham_quyen').value = d.don_thu_detail.tham_quyen || 0;
+                document.getElementById('det_dt_xong').value = d.don_thu.xong || 0;
+                document.getElementById('det_dt_dang_xl').value = d.don_thu.dang_xl || 0;
             }
 
-            // 1. Đơn thư detail
-            const dt = d.don_thu_detail || {};
-            const dtFields = [
-                'pa_dgq_th', 'pa_dgq_qh', 'pa_cgq_th', 'pa_cgq_qh',
-                'kn_dgq_th', 'kn_dgq_qh', 'kn_cgq_th', 'kn_cgq_qh',
-                'tc_dgq_th', 'tc_dgq_qh', 'tc_cgq_th', 'tc_cgq_qh'
-            ];
-            dtFields.forEach(f => {
-                const el = document.getElementById(`dt_${f}`);
-                if(el) el.value = dt[f] || 0;
-            });
-
-            // 2. 1022
-            if(d.pa_1022) {
-                document.getElementById('pa_1022_tong').value = d.pa_1022.tong || 0;
-                document.getElementById('pa_1022_xong').value = d.pa_1022.da_giai_quyet || 0;
-                document.getElementById('pa_1022_cho').value = d.pa_1022.chua_giai_quyet || 0;
-                document.getElementById('pa_1022_danh_gia').value = d.pa_1022.danh_gia || "";
-            }
+            // Đổ lại 1022
             if(d.pa_1022_detail) {
                 document.getElementById('pa_det_tieng_on').value = d.pa_1022_detail.tieng_on || 0;
                 document.getElementById('pa_det_kinh_te').value = d.pa_1022_detail.kinh_te_ha_tang || 0;
                 document.getElementById('pa_det_trat_tu').value = d.pa_1022_detail.trat_tu_do_thi || 0;
                 document.getElementById('pa_det_van_hoa').value = d.pa_1022_detail.van_hoa_xa_hoi || 0;
-                document.getElementById('pa_det_hcc').value = d.pa_1022_detail.hanh_chinh_cong || 0;
+                document.getElementById('pa_det_hcc').value = d.pa_1022_detail.han_chinh_cong || 0;
                 document.getElementById('pa_det_khac').value = d.pa_1022_detail.khac || 0;
+                document.getElementById('pa_1022_tong').value = d.pa_1022.tong || 0;
+                document.getElementById('pa_1022_xong').value = d.pa_1022.da_giai_quyet || 0;
+                document.getElementById('pa_1022_danh_gia').value = d.pa_1022.danh_gia || "";
             }
 
-            // 3. 30 chỉ tiêu
+            // Đổ lại Hồ sơ TTHC
+            if(d.ho_so) {
+                document.getElementById('hs_tong_input').value = d.ho_so.tong || 0;
+                document.getElementById('hs_tre_input').value = d.ho_so.quahan || 0;
+                document.getElementById('hs_online_input').value = d.ho_so.online || 0;
+            }
+
+            // Đổ lại 30 chỉ tiêu
             if(d.chi_tieu) {
                 for(let i=1; i<=30; i++) {
-                    const el = document.getElementById(`ct_${i}`);
-                    if(el) el.value = d.chi_tieu[`ct_${i}`] || 0;
+                    document.getElementById(`ct_${i}`).value = d.chi_tieu[`ct_${i}`] || 0;
                 }
             }
         });
 
-        // Hàm Lưu
-        window.saveAllData = function() {
-            const getV = (id) => parseFloat(document.getElementById(id).value) || 0;
-
-            // Thu thập dữ liệu Hồ sơ hành chính & Tự động tính tỷ lệ
-            const hs_tong = getV('hshc_tong');
-            const hs_quahan = getV('hshc_quahan');
-            const hs_dung_han_pc = hs_tong > 0 ? (((hs_tong - hs_quahan) / hs_tong) * 100).toFixed(1) + "%" : "0%";
+        // HÀM LƯU DỮ LIỆU
+        window.saveData = () => {
+            const getV = (id) => parseInt(document.getElementById(id).value) || 0;
             
-            const hshc = {
-                tong: hs_tong,
-                online: getV('hshc_online'),
-                quahan: hs_quahan,
-                dung_han_pc: hs_dung_han_pc
+            const payload = {
+                // ĐƠN THƯ
+                don_thu: {
+                    tong: getV('det_dt_tong_nhan'),
+                    xong: getV('det_dt_xong'),
+                    dang_xl: getV('det_dt_dang_xl')
+                },
+                don_thu_detail: {
+                    tiep_dan: getV('det_dt_tiep_dan'),
+                    tong_nhan: getV('det_dt_tong_nhan'),
+                    tham_quyen: getV('det_dt_tham_quyen')
+                },
+                // 1022
+                pa_1022: {
+                    tong: getV('pa_1022_tong'),
+                    da_giai_quyet: getV('pa_1022_xong'),
+                    chua_giai_quyet: getV('pa_1022_tong') - getV('pa_1022_xong'),
+                    danh_gia: document.getElementById('pa_1022_danh_gia').value
+                },
+                pa_1022_detail: {
+                    tieng_on: getV('pa_det_tieng_on'),
+                    kinh_te_ha_tang: getV('pa_det_kinh_te'),
+                    trat_tu_do_thi: getV('pa_det_trat_tu'),
+                    van_hoa_xa_hoi: getV('pa_det_van_hoa'),
+                    han_chinh_cong: getV('pa_det_hcc'),
+                    khac: getV('pa_det_khac')
+                },
+                // HỒ SƠ TTHC
+                ho_so: {
+                    tong: getV('hs_tong_input'),
+                    quahan: getV('hs_tre_input'),
+                    online: getV('hs_online_input')
+                },
+                // CHỈ TIÊU
+                chi_tieu: {},
+                // VĂN BẢN (Mặc định tạm thời)
+                van_ban: { tong: 125 } 
             };
 
-            // Thu thập dữ liệu Đơn thư
-            const don_thu_detail = {
-                pa_dgq_th: getV('dt_pa_dgq_th'), pa_dgq_qh: getV('dt_pa_dgq_qh'),
-                pa_cgq_th: getV('dt_pa_cgq_th'), pa_cgq_qh: getV('dt_pa_cgq_qh'),
-                kn_dgq_th: getV('dt_kn_dgq_th'), kn_dgq_qh: getV('dt_kn_dgq_qh'),
-                kn_cgq_th: getV('dt_kn_cgq_th'), kn_cgq_qh: getV('dt_kn_cgq_qh'),
-                tc_dgq_th: getV('dt_tc_dgq_th'), tc_dgq_qh: getV('dt_tc_dgq_qh'),
-                tc_cgq_th: getV('dt_tc_cgq_th'), tc_cgq_qh: getV('dt_tc_cgq_qh')
-            };
-
-            const sumGQ = don_thu_detail.pa_dgq_th + don_thu_detail.pa_dgq_qh + don_thu_detail.kn_dgq_th + don_thu_detail.kn_dgq_qh + don_thu_detail.tc_dgq_th + don_thu_detail.tc_dgq_qh;
-            const sumDangGQ = don_thu_detail.pa_cgq_th + don_thu_detail.pa_cgq_qh + don_thu_detail.kn_cgq_th + don_thu_detail.kn_cgq_qh + don_thu_detail.tc_cgq_th + don_thu_detail.tc_cgq_qh;
-            
-            const summary_don_thu = {
-                tong: sumGQ + sumDangGQ,
-                da_giai_quyet: sumGQ,
-                dang_giai_quyet: sumDangGQ
-            };
-
-            // Thu thập dữ liệu 1022
-            const pa_1022 = {
-                tong: getV('pa_1022_tong'),
-                da_giai_quyet: getV('pa_1022_xong'),
-                chua_giai_quyet: getV('pa_1022_cho'),
-                danh_gia: document.getElementById('pa_1022_danh_gia').value
-            };
-            const pa_1022_detail = {
-                tieng_on: getV('pa_det_tieng_on'),
-                kinh_te_ha_tang: getV('pa_det_kinh_te'),
-                trat_tu_do_thi: getV('pa_det_trat_tu'),
-                van_hoa_xa_hoi: getV('pa_det_van_hoa'),
-                han_chinh_cong: getV('pa_det_hcc'),
-                khac: getV('pa_det_khac')
-            };
-
-            // Thu thập 30 chỉ tiêu
-            const chi_tieu = {};
             for(let i=1; i<=30; i++) {
-                chi_tieu[`ct_${i}`] = getV(`ct_${i}`);
+                payload.chi_tieu[`ct_${i}`] = getV(`ct_${i}`);
             }
 
-            // Gửi lên Firebase
-            set(ref(db, 'dashboard_binhhung'), {
-                hshc: hshc, // Đẩy lên cấu trúc mới
-                don_thu: summary_don_thu,
-                don_thu_detail: don_thu_detail,
-                pa_1022: pa_1022,
-                pa_1022_detail: pa_1022_detail,
-                chi_tieu: chi_tieu,
-                van_ban: { tong: 89 }
-            }).then(() => {
-                alert("✅ Dữ liệu đã cập nhật thành công!");
-            }).catch((e) => alert("❌ Lỗi: " + e.message));
+            set(ref(db, 'dashboard_binhhung'), payload)
+                .then(() => alert('✅ Đã cập nhật dữ liệu thành công!'))
+                .catch((e) => alert('❌ Lỗi: ' + e));
         };
     </script>
 </body>
