@@ -133,12 +133,14 @@
                     <div class="bg-emerald-50 p-4 rounded-lg shadow-sm border border-emerald-100"><div class="text-[10px] text-emerald-600 font-bold uppercase">Tỷ lệ</div><div id="m1022_ty_le" class="text-3xl font-black text-emerald-700">0%</div></div>
                 </div>
                 <div class="bg-white p-6 rounded-xl border">
-                    <h3 class="text-sm font-bold text-slate-800 mb-6 uppercase border-b pb-2 italic">Phân loại phản ánh</h3>
-                    <div class="space-y-5">
+                    <h3 class="text-sm font-bold text-slate-800 mb-6 uppercase border-b pb-2 italic">Phân loại phản ánh (Chi tiết 6 nhóm)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
                         <div><div class="flex justify-between text-xs font-bold mb-2"><span>Tiếng ồn</span><span id="pa_tieng_on">0</span></div><div class="bg-slate-100 h-2 rounded-full overflow-hidden"><div id="bar_tieng_on" class="bg-blue-500 h-full transition-all duration-500" style="width: 0%"></div></div></div>
                         <div><div class="flex justify-between text-xs font-bold mb-2"><span>Kinh tế, hạ tầng và đô thị</span><span id="pa_kinh_te">0</span></div><div class="bg-slate-100 h-2 rounded-full overflow-hidden"><div id="bar_kinh_te" class="bg-emerald-500 h-full transition-all duration-500" style="width: 0%"></div></div></div>
                         <div><div class="flex justify-between text-xs font-bold mb-2"><span>Trật tự đô thị</span><span id="pa_trat_tu">0</span></div><div class="bg-slate-100 h-2 rounded-full overflow-hidden"><div id="bar_trat_tu" class="bg-orange-500 h-full transition-all duration-500" style="width: 0%"></div></div></div>
                         <div><div class="flex justify-between text-xs font-bold mb-2"><span>Văn hóa xã hội</span><span id="pa_van_hoa">0</span></div><div class="bg-slate-100 h-2 rounded-full overflow-hidden"><div id="bar_van_hoa" class="bg-purple-500 h-full transition-all duration-500" style="width: 0%"></div></div></div>
+                        <div><div class="flex justify-between text-xs font-bold mb-2 text-blue-600"><span>Hành chính công</span><span id="pa_hcc">0</span></div><div class="bg-slate-100 h-2 rounded-full overflow-hidden"><div id="bar_hcc" class="bg-cyan-500 h-full transition-all duration-500" style="width: 0%"></div></div></div>
+                        <div><div class="flex justify-between text-xs font-bold mb-2"><span>Khác</span><span id="pa_khac">0</span></div><div class="bg-slate-100 h-2 rounded-full overflow-hidden"><div id="bar_khac" class="bg-slate-400 h-full transition-all duration-500" style="width: 0%"></div></div></div>
                     </div>
                     <div id="pa_danh_gia" class="mt-8 pt-4 border-t text-[11px] italic text-slate-500">Đánh giá: Đang cập nhật...</div>
                 </div>
@@ -194,22 +196,34 @@
             document.getElementById('dt_cgq_th_kn').innerText = detail.kn_cgq_th || 0;
             document.getElementById('dt_cgq_qh_kn').innerText = detail.kn_cgq_qh || 0;
             document.getElementById('dt_cgq_th_tc').innerText = detail.tc_cgq_th || 0;
-            document.getElementById('dt_cgq_qh_tc').innerText = detail.tc_dgq_qh || 0;
+            document.getElementById('dt_cgq_qh_tc').innerText = detail.tc_cgq_qh || 0;
 
-            // Xử lý 1022 MỚI
+            // Xử lý 1022 (Bổ sung mapping 6 nhóm)
             const pa1022 = data.pa_1022 || {};
             document.getElementById('pa_1022_tong').innerText = pa1022.tong || 0;
             document.getElementById('pa_1022_xong').innerText = pa1022.da_giai_quyet || 0;
             document.getElementById('pa_1022_cho').innerText = pa1022.chua_giai_quyet || 0;
+            
             const detail1022 = data.pa_1022_detail || {};
             const tongPA = pa1022.tong || 1;
             document.getElementById('m1022_tong').innerText = pa1022.tong || 0;
             document.getElementById('m1022_xong').innerText = pa1022.da_giai_quyet || 0;
             document.getElementById('m1022_ty_le').innerText = ((pa1022.da_giai_quyet || 0) / tongPA * 100).toFixed(1) + "%";
-            const mapping = [{id:'tieng_on',v:detail1022.tieng_on},{id:'kinh_te',v:detail1022.kinh_te_ha_tang},{id:'trat_tu',v:detail1022.trat_tu_do_thi},{id:'van_hoa',v:detail1022.van_hoa_xa_hoi}];
+            
+            const mapping = [
+                {id:'tieng_on', v:detail1022.tieng_on},
+                {id:'kinh_te', v:detail1022.kinh_te_ha_tang},
+                {id:'trat_tu', v:detail1022.trat_tu_do_thi},
+                {id:'van_hoa', v:detail1022.van_hoa_xa_hoi},
+                {id:'hcc', v:detail1022.hanh_chinh_cong}, // Mới
+                {id:'khac', v:detail1022.khac} // Mới
+            ];
+            
             mapping.forEach(m => {
-                document.getElementById(`pa_${m.id}`).innerText = m.v || 0;
-                document.getElementById(`bar_${m.id}`).style.width = ((m.v||0)/tongPA*100) + "%";
+                const textEl = document.getElementById(`pa_${m.id}`);
+                const barEl = document.getElementById(`bar_${m.id}`);
+                if(textEl) textEl.innerText = m.v || 0;
+                if(barEl) barEl.style.width = ((m.v || 0) / tongPA * 100) + "%";
             });
             if(pa1022.danh_gia) document.getElementById('pa_danh_gia').innerText = "Đánh giá: " + pa1022.danh_gia;
 
@@ -245,7 +259,8 @@
 
         setInterval(() => {
             curPage = (curPage + 1) % 6;
-            document.getElementById('carouselTrack').style.transform = `translateX(-${curPage*100}%)`;
+            const track = document.getElementById('carouselTrack');
+            if(track) track.style.transform = `translateX(-${curPage*100}%)`;
             document.getElementById('page-num').innerText = `TRANG ${curPage+1}/6`;
         }, 10000);
 
