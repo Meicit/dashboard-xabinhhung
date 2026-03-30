@@ -24,6 +24,30 @@
         </header>
 
         <div class="grid grid-cols-1 gap-8">
+            
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-4 bg-blue-600 text-white font-bold uppercase text-xs tracking-wider flex items-center gap-2">
+                    <span>📋</span> 0. Quản lý Hồ sơ hành chính (TTHC)
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tổng hồ sơ (Lũy kế)</label>
+                            <input type="number" id="hshc_tong" class="w-full p-2 border rounded font-black text-slate-800" placeholder="Ví dụ: 4607">
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Hồ sơ trực tuyến</label>
+                            <input type="number" id="hshc_online" class="w-full p-2 border rounded font-black text-blue-600" placeholder="Ví dụ: 4307">
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Hồ sơ trễ hạn</label>
+                            <input type="number" id="hshc_quahan" class="w-full p-2 border rounded font-black text-red-600" placeholder="Ví dụ: 16">
+                        </div>
+                    </div>
+                    <p class="mt-4 text-[10px] italic text-slate-400">* Hệ thống sẽ tự động tính tỷ lệ % đúng hạn dựa trên số trễ hạn bạn nhập.</p>
+                </div>
+            </section>
+
             <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                 <div class="p-4 bg-red-600 text-white font-bold uppercase text-xs tracking-wider">1. Quản lý Đơn thư (Chi tiết theo loại)</div>
                 <div class="p-6">
@@ -150,6 +174,13 @@
             const d = snap.val();
             if(!d) return;
             
+            // 0. Hồ sơ hành chính
+            if(d.hshc) {
+                document.getElementById('hshc_tong').value = d.hshc.tong || 0;
+                document.getElementById('hshc_online').value = d.hshc.online || 0;
+                document.getElementById('hshc_quahan').value = d.hshc.quahan || 0;
+            }
+
             // 1. Đơn thư detail
             const dt = d.don_thu_detail || {};
             const dtFields = [
@@ -191,6 +222,18 @@
         window.saveAllData = function() {
             const getV = (id) => parseFloat(document.getElementById(id).value) || 0;
 
+            // Thu thập dữ liệu Hồ sơ hành chính & Tự động tính tỷ lệ
+            const hs_tong = getV('hshc_tong');
+            const hs_quahan = getV('hshc_quahan');
+            const hs_dung_han_pc = hs_tong > 0 ? (((hs_tong - hs_quahan) / hs_tong) * 100).toFixed(1) + "%" : "0%";
+            
+            const hshc = {
+                tong: hs_tong,
+                online: getV('hshc_online'),
+                quahan: hs_quahan,
+                dung_han_pc: hs_dung_han_pc
+            };
+
             // Thu thập dữ liệu Đơn thư
             const don_thu_detail = {
                 pa_dgq_th: getV('dt_pa_dgq_th'), pa_dgq_qh: getV('dt_pa_dgq_qh'),
@@ -201,7 +244,6 @@
                 tc_cgq_th: getV('dt_tc_cgq_th'), tc_cgq_qh: getV('dt_tc_cgq_qh')
             };
 
-            // Tính toán summary cho Dashboard (Index)
             const sumGQ = don_thu_detail.pa_dgq_th + don_thu_detail.pa_dgq_qh + don_thu_detail.kn_dgq_th + don_thu_detail.kn_dgq_qh + don_thu_detail.tc_dgq_th + don_thu_detail.tc_dgq_qh;
             const sumDangGQ = don_thu_detail.pa_cgq_th + don_thu_detail.pa_cgq_qh + don_thu_detail.kn_cgq_th + don_thu_detail.kn_cgq_qh + don_thu_detail.tc_cgq_th + don_thu_detail.tc_cgq_qh;
             
@@ -235,13 +277,12 @@
 
             // Gửi lên Firebase
             set(ref(db, 'dashboard_binhhung'), {
+                hshc: hshc, // Đẩy lên cấu trúc mới
                 don_thu: summary_don_thu,
                 don_thu_detail: don_thu_detail,
                 pa_1022: pa_1022,
                 pa_1022_detail: pa_1022_detail,
                 chi_tieu: chi_tieu,
-                // Giữ lại các phần khác nếu có
-                ho_so: { tong: 1250, dung_han_pc: 99.8 }, 
                 van_ban: { tong: 89 }
             }).then(() => {
                 alert("✅ Dữ liệu đã cập nhật thành công!");
