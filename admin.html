@@ -1,28 +1,208 @@
-<div class="bg-white p-6 rounded-xl border border-blue-200 mt-6">
-    <h3 class="text-lg font-bold text-blue-900 mb-4 uppercase">Cập nhật Hồ sơ TTHC</h3>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div><label class="block text-xs font-bold mb-1">TỔNG HỒ SƠ</label>
-             <input type="number" id="input_hs_tong" class="w-full border p-2 rounded"></div>
-        <div><label class="block text-xs font-bold mb-1">HỒ SƠ TRỰC TUYẾN</label>
-             <input type="number" id="input_hs_online" class="w-full border p-2 rounded"></div>
-        <div><label class="block text-xs font-bold mb-1">TỶ LỆ ĐÚNG HẠN (%)</label>
-             <input type="number" step="0.1" id="input_hs_dung_han" class="w-full border p-2 rounded"></div>
-        <div><label class="block text-xs font-bold mb-1">QUÁ HẠN (Số lượng)</label>
-             <input type="number" id="input_hs_qua_han" class="w-full border p-2 rounded"></div>
-    </div>
-    <button onclick="updateHoSo()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded font-bold uppercase text-sm">Lưu dữ liệu hồ sơ</button>
-</div>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Quản Trị - UBND Xã Bình Hưng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .card { background: white; padding: 1.5rem; border-radius: 1rem; shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); border: 1px solid #e2e8f0; }
+        input { width: 100%; border: 1px solid #cbd5e1; padding: 0.5rem; border-radius: 0.5rem; margin-top: 0.25rem; font-weight: 600; }
+        label { font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8 flex justify-between items-center bg-blue-900 p-6 rounded-2xl text-white shadow-lg">
+            <div>
+                <h1 class="text-2xl font-black uppercase italic">Hệ Thống Quản Trị Dữ Liệu</h1>
+                <p class="text-blue-200 text-xs font-bold uppercase tracking-widest">UBND Xã Bình Hưng - Cập nhật 2026</p>
+            </div>
+            <div class="text-right">
+                <div id="status" class="text-[10px] bg-emerald-500 px-3 py-1 rounded-full font-bold uppercase">Hệ thống trực tuyến</div>
+            </div>
+        </header>
 
-<script>
-    // Hàm update cho Admin
-    function updateHoSo() {
-        const data = {
-            tong: parseInt(document.getElementById('input_hs_tong').value),
-            online: parseInt(document.getElementById('input_hs_online').value),
-            dung_han_ty_le: parseFloat(document.getElementById('input_hs_dung_han').value),
-            qua_han: parseInt(document.getElementById('input_hs_qua_han').value)
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <div class="lg:col-span-2 card">
+                <h2 class="text-lg font-black text-slate-800 mb-6 border-b pb-2 flex items-center gap-2">
+                    <span>📊</span> 30 CHỈ TIÊU KINH TẾ - XÃ HỘI (%)
+                </h2>
+                <div id="ct_container" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    </div>
+                <button onclick="updateChiTieu()" class="w-full mt-8 bg-slate-900 text-white font-black py-4 rounded-xl hover:bg-black transition-all uppercase tracking-widest">
+                    Cập nhật 30 chỉ tiêu
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                
+                <div class="card border-t-4 border-blue-600">
+                    <h2 class="text-sm font-black text-blue-900 mb-4 flex items-center gap-2 uppercase">
+                        <span>📋</span> Hồ sơ hành chính
+                    </h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label>Tổng hồ sơ</label>
+                            <input type="number" id="hs_tong" placeholder="VD: 8318">
+                        </div>
+                        <div>
+                            <label>Hồ sơ trực tuyến</label>
+                            <input type="number" id="hs_online" placeholder="VD: 1306">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label>Tỷ lệ đúng hạn (%)</label>
+                                <input type="number" step="0.1" id="hs_dung_han_ty_le" placeholder="99.3">
+                            </div>
+                            <div>
+                                <label>Số ca quá hạn</label>
+                                <input type="number" id="hs_qua_han" placeholder="0">
+                            </div>
+                        </div>
+                        <button onclick="updateHoSo()" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg mt-2 hover:bg-blue-700">Lưu Hồ Sơ</button>
+                    </div>
+                </div>
+
+                <div class="card border-t-4 border-red-500">
+                    <h2 class="text-sm font-black text-red-700 mb-4 flex items-center gap-2 uppercase">
+                        <span>📂</span> Đơn thư khiếu nại
+                    </h2>
+                    <div class="space-y-3">
+                        <div><label>Tổng số đơn</label><input type="number" id="dt_tong"></div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div><label>Đã giải quyết</label><input type="number" id="dt_da_giai_quyet"></div>
+                            <div><label>Đang giải quyết</label><input type="number" id="dt_dang_giai_quyet"></div>
+                        </div>
+                        <button onclick="updateDonThu()" class="w-full bg-red-600 text-white font-bold py-2 rounded-lg hover:bg-red-700">Lưu Đơn Thư</button>
+                    </div>
+                </div>
+
+                <div class="card border-t-4 border-orange-500">
+                    <h2 class="text-sm font-black text-orange-700 mb-4 uppercase">📞 Phản ánh 1022 & VB Chỉ đạo</h2>
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div><label>1022 Tổng</label><input type="number" id="pa_tong"></div>
+                            <div><label>1022 Đã xong</label><input type="number" id="pa_xong"></div>
+                        </div>
+                        <div><label>Văn bản chỉ đạo (Tổng)</label><input type="number" id="vb_tong"></div>
+                        <button onclick="updateKhac()" class="w-full bg-orange-600 text-white font-bold py-2 rounded-lg hover:bg-orange-700">Lưu thông tin</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC7J3V97_gKwyAzpckTJm5j8hoMWU5aoFI",
+            authDomain: "dashboarb-xabinhhung.firebaseapp.com",
+            databaseURL: "https://dashboarb-xabinhhung-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "dashboarb-xabinhhung",
+            appId: "1:152638135861:web:128ac8d51c8357b6521b7c"
         };
-        set(ref(db, 'dashboard_binhhung/ho_so'), data)
-            .then(() => alert("Đã cập nhật thành công!"));
-    }
-</script>
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Tạo 30 ô nhập liệu chỉ tiêu
+        const container = document.getElementById('ct_container');
+        for (let i = 1; i <= 30; i++) {
+            container.innerHTML += `
+                <div class="p-2 bg-slate-50 rounded border border-slate-100">
+                    <label>Chỉ tiêu ${i}</label>
+                    <input type="number" step="0.01" id="input_ct_${i}" placeholder="0">
+                </div>
+            `;
+        }
+
+        // Tự động tải dữ liệu cũ lên form
+        onValue(ref(db, 'dashboard_binhhung'), (snap) => {
+            const data = snap.val();
+            if (!data) return;
+
+            // Đổ 30 chỉ tiêu
+            if (data.chi_tieu) {
+                for (let i = 1; i <= 30; i++) {
+                    document.getElementById(`input_ct_${i}`).value = data.chi_tieu[`ct_${i}`] || 0;
+                }
+            }
+
+            // Đổ Hồ sơ TTHC
+            if (data.ho_so) {
+                document.getElementById('hs_tong').value = data.ho_so.tong || 0;
+                document.getElementById('hs_online').value = data.ho_so.online || 0;
+                document.getElementById('hs_dung_han_ty_le').value = data.ho_so.dung_han_ty_le || 0;
+                document.getElementById('hs_qua_han').value = data.ho_so.qua_han || 0;
+            }
+
+            // Đổ Đơn thư
+            if (data.don_thu) {
+                document.getElementById('dt_tong').value = data.don_thu.tong || 0;
+                document.getElementById('dt_da_giai_quyet').value = data.don_thu.da_giai_quyet || 0;
+                document.getElementById('dt_dang_giai_quyet').value = data.don_thu.dang_giai_quyet || 0;
+            }
+
+            // Đổ PA 1022 & Văn bản
+            document.getElementById('pa_tong').value = data.pa_1022?.tong || 0;
+            document.getElementById('pa_xong').value = data.pa_1022?.da_giai_quyet || 0;
+            document.getElementById('vb_tong').value = data.van_ban?.tong || 0;
+        });
+
+        // Hàm cập nhật 30 chỉ tiêu
+        window.updateChiTieu = () => {
+            const updates = {};
+            for (let i = 1; i <= 30; i++) {
+                updates[`ct_${i}`] = parseFloat(document.getElementById(`input_ct_${i}`).value) || 0;
+            }
+            set(ref(db, 'dashboard_binhhung/chi_tieu'), updates)
+                .then(() => alert("✅ Đã cập nhật 30 chỉ tiêu!"));
+        };
+
+        // Hàm cập nhật Hồ sơ TTHC (Theo cấu trúc mới)
+        window.updateHoSo = () => {
+            const data = {
+                tong: parseInt(document.getElementById('hs_tong').value) || 0,
+                online: parseInt(document.getElementById('hs_online').value) || 0,
+                dung_han_ty_le: parseFloat(document.getElementById('hs_dung_han_ty_le').value) || 0,
+                qua_han: parseInt(document.getElementById('hs_qua_han').value) || 0
+            };
+            set(ref(db, 'dashboard_binhhung/ho_so'), data)
+                .then(() => alert("✅ Đã cập nhật dữ liệu Hồ sơ TTHC!"));
+        };
+
+        // Hàm cập nhật Đơn thư
+        window.updateDonThu = () => {
+            const data = {
+                tong: parseInt(document.getElementById('dt_tong').value) || 0,
+                da_giai_quyet: parseInt(document.getElementById('dt_da_giai_quyet').value) || 0,
+                dang_giai_quyet: parseInt(document.getElementById('dt_dang_giai_quyet').value) || 0
+            };
+            set(ref(db, 'dashboard_binhhung/don_thu'), data)
+                .then(() => alert("✅ Đã cập nhật dữ liệu Đơn thư!"));
+        };
+
+        // Hàm cập nhật 1022 & Văn bản
+        window.updateKhac = () => {
+            const pa_tong = parseInt(document.getElementById('pa_tong').value) || 0;
+            const pa_xong = parseInt(document.getElementById('pa_xong').value) || 0;
+            
+            update(ref(db, 'dashboard_binhhung'), {
+                "pa_1022": {
+                    tong: pa_tong,
+                    da_giai_quyet: pa_xong,
+                    chua_giai_quyet: pa_tong - pa_xong
+                },
+                "van_ban/tong": parseInt(document.getElementById('vb_tong').value) || 0
+            }).then(() => alert("✅ Đã cập nhật PA 1022 & Văn bản!"));
+        };
+    </script>
+</body>
+</html>
