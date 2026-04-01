@@ -5,82 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Cập nhật số liệu Bình Hưng</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .card { background: white; padding: 1.5rem; border-radius: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
-        label { display: block; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 0.25rem; }
-        input { width: 100%; padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 0.375rem; margin-bottom: 1rem; outline-color: #2563eb; }
-        h2 { font-weight: 800; color: #1e293b; margin-bottom: 1rem; border-left: 4px solid #2563eb; padding-left: 0.75rem; }
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     </style>
 </head>
-<body class="p-4 md:p-8">
-    <div class="max-w-6xl mx-auto">
-        <header class="flex justify-between items-center mb-8">
-            <h1 class="text-2xl font-black text-slate-800 uppercase">Quản trị dữ liệu Dashboard 2026</h1>
-            <button onclick="updateData()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transition-all transform hover:scale-105">
-                🚀 CẬP NHẬT TOÀN BỘ
+<body class="p-4 md:p-8 text-slate-800">
+    <div class="max-w-5xl mx-auto">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 gap-4">
+            <div>
+                <h1 class="text-2xl font-black text-blue-900 uppercase italic">Hệ Thống Quản Trị Dữ Liệu</h1>
+                <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">UBND Xã Bình Hưng - Cập nhật 2026</p>
+            </div>
+            <button onclick="saveAllData()" class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-xl font-black shadow-lg shadow-blue-200 transition-all active:scale-95 uppercase text-sm">
+                Lưu tất cả thay đổi 💾
             </button>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <div class="card">
-                <h2>📂 Đơn thư & Chi tiết</h2>
-                <label>Tổng đơn thư</label>
-                <input type="number" id="dt_tong">
-                <div class="grid grid-cols-2 gap-2">
-                    <div><label>Phản ánh/KN</label><input type="number" id="dt_pa_kn"></div>
-                    <div><label>Khiếu nại</label><input type="number" id="dt_khieu_nai"></div>
-                    <div><label>Tố cáo</label><input type="number" id="dt_to_cao"></div>
-                    <div><label>Đã giải quyết</label><input type="number" id="dt_da_gq"></div>
+        <div class="grid grid-cols-1 gap-8">
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-4 bg-red-600 text-white font-bold uppercase text-xs tracking-wider">1. Quản lý Đơn thư (Chi tiết theo loại)</div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <h3 class="font-black text-blue-800 border-b mb-4 pb-2 text-center uppercase text-[10px]">Phản ánh, Kiến nghị</h3>
+                            <div class="space-y-3">
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Đã GQ - Trong hạn</label>
+                                    <input type="number" id="dt_pa_dgq_th" class="w-full p-2 border rounded font-bold text-blue-700"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Đã GQ - Quá hạn</label>
+                                    <input type="number" id="dt_pa_dgq_qh" class="w-full p-2 border rounded font-bold text-red-600"></div>
+                                <div class="pt-2 border-t border-dashed"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Chưa GQ - Trong hạn</label>
+                                    <input type="number" id="dt_pa_cgq_th" class="w-full p-2 border rounded font-bold text-orange-600"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Chưa GQ - Quá hạn</label>
+                                    <input type="number" id="dt_pa_cgq_qh" class="w-full p-2 border rounded font-bold text-red-800"></div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <h3 class="font-black text-blue-800 border-b mb-4 pb-2 text-center uppercase text-[10px]">Khiếu nại</h3>
+                            <div class="space-y-3">
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Đã GQ - Trong hạn</label>
+                                    <input type="number" id="dt_kn_dgq_th" class="w-full p-2 border rounded font-bold text-blue-700"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Đã GQ - Quá hạn</label>
+                                    <input type="number" id="dt_kn_dgq_qh" class="w-full p-2 border rounded font-bold text-red-600"></div>
+                                <div class="pt-2 border-t border-dashed"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Chưa GQ - Trong hạn</label>
+                                    <input type="number" id="dt_kn_cgq_th" class="w-full p-2 border rounded font-bold text-orange-600"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Chưa GQ - Quá hạn</label>
+                                    <input type="number" id="dt_kn_cgq_qh" class="w-full p-2 border rounded font-bold text-red-800"></div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <h3 class="font-black text-blue-800 border-b mb-4 pb-2 text-center uppercase text-[10px]">Tố cáo</h3>
+                            <div class="space-y-3">
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Đã GQ - Trong hạn</label>
+                                    <input type="number" id="dt_tc_dgq_th" class="w-full p-2 border rounded font-bold text-blue-700"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Đã GQ - Quá hạn</label>
+                                    <input type="number" id="dt_tc_dgq_qh" class="w-full p-2 border rounded font-bold text-red-600"></div>
+                                <div class="pt-2 border-t border-dashed"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Chưa GQ - Trong hạn</label>
+                                    <input type="number" id="dt_tc_cgq_th" class="w-full p-2 border rounded font-bold text-orange-600"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase">Chưa GQ - Quá hạn</label>
+                                    <input type="number" id="dt_tc_cgq_qh" class="w-full p-2 border rounded font-bold text-red-800"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <hr class="my-4">
-                <p class="text-[10px] font-bold text-red-500 mb-2">CHI TIẾT TRONG/QUÁ HẠN</p>
-                <div class="grid grid-cols-2 gap-2">
-                    <div><label>PA Trong hạn</label><input type="number" id="pa_dgq_th"></div>
-                    <div><label>PA Quá hạn</label><input type="number" id="pa_dgq_qh"></div>
-                </div>
-            </div>
+            </section>
 
-            <div class="card">
-                <h2>📞 Phản ánh 1022</h2>
-                <label>Tổng phản ánh</label>
-                <input type="number" id="pa1022_tong">
-                <div class="grid grid-cols-2 gap-2">
-                    <div><label>Đã giải quyết</label><input type="number" id="pa1022_xong"></div>
-                    <div><label>Chưa giải quyết</label><input type="number" id="pa1022_cho"></div>
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-4 bg-orange-500 text-white font-bold uppercase text-xs tracking-wider">2. Quản lý Phản ánh 1022</div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h3 class="font-black text-orange-700 uppercase text-[10px] border-b pb-2 italic">Chỉ số tổng hợp</h3>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tổng phản ánh</label>
+                                    <input type="number" id="pa_1022_tong" class="w-full p-2 border rounded font-black text-slate-800 bg-orange-50/30"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Đã giải quyết</label>
+                                    <input type="number" id="pa_1022_xong" class="w-full p-2 border rounded font-black text-emerald-600 bg-emerald-50/30"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Chưa giải quyết</label>
+                                    <input type="number" id="pa_1022_cho" class="w-full p-2 border rounded font-black text-red-600 bg-red-50/30"></div>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Ghi chú / Đánh giá chung</label>
+                                <textarea id="pa_1022_danh_gia" rows="2" class="w-full p-2 border rounded italic text-sm" placeholder="Nhập nhận xét tình hình xử lý..."></textarea>
+                            </div>
+                        </div>
+                        <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <h3 class="font-black text-slate-700 uppercase text-[10px] border-b pb-2 italic">Phân loại chi tiết (Số vụ)</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label class="block text-[10px] font-bold text-slate-400 uppercase">1. Tiếng ồn</label>
+                                    <input type="number" id="pa_det_tieng_on" class="w-full p-2 border rounded bg-white"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-400 uppercase">2. Hạ tầng/Kinh tế</label>
+                                    <input type="number" id="pa_det_kinh_te" class="w-full p-2 border rounded bg-white"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-400 uppercase">3. Trật tự đô thị</label>
+                                    <input type="number" id="pa_det_trat_tu" class="w-full p-2 border rounded bg-white"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-400 uppercase">4. Văn hóa - XH</label>
+                                    <input type="number" id="pa_det_van_hoa" class="w-full p-2 border rounded bg-white"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-400 uppercase">5. Hành chính công</label>
+                                    <input type="number" id="pa_det_hcc" class="w-full p-2 border rounded bg-white"></div>
+                                <div><label class="block text-[10px] font-bold text-slate-400 uppercase">6. Lĩnh vực khác</label>
+                                    <input type="number" id="pa_det_khac" class="w-full p-2 border rounded bg-white"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <label>Đánh giá tổng quát</label>
-                <input type="text" id="pa1022_danh_gia" placeholder="Ví dụ: Tốt">
-                <hr class="my-4">
-                <label>Tiếng ồn</label><input type="number" id="pa_tieng_on">
-                <label>Kinh tế - Hạ tầng</label><input type="number" id="pa_kinh_te">
-                <label>Trật tự đô thị</label><input type="number" id="pa_trat_tu">
-            </div>
+            </section>
 
-            <div class="card">
-                <h2>⚖️ Hành chính & Văn bản</h2>
-                <label>Tổng hồ sơ hành chính</label>
-                <input type="number" id="hs_tong">
-                <label>Tổng văn bản chỉ đạo</label>
-                <input type="number" id="vb_tong">
-                
-                <div class="mt-10 p-4 bg-blue-50 rounded-lg border border-blue-100 text-xs text-blue-800">
-                    <strong>Hướng dẫn:</strong> Nhập số liệu thực tế theo đơn vị %. Hệ thống sẽ tự động đồng bộ sang trang hiển thị sau khi nhấn cập nhật.
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>📊 30 Chỉ tiêu Kinh tế - Xã hội (%)</h2>
-            <div id="indicators-container" class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                </div>
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-4 bg-blue-900 text-white font-bold uppercase text-xs tracking-wider">3. 30 Chỉ tiêu Kinh tế - Xã hội (% thực hiện)</div>
+                <div class="p-6 grid grid-cols-2 md:grid-cols-5 gap-4" id="chi-tieu-container"></div>
+            </section>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC7J3V97_gKwyAzpckTJm5j8hoMWU5aoFI",
@@ -92,93 +135,117 @@
 
         const db = getDatabase(initializeApp(firebaseConfig));
 
-        // Tên 30 chỉ tiêu để map với ID ct_1 -> ct_30
-        const names = [
-            "Tăng trưởng SP", "Thu ngân sách", "Giải ngân ĐTC", "BHYT", "BHXH",
-            "Mầm non chuẩn", "Tiểu học chuẩn", "THCS chuẩn", "Phòng học", "Hoàn thành THCS",
-            "Giảm nghèo", "Chuẩn NTM", "Ấp văn hóa", "Gia đình VH", "Tiêm chủng",
-            "Việc làm", "Du lịch", "Nước sạch", "Rác thải", "Rác y tế",
-            "Nước thải CN", "Hồ sơ đúng hạn", "Chữ ký số", "Nhập ngũ", "Giảm tội phạm",
-            "Phá án", "Giảm TNGT", "PCCC", "Ma túy", "Phản ánh 1022"
-        ];
-
-        // Render 30 inputs
-        const container = document.getElementById('indicators-container');
+        // Tự động tạo 30 ô nhập chỉ tiêu
+        const container = document.getElementById('chi-tieu-container');
         for(let i=1; i<=30; i++) {
             container.innerHTML += `
-                <div>
-                    <label>ct_${i}: ${names[i-1]}</label>
-                    <input type="number" id="ct_${i}" value="0" step="0.1">
-                </div>
-            `;
+                <div class="p-2 bg-slate-50 rounded-lg border border-slate-200">
+                    <label class="block text-[9px] font-black text-slate-400 uppercase mb-1">Chỉ tiêu ${i}</label>
+                    <input type="number" step="0.01" id="ct_${i}" class="w-full p-2 border rounded font-black text-blue-900 bg-white" placeholder="0">
+                </div>`;
         }
 
-        // Đổ dữ liệu cũ từ Firebase về Admin để sửa
-        get(ref(db, 'dashboard_binhhung')).then((snap) => {
-            if(snap.exists()) {
-                const data = snap.val();
-                // Map đơn thư
-                document.getElementById('dt_tong').value = data.don_thu?.tong || 0;
-                document.getElementById('dt_pa_kn').value = data.don_thu?.pa_kn || 0;
-                document.getElementById('dt_khieu_nai').value = data.don_thu?.khieu_nai || 0;
-                document.getElementById('dt_to_cao').value = data.don_thu?.to_cao || 0;
-                document.getElementById('dt_da_gq').value = data.don_thu?.da_giai_quyet || 0;
-                
-                // Map 1022
-                document.getElementById('pa1022_tong').value = data.pa_1022?.tong || 0;
-                document.getElementById('pa1022_xong').value = data.pa_1022?.da_giai_quyet || 0;
-                document.getElementById('pa1022_cho').value = data.pa_1022?.chua_giai_quyet || 0;
-                document.getElementById('pa1022_danh_gia').value = data.pa_1022?.danh_gia || "";
+        // Tải dữ liệu từ Firebase
+        onValue(ref(db, 'dashboard_binhhung'), (snap) => {
+            const d = snap.val();
+            if(!d) return;
+            
+            // 1. Đơn thư detail
+            const dt = d.don_thu_detail || {};
+            const dtFields = [
+                'pa_dgq_th', 'pa_dgq_qh', 'pa_cgq_th', 'pa_cgq_qh',
+                'kn_dgq_th', 'kn_dgq_qh', 'kn_cgq_th', 'kn_cgq_qh',
+                'tc_dgq_th', 'tc_dgq_qh', 'tc_cgq_th', 'tc_cgq_qh'
+            ];
+            dtFields.forEach(f => {
+                const el = document.getElementById(`dt_${f}`);
+                if(el) el.value = dt[f] || 0;
+            });
 
-                // Map Chỉ tiêu
+            // 2. 1022
+            if(d.pa_1022) {
+                document.getElementById('pa_1022_tong').value = d.pa_1022.tong || 0;
+                document.getElementById('pa_1022_xong').value = d.pa_1022.da_giai_quyet || 0;
+                document.getElementById('pa_1022_cho').value = d.pa_1022.chua_giai_quyet || 0;
+                document.getElementById('pa_1022_danh_gia').value = d.pa_1022.danh_gia || "";
+            }
+            if(d.pa_1022_detail) {
+                document.getElementById('pa_det_tieng_on').value = d.pa_1022_detail.tieng_on || 0;
+                document.getElementById('pa_det_kinh_te').value = d.pa_1022_detail.kinh_te_ha_tang || 0;
+                document.getElementById('pa_det_trat_tu').value = d.pa_1022_detail.trat_tu_do_thi || 0;
+                document.getElementById('pa_det_van_hoa').value = d.pa_1022_detail.van_hoa_xa_hoi || 0;
+                document.getElementById('pa_det_hcc').value = d.pa_1022_detail.hanh_chinh_cong || 0;
+                document.getElementById('pa_det_khac').value = d.pa_1022_detail.khac || 0;
+            }
+
+            // 3. 30 chỉ tiêu
+            if(d.chi_tieu) {
                 for(let i=1; i<=30; i++) {
-                    if(data.chi_tieu && data.chi_tieu['ct_'+i]) {
-                        document.getElementById('ct_'+i).value = data.chi_tieu['ct_'+i];
-                    }
+                    const el = document.getElementById(`ct_${i}`);
+                    if(el) el.value = d.chi_tieu[`ct_${i}`] || 0;
                 }
             }
         });
 
-        window.updateData = async () => {
-            const updates = {
-                don_thu: {
-                    tong: parseInt(document.getElementById('dt_tong').value),
-                    pa_kn: parseInt(document.getElementById('dt_pa_kn').value),
-                    khieu_nai: parseInt(document.getElementById('dt_khieu_nai').value),
-                    to_cao: parseInt(document.getElementById('dt_to_cao').value),
-                    da_giai_quyet: parseInt(document.getElementById('dt_da_gq').value),
-                    dang_giai_quyet: parseInt(document.getElementById('dt_tong').value) - parseInt(document.getElementById('dt_da_gq').value)
-                },
-                don_thu_detail: {
-                    pa_dgq_th: parseInt(document.getElementById('pa_dgq_th').value || 0),
-                    // Bạn có thể thêm các ô input khác vào admin và map vào đây tương tự
-                },
-                pa_1022: {
-                    tong: parseInt(document.getElementById('pa1022_tong').value),
-                    da_giai_quyet: parseInt(document.getElementById('pa1022_xong').value),
-                    chua_giai_quyet: parseInt(document.getElementById('pa1022_cho').value),
-                    danh_gia: document.getElementById('pa1022_danh_gia').value
-                },
-                pa_1022_detail: {
-                    tieng_on: parseInt(document.getElementById('pa_tieng_on').value || 0),
-                    kinh_te_ha_tang: parseInt(document.getElementById('pa_kinh_te').value || 0),
-                    trat_tu_do_thi: parseInt(document.getElementById('pa_trat_tu').value || 0),
-                },
-                ho_so: { tong: parseInt(document.getElementById('hs_tong').value || 0) },
-                van_ban: { tong: parseInt(document.getElementById('vb_tong').value || 0) },
-                chi_tieu: {}
+        // Hàm Lưu
+        window.saveAllData = function() {
+            const getV = (id) => parseFloat(document.getElementById(id).value) || 0;
+
+            // Thu thập dữ liệu Đơn thư
+            const don_thu_detail = {
+                pa_dgq_th: getV('dt_pa_dgq_th'), pa_dgq_qh: getV('dt_pa_dgq_qh'),
+                pa_cgq_th: getV('dt_pa_cgq_th'), pa_cgq_qh: getV('dt_pa_cgq_qh'),
+                kn_dgq_th: getV('dt_kn_dgq_th'), kn_dgq_qh: getV('dt_kn_dgq_qh'),
+                kn_cgq_th: getV('dt_kn_cgq_th'), kn_cgq_qh: getV('dt_kn_cgq_qh'),
+                tc_dgq_th: getV('dt_tc_dgq_th'), tc_dgq_qh: getV('dt_tc_dgq_qh'),
+                tc_cgq_th: getV('dt_tc_cgq_th'), tc_cgq_qh: getV('dt_tc_cgq_qh')
             };
 
+            // Tính toán summary cho Dashboard (Index)
+            const sumGQ = don_thu_detail.pa_dgq_th + don_thu_detail.pa_dgq_qh + don_thu_detail.kn_dgq_th + don_thu_detail.kn_dgq_qh + don_thu_detail.tc_dgq_th + don_thu_detail.tc_dgq_qh;
+            const sumDangGQ = don_thu_detail.pa_cgq_th + don_thu_detail.pa_cgq_qh + don_thu_detail.kn_cgq_th + don_thu_detail.kn_cgq_qh + don_thu_detail.tc_cgq_th + don_thu_detail.tc_cgq_qh;
+            
+            const summary_don_thu = {
+                tong: sumGQ + sumDangGQ,
+                da_giai_quyet: sumGQ,
+                dang_giai_quyet: sumDangGQ
+            };
+
+            // Thu thập dữ liệu 1022
+            const pa_1022 = {
+                tong: getV('pa_1022_tong'),
+                da_giai_quyet: getV('pa_1022_xong'),
+                chua_giai_quyet: getV('pa_1022_cho'),
+                danh_gia: document.getElementById('pa_1022_danh_gia').value
+            };
+            const pa_1022_detail = {
+                tieng_on: getV('pa_det_tieng_on'),
+                kinh_te_ha_tang: getV('pa_det_kinh_te'),
+                trat_tu_do_thi: getV('pa_det_trat_tu'),
+                van_hoa_xa_hoi: getV('pa_det_van_hoa'),
+                han_chinh_cong: getV('pa_det_hcc'),
+                khac: getV('pa_det_khac')
+            };
+
+            // Thu thập 30 chỉ tiêu
+            const chi_tieu = {};
             for(let i=1; i<=30; i++) {
-                updates.chi_tieu['ct_'+i] = parseFloat(document.getElementById('ct_'+i).value);
+                chi_tieu[`ct_${i}`] = getV(`ct_${i}`);
             }
 
-            try {
-                await set(ref(db, 'dashboard_binhhung'), updates);
-                alert("✅ Đã cập nhật dữ liệu thành công!");
-            } catch (e) {
-                alert("❌ Lỗi: " + e.message);
-            }
+            // Gửi lên Firebase
+            set(ref(db, 'dashboard_binhhung'), {
+                don_thu: summary_don_thu,
+                don_thu_detail: don_thu_detail,
+                pa_1022: pa_1022,
+                pa_1022_detail: pa_1022_detail,
+                chi_tieu: chi_tieu,
+                // Giữ lại các phần khác nếu có
+                ho_so: { tong: 1250, dung_han_pc: 99.8 }, 
+                van_ban: { tong: 89 }
+            }).then(() => {
+                alert("✅ Dữ liệu đã cập nhật thành công!");
+            }).catch((e) => alert("❌ Lỗi: " + e.message));
         };
     </script>
 </body>
