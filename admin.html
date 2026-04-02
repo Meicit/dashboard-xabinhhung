@@ -2,68 +2,48 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Admin - Cập nhật số liệu Bình Hưng</title>
+    <title>Quản trị Dashboard Bình Hưng</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="p-8 bg-slate-100 text-slate-800">
-    <div class="max-w-5xl mx-auto">
-        <header class="flex justify-between items-center mb-8 bg-white p-6 rounded-xl shadow-sm border">
-            <div>
-                <h1 class="text-2xl font-black text-blue-900 uppercase">Quản Trị Dữ Liệu 2026</h1>
-                <p class="text-slate-500 text-xs font-bold">UBND Xã Bình Hưng</p>
-            </div>
-            <button onclick="saveAllData()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold shadow-lg uppercase text-sm">
-                Lưu Hệ Thống 💾
-            </button>
+<body class="bg-slate-100 p-8">
+    <div class="max-w-5xl mx-auto bg-white p-10 rounded-3xl shadow-lg border">
+        <header class="flex justify-between items-center mb-10 border-b pb-6">
+            <h1 class="text-2xl font-black text-blue-900 uppercase">Cập nhật số liệu 2026</h1>
+            <button onclick="saveAll()" class="bg-blue-600 text-white px-10 py-3 rounded-2xl font-bold shadow-xl hover:bg-blue-700">LƯU HỆ THỐNG 💾</button>
         </header>
 
-        <div class="grid grid-cols-1 gap-6">
-            <section class="bg-white p-6 rounded-xl border">
-                <h3 class="font-black text-red-600 mb-4 border-b pb-2 uppercase text-sm">1. Quản lý Đơn thư</h3>
-                <div class="grid grid-cols-3 gap-6">
-                    <div class="bg-slate-50 p-4 rounded-lg">
-                        <p class="font-bold text-xs mb-3 text-blue-800">PHẢN ÁNH, KIẾN NGHỊ</p>
-                        <div class="space-y-2">
-                            <label class="block text-[10px] text-slate-500">Đã GQ - Trong hạn</label>
-                            <input type="number" id="dt_pa_dgq_th" class="w-full p-1 border rounded">
-                            <label class="block text-[10px] text-slate-500">Đã GQ - Quá hạn</label>
-                            <input type="number" id="dt_pa_dgq_qh" class="w-full p-1 border rounded">
-                            <label class="block text-[10px] text-slate-500">Chưa GQ - Trong hạn</label>
-                            <input type="number" id="dt_pa_cgq_th" class="w-full p-1 border rounded">
-                            <label class="block text-[10px] text-slate-500">Chưa GQ - Quá hạn</label>
-                            <input type="number" id="dt_pa_cgq_qh" class="w-full p-1 border rounded">
-                        </div>
-                    </div>
-                    </div>
-            </section>
-
-            <section class="bg-white p-6 rounded-xl border">
-                <h3 class="font-black text-orange-600 mb-4 border-b pb-2 uppercase text-sm">2. Phản ánh 1022</h3>
-                <div class="grid grid-cols-2 gap-8">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div><label class="text-[10px] font-bold">Đã xử lý</label><input type="number" id="pa_1022_xong" class="w-full p-2 border rounded"></div>
-                        <div><label class="text-[10px] font-bold">Chưa xử lý</label><input type="number" id="pa_1022_cho" class="w-full p-2 border rounded"></div>
-                        <div class="col-span-2"><label class="text-[10px] font-bold">Ghi chú</label><textarea id="pa_1022_danh_gia" class="w-full p-2 border rounded text-xs"></textarea></div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-lg">
-                        <div><label class="text-[10px]">Tiếng ồn</label><input type="number" id="pa_det_tieng_on" class="w-full p-1 border rounded"></div>
-                        <div><label class="text-[10px]">Kinh tế/Hạ tầng</label><input type="number" id="pa_det_kinh_te" class="w-full p-1 border rounded"></div>
-                        <div><label class="text-[10px]">Hành chính công</label><input type="number" id="pa_det_hcc" class="w-full p-1 border rounded"></div>
-                        <div><label class="text-[10px]">Khác</label><input type="number" id="pa_det_khac" class="w-full p-1 border rounded"></div>
-                    </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <section class="space-y-4">
+                <h3 class="font-bold text-blue-700 uppercase text-sm border-b pb-2">1. Tiếp công dân (Biểu 01)</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="text-[10px] font-bold">Thường xuyên (Lượt)</label><input type="number" id="tcd_tx_luot" class="w-full p-2 border rounded"></div>
+                    <div><label class="text-[10px] font-bold">Thường xuyên (Người)</label><input type="number" id="tcd_tx_nguoi" class="w-full p-2 border rounded"></div>
+                    <div><label class="text-[10px] font-bold">Lãnh đạo tiếp (Lượt)</label><input type="number" id="tcd_ld_luot" class="w-full p-2 border rounded"></div>
+                    <div><label class="text-[10px] font-bold">Lãnh đạo tiếp (Người)</label><input type="number" id="tcd_ld_nguoi" class="w-full p-2 border rounded"></div>
                 </div>
             </section>
 
-            <section class="bg-white p-6 rounded-xl border">
-                <h3 class="font-black text-blue-900 mb-4 border-b pb-2 uppercase text-sm">3. 30 Chỉ tiêu KT-XH (%)</h3>
-                <div class="grid grid-cols-5 gap-3" id="chi-tieu-container"></div>
+            <section class="space-y-4">
+                <h3 class="font-bold text-red-600 uppercase text-sm border-b pb-2">2. Xử lý Đơn thư (Biểu 02)</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="number" id="dt_pa_tong" placeholder="Tổng đơn Phản ánh" class="p-2 border rounded">
+                    <input type="number" id="dt_pa_dat" placeholder="Đơn PA Đất đai" class="p-2 border rounded">
+                    <input type="number" id="dt_kn_tong" placeholder="Tổng đơn Khiếu nại" class="p-2 border rounded">
+                    <input type="number" id="dt_kn_dat" placeholder="Đơn KN Đất đai" class="p-2 border rounded">
+                    <input type="number" id="dt_kn_thuly" placeholder="Số đơn thụ lý" class="p-2 border rounded col-span-2">
+                </div>
+            </section>
+
+            <section class="md:col-span-2">
+                <h3 class="font-bold text-emerald-700 uppercase text-sm border-b pb-4 mb-4">3. 30 Chỉ tiêu KT-XH (% Thực hiện)</h3>
+                <div id="ct-grid" class="grid grid-cols-5 md:grid-cols-10 gap-3"></div>
             </section>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC7J3V97_gKwyAzpckTJm5j8hoMWU5aoFI",
@@ -74,32 +54,27 @@
         };
         const db = getDatabase(initializeApp(firebaseConfig));
 
-        const container = document.getElementById('chi-tieu-container');
+        const grid = document.getElementById('ct-grid');
         for(let i=1; i<=30; i++) {
-            container.innerHTML += `<div class="p-2 bg-slate-50 rounded border"><label class="block text-[9px] font-bold">CT ${i}</label><input type="number" step="0.01" id="ct_${i}" class="w-full p-1 border rounded text-xs font-bold"></div>`;
+            grid.innerHTML += `<div class="bg-slate-50 border p-2 rounded text-center"><label class="text-[9px] font-black">CT${i}</label><input type="number" step="0.1" id="ct_${i}" class="w-full text-center text-xs font-bold bg-transparent"></div>`;
         }
 
-        window.saveAllData = function() {
-            const getV = (id) => parseFloat(document.getElementById(id)?.value) || 0;
-            
-            const ct30 = {};
-            for(let i=1; i<=30; i++) ct30[`ct_${i}`] = getV(`ct_${i}`);
+        window.saveAll = function() {
+            const getV = (id) => parseFloat(document.getElementById(id).value) || 0;
+            const ct30 = {}; for(let i=1; i<=30; i++) ct30[`ct_${i}`] = getV(`ct_${i}`);
 
-            const payload = {
+            const data = {
+                tcd: { thuong_xuyen: { luot: getV('tcd_tx_luot'), nguoi: getV('tcd_tx_nguoi') }, lanh_dao: { luot: getV('tcd_ld_luot'), nguoi: getV('tcd_ld_nguoi') } },
                 don_thu: {
-                    phan_anh: { dgq_th: getV('dt_pa_dgq_th'), dgq_qh: getV('dt_pa_dgq_qh'), cgq_th: getV('dt_pa_cgq_th'), cgq_qh: getV('dt_pa_cgq_qh') },
-                    khieu_nai: { dgq_th: 0, dgq_qh: 0, cgq_th: 0, cgq_qh: 0 }, // Cần thêm input ID tương ứng
-                    to_cao: { dgq_th: 0, dgq_qh: 0, cgq_th: 0, cgq_qh: 0 }
+                    phan_anh: { tong: getV('dt_pa_tong'), dat_dai: getV('dt_pa_dat') },
+                    khieu_nai: { tong: getV('dt_kn_tong'), dat_dai: getV('dt_kn_dat'), thu_ly: getV('dt_kn_thuly') },
+                    thi_hanh_qd: { tong_phai_lam: 9, da_xong: 3 }
                 },
-                pa_1022: {
-                    thong_ke: { da_giai_quyet: getV('pa_1022_xong'), chua_giai_quyet: getV('pa_1022_cho'), danh_gia: document.getElementById('pa_1022_danh_gia').value },
-                    linh_vuc: { tieng_on: getV('pa_det_tieng_on'), kinh_te_ha_tang: getV('pa_det_kinh_te'), hanh_chinh_cong: getV('pa_det_hcc'), khac: getV('pa_det_khac'), trat_tu_do_thi: 0, van_hoa_xa_hoi: 0 }
-                },
+                pa_1022: { thong_ke: { da_giai_quyet: 192, chua_giai_quyet: 0 } },
                 chi_tieu_30: ct30,
                 khac: { ho_so_tong: 1250, van_ban_tong: 89 }
             };
-
-            set(ref(db, 'dashboard_binhhung'), payload).then(() => alert("Cập nhật thành công!")).catch(e => alert(e.message));
+            set(ref(db, 'dashboard_binhhung'), data).then(() => alert("Cập nhật thành công!")).catch(e => alert(e.message));
         };
     </script>
 </body>
