@@ -2,48 +2,45 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Quản trị Dashboard Bình Hưng</title>
+    <title>Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 p-8">
-    <div class="max-w-5xl mx-auto bg-white p-10 rounded-3xl shadow-lg border">
-        <header class="flex justify-between items-center mb-10 border-b pb-6">
-            <h1 class="text-2xl font-black text-blue-900 uppercase">Cập nhật số liệu 2026</h1>
-            <button onclick="saveAll()" class="bg-blue-600 text-white px-10 py-3 rounded-2xl font-bold shadow-xl hover:bg-blue-700">LƯU HỆ THỐNG 💾</button>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <section class="space-y-4">
-                <h3 class="font-bold text-blue-700 uppercase text-sm border-b pb-2">1. Tiếp công dân (Biểu 01)</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div><label class="text-[10px] font-bold">Thường xuyên (Lượt)</label><input type="number" id="tcd_tx_luot" class="w-full p-2 border rounded"></div>
-                    <div><label class="text-[10px] font-bold">Thường xuyên (Người)</label><input type="number" id="tcd_tx_nguoi" class="w-full p-2 border rounded"></div>
-                    <div><label class="text-[10px] font-bold">Lãnh đạo tiếp (Lượt)</label><input type="number" id="tcd_ld_luot" class="w-full p-2 border rounded"></div>
-                    <div><label class="text-[10px] font-bold">Lãnh đạo tiếp (Người)</label><input type="number" id="tcd_ld_nguoi" class="w-full p-2 border rounded"></div>
-                </div>
-            </section>
-
-            <section class="space-y-4">
-                <h3 class="font-bold text-red-600 uppercase text-sm border-b pb-2">2. Xử lý Đơn thư (Biểu 02)</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="number" id="dt_pa_tong" placeholder="Tổng đơn Phản ánh" class="p-2 border rounded">
-                    <input type="number" id="dt_pa_dat" placeholder="Đơn PA Đất đai" class="p-2 border rounded">
-                    <input type="number" id="dt_kn_tong" placeholder="Tổng đơn Khiếu nại" class="p-2 border rounded">
-                    <input type="number" id="dt_kn_dat" placeholder="Đơn KN Đất đai" class="p-2 border rounded">
-                    <input type="number" id="dt_kn_thuly" placeholder="Số đơn thụ lý" class="p-2 border rounded col-span-2">
-                </div>
-            </section>
-
-            <section class="md:col-span-2">
-                <h3 class="font-bold text-emerald-700 uppercase text-sm border-b pb-4 mb-4">3. 30 Chỉ tiêu KT-XH (% Thực hiện)</h3>
-                <div id="ct-grid" class="grid grid-cols-5 md:grid-cols-10 gap-3"></div>
-            </section>
+    <div class="max-w-5xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
+        <div class="flex justify-between items-center border-b pb-4 mb-6">
+            <h1 class="text-2xl font-black text-blue-900 uppercase">Cập nhật số liệu chuẩn 2026</h1>
+            <button onclick="save()" class="bg-blue-600 text-white px-8 py-2 rounded-xl font-bold">LƯU HỆ THỐNG 💾</button>
         </div>
+
+        <div class="grid grid-cols-2 gap-8 mb-8">
+            <div class="space-y-4 bg-slate-50 p-4 rounded-xl">
+                <h3 class="font-bold text-blue-700">TIẾP CÔNG DÂN (BIỂU 01)</h3>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div>Lượt tiếp thường xuyên<input type="number" id="tcd_tx_luot" class="w-full p-1 border rounded"></div>
+                    <div>Người tiếp thường xuyên<input type="number" id="tcd_tx_nguoi" class="w-full p-1 border rounded"></div>
+                    <div>Lượt lãnh đạo tiếp<input type="number" id="tcd_ld_luot" class="w-full p-1 border rounded"></div>
+                    <div>Người lãnh đạo tiếp<input type="number" id="tcd_ld_nguoi" class="w-full p-1 border rounded"></div>
+                </div>
+            </div>
+            <div class="space-y-4 bg-slate-50 p-4 rounded-xl">
+                <h3 class="font-bold text-red-600">XỬ LÝ ĐƠN THƯ (BIỂU 02)</h3>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div>Tổng đơn Phản ánh<input type="number" id="dt_pa_tong" class="w-full p-1 border rounded"></div>
+                    <div>Đơn PA Đất đai<input type="number" id="dt_pa_dat" class="w-full p-1 border rounded"></div>
+                    <div>Tổng đơn Khiếu nại<input type="number" id="dt_kn_tong" class="w-full p-1 border rounded"></div>
+                    <div>Đơn KN Đất đai<input type="number" id="dt_kn_dat" class="w-full p-1 border rounded"></div>
+                    <div class="col-span-2">Số đơn KN đã thụ lý<input type="number" id="dt_kn_thuly" class="w-full p-1 border rounded"></div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="font-bold text-emerald-700 mb-4 uppercase">30 Chỉ tiêu KT-XH (% Thực hiện)</h3>
+        <div id="ct-grid" class="grid grid-cols-5 md:grid-cols-10 gap-2"></div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC7J3V97_gKwyAzpckTJm5j8hoMWU5aoFI",
@@ -55,26 +52,28 @@
         const db = getDatabase(initializeApp(firebaseConfig));
 
         const grid = document.getElementById('ct-grid');
-        for(let i=1; i<=30; i++) {
-            grid.innerHTML += `<div class="bg-slate-50 border p-2 rounded text-center"><label class="text-[9px] font-black">CT${i}</label><input type="number" step="0.1" id="ct_${i}" class="w-full text-center text-xs font-bold bg-transparent"></div>`;
-        }
+        for(let i=1; i<=30; i++) grid.innerHTML += `<div class="bg-slate-50 border p-1 rounded text-center text-[10px]"><label>CT${i}</label><input type="number" step="0.1" id="ct_${i}" class="w-full text-center font-bold"></div>`;
 
-        window.saveAll = function() {
+        onValue(ref(db, 'dashboard_binhhung'), (snap) => {
+            const d = snap.val(); if(!d) return;
+            const ids = ['tcd_tx_luot','tcd_tx_nguoi','tcd_ld_luot','tcd_ld_nguoi','dt_pa_tong','dt_pa_dat','dt_kn_tong','dt_kn_dat','dt_kn_thuly'];
+            ids.forEach(id => document.getElementById(id).value = d[id] || 0);
+            for(let i=1; i<=30; i++) document.getElementById(`ct_${i}`).value = d[`ct_${i}`] || 0;
+        });
+
+        window.save = function() {
             const getV = (id) => parseFloat(document.getElementById(id).value) || 0;
-            const ct30 = {}; for(let i=1; i<=30; i++) ct30[`ct_${i}`] = getV(`ct_${i}`);
-
             const data = {
-                tcd: { thuong_xuyen: { luot: getV('tcd_tx_luot'), nguoi: getV('tcd_tx_nguoi') }, lanh_dao: { luot: getV('tcd_ld_luot'), nguoi: getV('tcd_ld_nguoi') } },
-                don_thu: {
-                    phan_anh: { tong: getV('dt_pa_tong'), dat_dai: getV('dt_pa_dat') },
-                    khieu_nai: { tong: getV('dt_kn_tong'), dat_dai: getV('dt_kn_dat'), thu_ly: getV('dt_kn_thuly') },
-                    thi_hanh_qd: { tong_phai_lam: 9, da_xong: 3 }
-                },
-                pa_1022: { thong_ke: { da_giai_quyet: 192, chua_giai_quyet: 0 } },
-                chi_tieu_30: ct30,
-                khac: { ho_so_tong: 1250, van_ban_tong: 89 }
+                tcd_tx_luot: getV('tcd_tx_luot'), tcd_tx_nguoi: getV('tcd_tx_nguoi'),
+                tcd_ld_luot: getV('tcd_ld_luot'), tcd_ld_nguoi: getV('tcd_ld_nguoi'),
+                tcd_tong: getV('tcd_tx_luot') + getV('tcd_ld_luot'),
+                dt_pa_tong: getV('dt_pa_tong'), dt_pa_dat: getV('dt_pa_dat'),
+                dt_kn_tong: getV('dt_kn_tong'), dt_kn_dat: getV('dt_kn_dat'), dt_kn_thuly: getV('dt_kn_thuly'),
+                dt_tong: getV('dt_pa_tong') + getV('dt_kn_tong'),
+                pa_1022_tong: 192
             };
-            set(ref(db, 'dashboard_binhhung'), data).then(() => alert("Cập nhật thành công!")).catch(e => alert(e.message));
+            for(let i=1; i<=30; i++) data[`ct_${i}`] = getV(`ct_${i}`);
+            set(ref(db, 'dashboard_binhhung'), data).then(() => alert("Cập nhật thành công!"));
         };
     </script>
 </body>
