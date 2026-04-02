@@ -2,100 +2,77 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Điều Hành - UBND Xã Bình Hưng</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        .sidebar { width: 260px; background-color: #0f172a; color: white; display: flex; flex-direction: column; flex-shrink: 0; }
-        .sidebar-item { padding: 1rem 1.5rem; cursor: pointer; transition: all 0.2s; border-left: 4px solid transparent; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 12px; }
-        .sidebar-item:hover { background-color: #1e293b; border-left-color: #3b82f6; }
-        .sidebar-item.active { background-color: #1e293b; border-left-color: #3b82f6; color: #60a5fa; }
+        body { font-family: 'Inter', sans-serif; display: flex; height: 100vh; overflow: hidden; background: #f1f5f9; }
+        .sidebar { width: 260px; background: #0f172a; color: white; flex-shrink: 0; }
+        .sidebar-item { padding: 1rem 1.5rem; cursor: pointer; border-left: 4px solid transparent; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .sidebar-item:hover, .sidebar-item.active { background: #1e293b; border-left-color: #3b82f6; color: #60a5fa; }
         .main-content { flex-grow: 1; overflow-y: auto; padding: 2rem; }
         .carousel-track { display: flex; transition: transform 0.7s ease-in-out; }
-        .carousel-page { min-width: 100%; display: flex; gap: 15px; justify-content: space-between; padding: 10px; }
-        .indicator-item { flex: 1; background: #1e293b; color: white; padding: 20px 10px; border-radius: 16px; text-align: center; min-height: 180px; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        .modal-table td, .modal-table th { border: 1px solid #e2e8f0; padding: 12px; text-align: center; }
-        @media (max-width: 1024px) { .sidebar { width: 80px; } .sidebar span { display: none; } }
+        .carousel-page { min-width: 100%; display: flex; gap: 15px; justify-content: space-between; }
+        .indicator-item { flex: 1; background: #1e293b; color: white; padding: 20px 10px; border-radius: 16px; text-align: center; min-height: 180px; display: flex; flex-direction: column; justify-content: center; }
+        .modal-table td { border: 1px solid #e2e8f0; padding: 12px; text-align: center; }
     </style>
 </head>
 <body>
     <aside class="sidebar">
-        <div class="p-6 border-b border-slate-800">
-            <div class="text-xl font-black text-blue-500 italic uppercase">Bình Hưng</div>
-            <div class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Hệ thống điều hành 2026</div>
-        </div>
-        <nav class="mt-6 flex-grow">
-            <div class="sidebar-item active">🏠 <span>Tổng quan chung</span></div>
-            <div class="sidebar-item" onclick="openModal('modalTCD')">👥 <span>Tiếp công dân</span></div>
-            <div class="sidebar-item" onclick="openModal('modalDonThu')">📂 <span>Đơn thư & Khiếu nại</span></div>
+        <div class="p-6 border-b border-slate-800"><div class="text-xl font-black text-blue-500 italic">BÌNH HƯNG</div></div>
+        <nav class="mt-4">
+            <div class="sidebar-item active">🏠 <span>Tổng quan</span></div>
+            <div class="sidebar-item" onclick="openM('modalTCD')">👥 <span>Tiếp công dân</span></div>
+            <div class="sidebar-item" onclick="openM('modalDT')">📂 <span>Đơn thư</span></div>
         </nav>
-        <div class="p-4 text-[10px] text-slate-600 text-center border-t border-slate-800 italic">© UBND Xã Bình Hưng</div>
     </aside>
 
     <main class="main-content">
-        <header class="mb-8 flex justify-between items-center border-b-2 border-blue-900 pb-4">
-            <div>
-                <h1 class="text-3xl font-black text-blue-900 uppercase italic">Hệ Thống Chỉ Số Điều Hành</h1>
-                <p class="text-slate-500 font-bold uppercase text-xs tracking-tighter mt-1">UBND Xã Bình Hưng - Báo cáo số 720/BC-UBND</p>
-            </div>
-            <div id="clock" class="text-3xl font-mono font-bold text-blue-700 bg-blue-50 px-6 py-2 rounded-2xl border border-blue-200">00:00:00</div>
+        <header class="flex justify-between items-end border-b-2 border-blue-900 pb-4 mb-8">
+            <div><h1 class="text-3xl font-black text-blue-900 uppercase italic">Hệ Thống Chỉ Số Điều Hành 2026</h1></div>
+            <div id="clock" class="text-3xl font-mono font-bold text-blue-700">00:00:00</div>
         </header>
 
-        <section class="mb-10 bg-emerald-50 border border-emerald-200 rounded-3xl overflow-hidden p-2 shadow-sm">
-            <div class="flex justify-between items-center px-6 py-3">
-                <h3 class="font-black text-green-800 uppercase text-xs">📊 30 Chỉ tiêu KT-XH chủ yếu</h3>
-                <span id="page-num" class="bg-green-600 text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase">Trang 1/6</span>
-            </div>
+        <section class="mb-10 bg-emerald-50 border border-emerald-200 rounded-3xl p-4 overflow-hidden">
+            <div class="flex justify-between px-4 mb-4"><h3 class="font-bold text-green-800 uppercase text-xs">📊 30 Chỉ tiêu KT-XH</h3><span id="page-num" class="text-[10px] font-bold bg-green-600 text-white px-3 py-1 rounded-full">Trang 1/6</span></div>
             <div class="overflow-hidden"><div id="carouselTrack" class="carousel-track"></div></div>
         </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div onclick="openModal('modalTCD')" class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-blue-500 cursor-pointer hover:scale-[1.02] transition-all">
-                <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">👥 Tiếp công dân (Lượt)</h4>
+        <div class="grid grid-cols-3 gap-8">
+            <div onclick="openM('modalTCD')" class="bg-white p-6 rounded-2xl shadow border-t-4 border-blue-500 cursor-pointer">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-2">Tiếp công dân (Lượt)</p>
                 <span id="tcd_tong" class="text-4xl font-black text-blue-900">0</span>
             </div>
-            <div onclick="openModal('modalDonThu')" class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-red-500 cursor-pointer hover:scale-[1.02] transition-all">
-                <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">📂 Tổng đơn xử lý</h4>
+            <div onclick="openM('modalDT')" class="bg-white p-6 rounded-2xl shadow border-t-4 border-red-500 cursor-pointer">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-2">Đơn thư thụ lý</p>
                 <span id="dt_tong" class="text-4xl font-black text-red-600">0</span>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-orange-500 text-center">
-                <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">📞 Phản ánh 1022</h4>
+            <div class="bg-white p-6 rounded-2xl shadow border-t-4 border-orange-500">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-2">Phản ánh 1022</p>
                 <span id="pa_1022_tong" class="text-4xl font-black text-orange-600">0</span>
             </div>
         </div>
     </main>
 
-    <div id="modalTCD" class="fixed inset-0 bg-slate-900/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl">
-            <div class="p-5 bg-blue-600 text-white flex justify-between items-center px-8">
-                <h2 class="font-black uppercase">Chi tiết tiếp công dân (Quý I/2026)</h2>
-                <button onclick="closeModal('modalTCD')" class="text-3xl">&times;</button>
-            </div>
-            <div class="p-8">
-                <table class="w-full modal-table">
-                    <tr class="bg-slate-100 font-bold"><td>Hình thức tiếp</td><td>Số lượt</td><td>Số người</td></tr>
-                    <tr><td class="text-left font-bold">Tiếp thường xuyên</td><td id="tcd_tx_luot">0</td><td id="tcd_tx_nguoi">0</td></tr>
-                    <tr><td class="text-left font-bold">Lãnh đạo tiếp định kỳ</td><td id="tcd_ld_luot">0</td><td id="tcd_ld_nguoi">0</td></tr>
-                </table>
-            </div>
+    <div id="modalTCD" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-2xl overflow-hidden">
+            <div class="p-4 bg-blue-600 text-white flex justify-between"><b>CHI TIẾT TIẾP CÔNG DÂN</b><button onclick="closeM('modalTCD')">&times;</button></div>
+            <div class="p-6"><table class="w-full modal-table">
+                <tr class="bg-slate-50"><td>Loại hình</td><td>Số lượt</td><td>Số người</td></tr>
+                <tr><td>Tiếp thường xuyên</td><td id="m_tcd_tx_l">0</td><td id="m_tcd_tx_n">0</td></tr>
+                <tr><td>Lãnh đạo tiếp</td><td id="m_tcd_ld_l">0</td><td id="m_tcd_ld_n">0</td></tr>
+            </table></div>
         </div>
     </div>
 
-    <div id="modalDonThu" class="fixed inset-0 bg-slate-900/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl">
-            <div class="p-5 bg-red-600 text-white flex justify-between items-center px-8">
-                <h2 class="font-black uppercase">Kết quả xử lý đơn thư (Báo cáo 720)</h2>
-                <button onclick="closeModal('modalDonThu')" class="text-3xl">&times;</button>
-            </div>
-            <div class="p-8">
-                <table class="w-full modal-table text-sm">
-                    <tr class="bg-slate-100 font-bold uppercase text-[10px]"><td>Loại hình đơn thư</td><td>Tổng số</td><td>Lĩnh vực đất đai</td><td>Kết quả xử lý</td></tr>
-                    <tr><td class="text-left font-bold">Phản ánh, Kiến nghị</td><td id="dt_pa_tong">0</td><td id="dt_pa_dat">0</td><td class="text-emerald-600 font-bold">Đã xử lý 100%</td></tr>
-                    <tr><td class="text-left font-bold">Khiếu nại (Lần đầu)</td><td id="dt_kn_tong">0</td><td id="dt_kn_dat">0</td><td id="dt_kn_thuly" class="text-blue-600 font-bold">0 thụ lý</td></tr>
-                </table>
-            </div>
+    <div id="modalDT" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-4xl overflow-hidden">
+            <div class="p-4 bg-red-600 text-white flex justify-between"><b>CHI TIẾT ĐƠN THƯ</b><button onclick="closeM('modalDT')">&times;</button></div>
+            <div class="p-6"><table class="w-full modal-table">
+                <tr class="bg-slate-50"><td>Loại đơn</td><td>Tổng số</td><td>Đất đai</td><td>Ghi chú</td></tr>
+                <tr><td>Phản ánh</td><td id="m_dt_pa_t">0</td><td id="m_dt_pa_d">0</td><td>Đã xử lý 100%</td></tr>
+                <tr><td>Khiếu nại</td><td id="m_dt_kn_t">0</td><td id="m_dt_kn_d">0</td><td>Thụ lý: <span id="m_dt_kn_tl">0</span></td></tr>
+            </table></div>
         </div>
     </div>
 
@@ -110,7 +87,6 @@
             projectId: "dashboarb-xabinhhung",
             appId: "1:152638135861:web:128ac8d51c8357b6521b7c"
         };
-
         const db = getDatabase(initializeApp(firebaseConfig));
         const indicators = [
             { id: "ct_1", ten: "Tốc độ tăng tổng giá trị SP", kh: "10.5%" }, { id: "ct_2", ten: "Tổng thu ngân sách nhà nước", kh: "100%" }, { id: "ct_3", ten: "Tỷ lệ giải ngân vốn ĐTC", kh: "≥95%" }, { id: "ct_4", ten: "Tỷ lệ dân số tham gia BHYT", kh: "≥95%" }, { id: "ct_5", ten: "Lao động tham gia BHXH", kh: "59.5%" },
@@ -122,55 +98,42 @@
         ];
 
         onValue(ref(db, 'dashboard_binhhung'), (snap) => {
-            const data = snap.val(); if(!data) return;
+            const d = snap.val(); if(!d) return;
+            document.getElementById('tcd_tong').innerText = d.tcd_tong || 0;
+            document.getElementById('m_tcd_tx_l').innerText = d.tcd_tx_luot;
+            document.getElementById('m_tcd_tx_n').innerText = d.tcd_tx_nguoi;
+            document.getElementById('m_tcd_ld_l').innerText = d.tcd_ld_luot;
+            document.getElementById('m_tcd_ld_n').innerText = d.tcd_ld_nguoi;
 
-            // Tiếp công dân
-            const tcd = data.tcd;
-            document.getElementById('tcd_tong').innerText = tcd.thuong_xuyen.luot + tcd.lanh_dao.luot;
-            document.getElementById('tcd_tx_luot').innerText = tcd.thuong_xuyen.luot;
-            document.getElementById('tcd_tx_nguoi').innerText = tcd.thuong_xuyen.nguoi;
-            document.getElementById('tcd_ld_luot').innerText = tcd.lanh_dao.luot;
-            document.getElementById('tcd_ld_nguoi').innerText = tcd.lanh_dao.nguoi;
+            document.getElementById('dt_tong').innerText = d.dt_tong || 0;
+            document.getElementById('m_dt_pa_t').innerText = d.dt_pa_tong;
+            document.getElementById('m_dt_pa_d').innerText = d.dt_pa_dat;
+            document.getElementById('m_dt_kn_t').innerText = d.dt_kn_tong;
+            document.getElementById('m_dt_kn_d').innerText = d.dt_kn_dat;
+            document.getElementById('m_dt_kn_tl').innerText = d.dt_kn_thuly;
 
-            // Đơn thư
-            const dt = data.don_thu;
-            document.getElementById('dt_tong').innerText = dt.phan_anh.tong + dt.khieu_nai.tong;
-            document.getElementById('dt_pa_tong').innerText = dt.phan_anh.tong;
-            document.getElementById('dt_pa_dat').innerText = dt.phan_anh.dat_dai;
-            document.getElementById('dt_kn_tong').innerText = dt.khieu_nai.tong;
-            document.getElementById('dt_kn_dat').innerText = dt.khieu_nai.dat_dai;
-            document.getElementById('dt_kn_thuly').innerText = dt.khieu_nai.thu_ly;
+            document.getElementById('pa_1022_tong').innerText = d.pa_1022_tong || 0;
 
-            // 1022 & Chỉ tiêu
-            document.getElementById('pa_1022_tong').innerText = data.pa_1022.thong_ke.da_giai_quyet;
-            if(data.chi_tieu_30) {
-                indicators.forEach(it => it.th = data.chi_tieu_30[it.id] || 0);
-                renderCarousel();
-            }
-        });
-
-        let curPage = 0;
-        function renderCarousel() {
             const track = document.getElementById('carouselTrack'); track.innerHTML = '';
             for(let i=0; i<6; i++) {
                 const page = document.createElement('div'); page.className = 'carousel-page';
                 page.innerHTML = indicators.slice(i*5, (i+1)*5).map(it => `
-                    <div class="indicator-item">
-                        <div class="text-[9px] uppercase font-bold text-slate-400 h-8 flex items-center justify-center">${it.ten}</div>
-                        <div class="text-5xl font-black my-2">${it.th}%</div>
-                        <div class="text-[10px] text-emerald-400 font-bold italic">KH: ${it.kh}</div>
-                    </div>
+                    <div class="indicator-item"><p class="text-[9px] uppercase font-bold text-slate-400">${it.ten}</p>
+                    <p class="text-5xl font-black my-2">${d[it.id] || 0}%</p>
+                    <p class="text-[10px] text-emerald-400 italic">KH: ${it.kh}</p></div>
                 `).join('');
                 track.appendChild(page);
             }
-        }
+        });
+
+        let curP = 0;
         setInterval(() => {
-            curPage = (curPage + 1) % 6;
-            document.getElementById('carouselTrack').style.transform = `translateX(-${curPage*100}%)`;
-            document.getElementById('page-num').innerText = `Trang ${curPage+1}/6`;
+            curP = (curP + 1) % 6;
+            document.getElementById('carouselTrack').style.transform = `translateX(-${curP*100}%)`;
+            document.getElementById('page-num').innerText = `Trang ${curP+1}/6`;
         }, 10000);
-        window.openModal = (id) => document.getElementById(id).classList.remove('hidden');
-        window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
+        window.openM = (id) => document.getElementById(id).classList.remove('hidden');
+        window.closeM = (id) => document.getElementById(id).classList.add('hidden');
         setInterval(() => document.getElementById('clock').innerText = new Date().toLocaleTimeString('vi-VN'), 1000);
     </script>
 </body>
