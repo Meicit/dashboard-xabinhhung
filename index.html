@@ -92,10 +92,47 @@
             </div>
         </div>
 
-        <div class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-blue-500 text-center flex flex-col justify-center">
-            <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">📋 Hồ sơ hành chính</h4>
-            <div id="hs_tong" class="text-5xl font-black text-blue-900">0</div>
+       <div onclick="openHoSoModal()" class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-blue-500 cursor-pointer hover:bg-slate-50 transition-all">
+    <div class="flex items-center gap-2 mb-2">
+        <span class="bg-blue-100 p-1 rounded text-lg">📋</span>
+        <h4 class="text-xs font-bold text-slate-400 uppercase">Hồ sơ TTHC</h4>
+    </div>
+    <div class="mb-2">
+        <div class="text-3xl font-black text-blue-900"><span id="hs_tong_hien_thi">0</span> hồ sơ</div>
+        <div class="text-sm font-bold text-slate-500">Đúng hạn: <span id="hs_dung_han_rate" class="text-emerald-600">0%</span></div>
+    </div>
+    <div class="pt-2 border-t text-[11px] font-bold text-slate-400">
+        Online: <span id="hs_online_tong">0</span> (<span id="hs_online_rate">0%</span>)
+    </div>
+</div>
+
+<div id="hoSoModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-slate-100 rounded-xl w-full max-w-5xl overflow-hidden shadow-2xl">
+        <div class="p-4 bg-white flex justify-between items-center border-b">
+            <h2 class="font-bold text-slate-800 uppercase text-sm">Chi tiết Hồ sơ hành chính</h2>
+            <button onclick="closeHoSoModal()" class="text-2xl text-slate-400">&times;</button>
         </div>
+        <div class="p-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-lg border shadow-sm text-center">
+                <div class="text-[10px] uppercase font-bold text-slate-400">Tổng hồ sơ</div>
+                <div id="m_hs_tong" class="text-2xl font-black">0</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg border shadow-sm text-center">
+                <div class="text-[10px] uppercase font-bold text-slate-400">Trực tuyến</div>
+                <div id="m_hs_online" class="text-2xl font-black text-blue-600">0</div>
+                <div id="m_hs_online_rate" class="text-[10px] text-slate-400 font-bold">0%</div>
+            </div>
+            <div class="bg-emerald-100 p-4 rounded-lg border border-emerald-200 text-center">
+                <div class="text-[10px] uppercase font-bold text-emerald-600">Đúng hạn</div>
+                <div id="m_hs_dung_han" class="text-2xl font-black text-emerald-700">0%</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg border shadow-sm text-center">
+                <div class="text-[10px] uppercase font-bold text-slate-400">Quá hạn</div>
+                <div id="m_hs_qua_han" class="text-2xl font-black text-red-600">0</div>
+            </div>
+        </div>
+    </div>
+</div>
         <div class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-emerald-500 text-center flex flex-col justify-center">
             <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">⚖️ Văn bản chỉ đạo</h4>
             <div id="vb_tong" class="text-5xl font-black text-emerald-700">0</div>
