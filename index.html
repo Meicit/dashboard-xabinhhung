@@ -265,7 +265,28 @@
             if(pa1022.danh_gia) document.getElementById('pa_danh_gia').innerText = "Đánh giá: " + pa1022.danh_gia;
 
             // Các thẻ khác
-            document.getElementById('hs_tong').innerText = data.ho_so?.tong || 0;
+            const hs = data.ho_so || {};
+const hs_tong = hs.tong || 0;
+const hs_online = hs.truc_tuyen || 0;
+const hs_rate = hs_tong > 0 ? ((hs_online / hs_tong) * 100).toFixed(1) : 0;
+
+// Cập nhật thẻ chính
+document.getElementById('hs_tong_hien_thi').innerText = hs_tong.toLocaleString('vi-VN');
+document.getElementById('hs_dung_han_rate').innerText = (hs.dung_han_percent || 0) + "%";
+document.getElementById('hs_online_tong').innerText = hs_online.toLocaleString('vi-VN');
+document.getElementById('hs_online_rate').innerText = hs_rate + "%";
+
+// Cập nhật Modal
+document.getElementById('m_hs_tong').innerText = hs_tong.toLocaleString('vi-VN');
+document.getElementById('m_hs_online').innerText = hs_online.toLocaleString('vi-VN');
+document.getElementById('m_hs_online_rate').innerText = hs_rate + "%";
+document.getElementById('m_hs_dung_han').innerText = (hs.dung_han_percent || 0) + "%";
+document.getElementById('m_hs_qua_han').innerText = hs.qua_han || 0;
+
+// Thêm hàm đóng mở modal vào cuối script
+window.openHoSoModal = () => document.getElementById('hoSoModal').classList.remove('hidden');
+window.closeHoSoModal = () => document.getElementById('hoSoModal').classList.add('hidden');
+            // document.getElementById('hs_tong').innerText = data.ho_so?.tong || 0;
             document.getElementById('vb_tong').innerText = data.van_ban?.tong || 0;
 
             if(data.chi_tieu) {
