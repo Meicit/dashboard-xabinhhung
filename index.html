@@ -64,6 +64,7 @@
     </section>
 
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+        
         <div onclick="openDonThuModal()" class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-red-500 cursor-pointer hover:bg-slate-50 transition-all">
             <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">📂 Đơn thư (Chi tiết)</h4>
             <div class="space-y-3">
@@ -82,7 +83,7 @@
             <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">📞 Phản ánh 1022</h4>
             <div class="space-y-2">
                 <div class="flex justify-between border-b pb-1">
-                    <span class="text-sm text-slate-600 font-bold">Tổng số phản ánh:</span>
+                    <span class="text-sm text-slate-600 font-bold">Tổng phản ánh:</span>
                     <span id="pa_1022_tong" class="text-xl font-black text-orange-600">0</span>
                 </div>
                 <div class="text-[11px] font-bold">
@@ -92,47 +93,21 @@
             </div>
         </div>
 
-       <div onclick="openHoSoModal()" class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-blue-500 cursor-pointer hover:bg-slate-50 transition-all">
-    <div class="flex items-center gap-2 mb-2">
-        <span class="bg-blue-100 p-1 rounded text-lg">📋</span>
-        <h4 class="text-xs font-bold text-slate-400 uppercase">Hồ sơ TTHC</h4>
-    </div>
-    <div class="mb-2">
-        <div class="text-3xl font-black text-blue-900"><span id="hs_tong_hien_thi">0</span> hồ sơ</div>
-        <div class="text-sm font-bold text-slate-500">Đúng hạn: <span id="hs_dung_han_rate" class="text-emerald-600">0%</span></div>
-    </div>
-    <div class="pt-2 border-t text-[11px] font-bold text-slate-400">
-        Online: <span id="hs_online_tong">0</span> (<span id="hs_online_rate">0%</span>)
-    </div>
-</div>
+        <div onclick="openHoSoModal()" class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-blue-500 cursor-pointer hover:bg-slate-50 transition-all">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="bg-blue-100 p-1 rounded text-lg">📋</span>
+                <h4 class="text-xs font-bold text-slate-400 uppercase">Hồ sơ TTHC</h4>
+            </div>
+            <div class="mb-3">
+                <div class="text-3xl font-black text-blue-900 leading-tight"><span id="hs_tong_hien_thi">0</span> hồ sơ</div>
+                <div class="text-sm font-bold text-slate-500">Đúng hạn: <span id="hs_dung_han_rate" class="text-emerald-600">0%</span></div>
+            </div>
+            <div class="pt-2 border-t text-[11px] font-bold text-slate-400 flex justify-between">
+                <span>Online: <span id="hs_online_tong" class="text-blue-600">0</span></span>
+                <span id="hs_online_rate" class="bg-slate-100 px-2 rounded-full">0%</span>
+            </div>
+        </div>
 
-<div id="hoSoModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-    <div class="bg-slate-100 rounded-xl w-full max-w-5xl overflow-hidden shadow-2xl">
-        <div class="p-4 bg-white flex justify-between items-center border-b">
-            <h2 class="font-bold text-slate-800 uppercase text-sm">Chi tiết Hồ sơ hành chính</h2>
-            <button onclick="closeHoSoModal()" class="text-2xl text-slate-400">&times;</button>
-        </div>
-        <div class="p-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="bg-white p-4 rounded-lg border shadow-sm text-center">
-                <div class="text-[10px] uppercase font-bold text-slate-400">Tổng hồ sơ</div>
-                <div id="m_hs_tong" class="text-2xl font-black">0</div>
-            </div>
-            <div class="bg-white p-4 rounded-lg border shadow-sm text-center">
-                <div class="text-[10px] uppercase font-bold text-slate-400">Trực tuyến</div>
-                <div id="m_hs_online" class="text-2xl font-black text-blue-600">0</div>
-                <div id="m_hs_online_rate" class="text-[10px] text-slate-400 font-bold">0%</div>
-            </div>
-            <div class="bg-emerald-100 p-4 rounded-lg border border-emerald-200 text-center">
-                <div class="text-[10px] uppercase font-bold text-emerald-600">Đúng hạn</div>
-                <div id="m_hs_dung_han" class="text-2xl font-black text-emerald-700">0%</div>
-            </div>
-            <div class="bg-white p-4 rounded-lg border shadow-sm text-center">
-                <div class="text-[10px] uppercase font-bold text-slate-400">Quá hạn</div>
-                <div id="m_hs_qua_han" class="text-2xl font-black text-red-600">0</div>
-            </div>
-        </div>
-    </div>
-</div>
         <div class="bg-white p-5 rounded-xl shadow-md border border-slate-200 border-t-4 border-emerald-500 text-center flex flex-col justify-center">
             <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">⚖️ Văn bản chỉ đạo</h4>
             <div id="vb_tong" class="text-5xl font-black text-emerald-700">0</div>
@@ -185,6 +160,38 @@
         </div>
     </div>
 
+    <div id="hoSoModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-slate-100 rounded-xl w-full max-w-5xl overflow-hidden shadow-2xl">
+            <div class="p-4 bg-white flex justify-between items-center border-b px-6">
+                <h2 class="font-bold text-slate-800 uppercase text-sm tracking-wide">Chi tiết Hồ sơ hành chính</h2>
+                <button onclick="closeHoSoModal()" class="text-3xl text-slate-400 leading-none">&times;</button>
+            </div>
+            <div class="p-6 grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="bg-white p-5 rounded-lg border shadow-sm text-center">
+                    <div class="text-[10px] uppercase font-bold text-slate-400 mb-1">Tổng hồ sơ</div>
+                    <div id="m_hs_tong" class="text-2xl font-black text-slate-800">0</div>
+                </div>
+                <div class="bg-blue-50 p-5 rounded-lg border border-blue-100 text-center">
+                    <div class="text-[10px] uppercase font-bold text-blue-600 mb-1">Đã giải quyết</div>
+                    <div id="m_hs_da_giai_quyet" class="text-2xl font-black text-blue-700">0</div>
+                </div>
+                <div class="bg-white p-5 rounded-lg border shadow-sm text-center">
+                    <div class="text-[10px] uppercase font-bold text-slate-400 mb-1">Trực tuyến</div>
+                    <div id="m_hs_online" class="text-2xl font-black text-blue-600">0</div>
+                    <div id="m_hs_online_rate" class="text-[10px] text-slate-400 font-bold mt-1">0%</div>
+                </div>
+                <div class="bg-emerald-100 p-5 rounded-lg border border-emerald-200 text-center">
+                    <div class="text-[10px] uppercase font-bold text-emerald-600 mb-1">Đúng hạn</div>
+                    <div id="m_hs_dung_han" class="text-2xl font-black text-emerald-700">0%</div>
+                </div>
+                <div class="bg-white p-5 rounded-lg border shadow-sm text-center">
+                    <div class="text-[10px] uppercase font-bold text-slate-400 mb-1">Quá hạn</div>
+                    <div id="m_hs_qua_han" class="text-2xl font-black text-red-600">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
@@ -212,7 +219,7 @@
             const data = snap.val();
             if(!data) return;
 
-            // Xử lý ĐƠN THƯ (Giữ nguyên)
+            // XỬ LÝ ĐƠN THƯ
             const summary = data.don_thu || {};
             document.getElementById('dt_tong').innerText = summary.tong || 0;
             document.getElementById('dt_da_giai_quyet').innerText = summary.da_giai_quyet || 0;
@@ -235,27 +242,25 @@
             document.getElementById('dt_cgq_th_tc').innerText = detail.tc_cgq_th || 0;
             document.getElementById('dt_cgq_qh_tc').innerText = detail.tc_cgq_qh || 0;
 
-            // Xử lý 1022 (Bổ sung mapping 6 nhóm)
+            // XỬ LÝ 1022
             const pa1022 = data.pa_1022 || {};
+            const tongPA = pa1022.tong || 1;
             document.getElementById('pa_1022_tong').innerText = pa1022.tong || 0;
             document.getElementById('pa_1022_xong').innerText = pa1022.da_giai_quyet || 0;
             document.getElementById('pa_1022_cho').innerText = pa1022.chua_giai_quyet || 0;
-            
-            const detail1022 = data.pa_1022_detail || {};
-            const tongPA = pa1022.tong || 1;
             document.getElementById('m1022_tong').innerText = pa1022.tong || 0;
             document.getElementById('m1022_xong').innerText = pa1022.da_giai_quyet || 0;
             document.getElementById('m1022_ty_le').innerText = ((pa1022.da_giai_quyet || 0) / tongPA * 100).toFixed(1) + "%";
             
+            const detail1022 = data.pa_1022_detail || {};
             const mapping = [
                 {id:'tieng_on', v:detail1022.tieng_on},
                 {id:'kinh_te', v:detail1022.kinh_te_ha_tang},
                 {id:'trat_tu', v:detail1022.trat_tu_do_thi},
                 {id:'van_hoa', v:detail1022.van_hoa_xa_hoi},
-                {id:'hcc', v:detail1022.hanh_chinh_cong}, // Mới
-                {id:'khac', v:detail1022.khac} // Mới
+                {id:'hcc', v:detail1022.hanh_chinh_cong},
+                {id:'khac', v:detail1022.khac}
             ];
-            
             mapping.forEach(m => {
                 const textEl = document.getElementById(`pa_${m.id}`);
                 const barEl = document.getElementById(`bar_${m.id}`);
@@ -264,37 +269,33 @@
             });
             if(pa1022.danh_gia) document.getElementById('pa_danh_gia').innerText = "Đánh giá: " + pa1022.danh_gia;
 
-            // Các thẻ khác
+            // XỬ LÝ HỒ SƠ TTHC (CẬP NHẬT)
             const hs = data.ho_so || {};
-const hs_tong = hs.tong || 0;
-const hs_online = hs.truc_tuyen || 0;
-const hs_rate = hs_tong > 0 ? ((hs_online / hs_tong) * 100).toFixed(1) : 0;
+            const hs_tong = hs.tong || 0;
+            const hs_online = hs.truc_tuyen || 0;
+            const hs_online_rate = hs_tong > 0 ? ((hs_online / hs_tong) * 100).toFixed(1) : 0;
+            
+            document.getElementById('hs_tong_hien_thi').innerText = hs_tong.toLocaleString('vi-VN');
+            document.getElementById('hs_dung_han_rate').innerText = (hs.dung_han_percent || 0) + "%";
+            document.getElementById('hs_online_tong').innerText = hs_online.toLocaleString('vi-VN');
+            document.getElementById('hs_online_rate').innerText = hs_online_rate + "%";
+            
+            document.getElementById('m_hs_tong').innerText = hs_tong.toLocaleString('vi-VN');
+            document.getElementById('m_hs_da_giai_quyet').innerText = (hs.da_giai_quyet || 0).toLocaleString('vi-VN');
+            document.getElementById('m_hs_online').innerText = hs_online.toLocaleString('vi-VN');
+            document.getElementById('m_hs_online_rate').innerText = hs_online_rate + "%";
+            document.getElementById('m_hs_dung_han').innerText = (hs.dung_han_percent || 0) + "%";
+            document.getElementById('m_hs_qua_han').innerText = (hs.qua_han || 0).toLocaleString('vi-VN');
 
-// Cập nhật thẻ chính
-document.getElementById('hs_tong_hien_thi').innerText = hs_tong.toLocaleString('vi-VN');
-document.getElementById('hs_dung_han_rate').innerText = (hs.dung_han_percent || 0) + "%";
-document.getElementById('hs_online_tong').innerText = hs_online.toLocaleString('vi-VN');
-document.getElementById('hs_online_rate').innerText = hs_rate + "%";
-
-// Cập nhật Modal
-document.getElementById('m_hs_tong').innerText = hs_tong.toLocaleString('vi-VN');
-document.getElementById('m_hs_online').innerText = hs_online.toLocaleString('vi-VN');
-document.getElementById('m_hs_online_rate').innerText = hs_rate + "%";
-document.getElementById('m_hs_dung_han').innerText = (hs.dung_han_percent || 0) + "%";
-document.getElementById('m_hs_qua_han').innerText = hs.qua_han || 0;
-
-// Thêm hàm đóng mở modal vào cuối script
-window.openHoSoModal = () => document.getElementById('hoSoModal').classList.remove('hidden');
-window.closeHoSoModal = () => document.getElementById('hoSoModal').classList.add('hidden');
-            // document.getElementById('hs_tong').innerText = data.ho_so?.tong || 0;
+            // XỬ LÝ VĂN BẢN & CHỈ TIÊU
             document.getElementById('vb_tong').innerText = data.van_ban?.tong || 0;
-
             if(data.chi_tieu) {
                 indicators.forEach(it => it.th = data.chi_tieu[it.id] || 0);
                 renderUI();
             }
         });
 
+        // CAROUSEL & UI LOGIC
         let curPage = 0;
         function renderUI() {
             const track = document.getElementById('carouselTrack');
@@ -322,10 +323,14 @@ window.closeHoSoModal = () => document.getElementById('hoSoModal').classList.add
             document.getElementById('page-num').innerText = `TRANG ${curPage+1}/6`;
         }, 10000);
 
+        // WINDOW FUNCTIONS
         window.openDonThuModal = () => document.getElementById('donThuModal').classList.remove('hidden');
         window.closeDonThuModal = () => document.getElementById('donThuModal').classList.add('hidden');
         window.open1022Modal = () => document.getElementById('modal1022').classList.remove('hidden');
         window.close1022Modal = () => document.getElementById('modal1022').classList.add('hidden');
+        window.openHoSoModal = () => document.getElementById('hoSoModal').classList.remove('hidden');
+        window.closeHoSoModal = () => document.getElementById('hoSoModal').classList.add('hidden');
+        
         setInterval(() => document.getElementById('clock').innerText = new Date().toLocaleTimeString('vi-VN'), 1000);
     </script>
 </body>
